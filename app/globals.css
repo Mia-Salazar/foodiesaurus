@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --font-teko: var(--teko-font);
+
+  --color-foodiesaurus: #178285;
+  --color-foodiesaurus-light: #4ade80;
+  --color-foodiesaurus-dark: #15803d;
+
+  --color-foodiesaurus-purple: #781C68;
+  --color-foodiesaurus-purple-light: #a12c8c;
+  --color-foodiesaurus-purple-dark: #521147;
+}
+
+/* Establece la fuente genérica sans por defecto en toda la app */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+::-webkit-scrollbar {
+  width:10px;
+}
+
+
+::-webkit-scrollbar-thumb {
+  background:#55555570;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background:#55555594;
+}
