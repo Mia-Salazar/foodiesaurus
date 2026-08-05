@@ -2,12 +2,14 @@ interface ButtonProps {
   children: React.ReactNode;
   variant?: "primary" | "secondary" | "ghost";
   type?: "button" | "submit";
+  className?: string;
 }
 
 export default function Button({
   children,
   variant="primary",
-  type="button"
+  type="button",
+  className
 }:ButtonProps){
 
   const variants = {
@@ -47,6 +49,7 @@ export default function Button({
       w-full
       transition
       ${variants[variant]}
+      ${className}
       `}
     >
       {children}

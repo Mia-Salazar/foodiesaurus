@@ -4,15 +4,17 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  FaMagnifyingGlass,
-  FaPlus,
   FaUser,
   FaChevronDown,
   FaBars,
   FaXmark
 } from 'react-icons/fa6';
 
-export default function Header({ isLoggedIn = false }) {
+interface HeaderProps {
+  isLoggedIn: boolean
+}
+
+export default function Header({ isLoggedIn = false }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -25,14 +27,12 @@ export default function Header({ isLoggedIn = false }) {
     {
       label: 'Buscar',
       href: '/',
-      icon: FaMagnifyingGlass
     },
     ...(isLoggedIn
       ? [
           {
             label: 'Añadir restaurante',
             href: '/restaurant/search',
-            icon: FaPlus
           }
         ]
       : []),
@@ -40,10 +40,14 @@ export default function Header({ isLoggedIn = false }) {
       label: 'Prehistoria',
       href: '/about'
     },
-    {
-      label: 'Soy un restaurante',
-      href: '/restaurant-owner'
-    }
+        ...(!isLoggedIn
+      ? [
+          {
+            label: 'Iniciar sesión',
+            href: '/login',
+          }
+        ]
+      : []),
   ];
 
   const accountItems = [
@@ -122,8 +126,6 @@ export default function Header({ isLoggedIn = false }) {
           <ul className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-0">
 
             {menuItems.map((item) => {
-              const Icon = item.icon;
-
               return (
                 <li key={item.href}>
                   <Link
@@ -131,7 +133,6 @@ export default function Header({ isLoggedIn = false }) {
                     onClick={closeMenus}
                     className="flex items-center justify-center gap-2 px-3 py-3 text-white text-xl lg:text-lg rounded-md hover:bg-white/10 focus:ring-2 focus:ring-white"
                   >
-                    {Icon && <Icon aria-hidden="true" />}
                     {item.label}
                   </Link>
                 </li>
@@ -147,7 +148,6 @@ export default function Header({ isLoggedIn = false }) {
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="flex items-center justify-center gap-2 px-3 py-3 text-white text-xl lg:text-lg rounded-md hover:bg-white/10 w-full"
                 >
-                  <FaUser aria-hidden="true" />
                   Mi cuenta
                   <FaChevronDown
                     aria-hidden="true"

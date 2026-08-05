@@ -34,14 +34,9 @@ project-root/
 ├── client/
 │   # Frontend architecture (FSD)
 │   ├── pages/
-│   ├── widgets/
-│   │   └── navbar/
-│   │       ├── ui/
-│   │       │   └── Navbar.tsx
-│   │       └── index.ts
-│   │
-│   ├── features/
-│   ├── entities/
+│   ├── widgets/ -> Big reusable UI blocks
+│   ├── features/ -> User actions
+│   ├── entities/ -> Doesn't know a thing about business logic
 │   └── shared/
 │       ├── ui/
 │       ├── hooks/
@@ -53,9 +48,6 @@ project-root/
 │   ├── application/
 │   ├── infrastructure/
 │   └── interfaces/
-│
-├── shared/
-│   # Código realmente compartido frontend/backend
 │
 ├── prisma/
 │   └── schema.prisma
@@ -142,7 +134,7 @@ entities/
 
 ## Shared Frontend Layer
 
-Shared contains reusable code without business meaning.
+Shared contains reusable code without business meaning. Doesn't know a thing about business 
 
 ```text
 shared/
@@ -388,4 +380,15 @@ Application:
 
 ```text
 http://localhost:3000
+```
+
+Prisma studio
+```
+npx prisma studio
+http://localhost:51212/
+```
+
+Migarte data base
+```
+npm run migrate-data
 ```
