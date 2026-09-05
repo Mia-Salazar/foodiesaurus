@@ -69,7 +69,7 @@ export default function RestaurantSearchForm() {
             </select>
           </div>
 
-          <div className="flex flex-col gap-2">
+          {/* <div className="flex flex-col gap-2">
             <label htmlFor="foodType">
               Tipo de comida
             </label>
@@ -94,7 +94,7 @@ export default function RestaurantSearchForm() {
 
             </select>
 
-          </div>
+          </div> */}
 
           <Button type="submit" className="h-[48px]">
             Buscar
