@@ -1,4 +1,3 @@
-// server/interfaces/validators/get-restaurants-by-province.validator.ts
 import { z } from "zod";
 
 export const getRestaurantsByProvinceSchema = z.object({

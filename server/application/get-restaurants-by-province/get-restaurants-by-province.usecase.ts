@@ -1,4 +1,3 @@
-// server/application/get-restaurants-by-province/get-restaurants-by-province.usecase.ts
 import { RestaurantRepository } from "@/server/domain/restaurant/repositories/restaurant.repository";
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
 

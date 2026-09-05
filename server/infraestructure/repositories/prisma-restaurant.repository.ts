@@ -1,4 +1,3 @@
-// server/infrastructure/repositories/prisma-restaurant.repository.ts
 import { RestaurantRepository } from "@/server/domain/restaurant/repositories/restaurant.repository";
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
 import { prisma } from "../database/prisma";

@@ -1,4 +1,3 @@
-// server/domain/restaurant/entities/restaurant.entity.ts
 export class Restaurant {
   constructor(
     public readonly id: number,
