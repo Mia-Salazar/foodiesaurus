@@ -1,9 +1,7 @@
-// app/api/restaurants/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { GetRestaurantsByProvinceUseCase } from "@/server/application/get-restaurants-by-province/get-restaurants-by-province.usecase";
 import { getRestaurantsByProvinceSchema } from "@/server/infraestructure/validators/get-restaurants-by-province.validator";
 import { PrismaRestaurantRepository } from "@/server/infraestructure/repositories/prisma-restaurant.repository";
-
 
 export async function GET(request: NextRequest) {
   try {
