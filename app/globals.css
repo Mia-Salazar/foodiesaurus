@@ -5,16 +5,17 @@
   --foreground: #171717;
 }
 
+/* //#A1381B */
 @theme inline {
   --font-teko: var(--teko-font);
 
-  --color-foodiesaurus: #178285;
-  --color-foodiesaurus-light: #4ade80;
-  --color-foodiesaurus-dark: #15803d;
+  --color-foodiesaurus:  #276853;
+  --color-foodiesaurus-light: #317D65;
+  --color-foodiesaurus-dark: #1f3f35;
 
-  --color-foodiesaurus-purple: #781C68;
-  --color-foodiesaurus-purple-light: #a12c8c;
-  --color-foodiesaurus-purple-dark: #521147;
+  --color-foodiesaurus-secondary: #AA3B1D;
+  --color-foodiesaurus-secondary-light: #D94C25;
+  --color-foodiesaurus-secondary-dark: #361309;
 }
 
 /* Establece la fuente genérica sans por defecto en toda la app */

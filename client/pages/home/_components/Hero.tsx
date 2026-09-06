@@ -4,11 +4,12 @@ export default function Hero() {
   return (
     <section className="
       relative
-      bg-foodiesaurus
       px-4
-      py-5
-      h-48
+      pt-10
+      pb-0
       md:h-80
+      lg:h-95
+      md:my-10
     ">
       <div className="
         max-w-5xl
@@ -18,38 +19,38 @@ export default function Hero() {
         md:items-center
       ">
 
+        <figure
+          className="
+            h-30
+            relative
+            md:h-72
+            lg:h-80
+            mb-4
+          "
+        >
+          <Image
+            src="/img/foodiesaurus-v3.png"
+            alt="Rita, la dinosaurita, comiendo pizza"
+            fill
+            sizes="50vw"
+            className="object-contain"
+          />
+        </figure>
+
         <div className="max-w-lg">
           <h1 className="
-            text-white
             text-3xl
             font-bold
             mb-6
             md:text-5xl
           ">
-            Encuentra restaurantes seguros para alergias alimentarias
+            ¡El meteorito no me extinguió, pero unas gambas casi lo hacen!
           </h1>
 
-          <p className="text-white">
-            La única plataforma donde puedes valorar establecimientos
-            de comida según cómo tratan las alergias y las intolerancias
-          </p>
+          <h2 className="text-xl">
+            Rita, la dinosaurita, te ayuda a encontrar restaurantes 100% adaptados a tus alergias para que te ahorres el paseo en ambulancia.
+          </h2>
         </div>
-
-        <div className="
-          hidden
-          md:block
-          relative
-          h-72
-        ">
-          <Image
-            src="/img/poke.png"
-            alt="Poke"
-            fill
-            sizes="50vw"
-            className="object-contain"
-          />
-        </div>
-
       </div>
     </section>
   );

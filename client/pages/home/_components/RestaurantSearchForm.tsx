@@ -10,97 +10,78 @@ export default function RestaurantSearchForm() {
   const [selectedFoodType, setSelectedFoodType] = useState("");
 
   return (
-    <section className="max-w-xl mx-auto my-12 px-4 py-5">
-      <h2 className="
-        text-center
-        text-2xl
-        font-bold
-        max-w-md
-        mx-auto
-        mb-8
-      ">
-        Empieza a buscar restaurantes
-      </h2>
-
-      <form className="space-y-5">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="name">
-            Nombre
-          </label>
-
-          <Input
-            id="name"
-            name="name"
-            placeholder="Nombre restaurante"
-          />
-        </div>
-
-        <div className="
-          flex
-          flex-col
-          gap-5
-
-          md:grid
-          md:grid-cols-3
-          md:items-end
+    <section className="my-12 px-4 py-10 bg-foodiesaurus">
+      <div className="max-w-xl mx-auto md:my-5 text-white">
+        <h2 className="
+          text-center
+          text-white
+          text-2xl
+          font-bold
+          max-w-md
+          mx-auto
+          mb-4
         ">
+          Empieza a buscar restaurantes
+        </h2>
+
+        <form className="space-y-5">
           <div className="flex flex-col gap-2">
-            <label htmlFor="province">
-              Provincia
+            <label htmlFor="name">
+              Nombre
             </label>
 
-            <select
-              required
-              id="province"
-              className="
-                p-3
-                rounded
-                border
-                border-gray-dark
-              "
-              value={selectedProvince}
-              onChange={(e) => setSelectedProvince(e.target.value)}
-            >
-              {AVAILABLE_RESTAURANT_PROVINCES.map((province: string) => (
-                <option key={province} value={province}>
-                  {province}
-                </option>
-              ))}
-            </select>
+            <Input
+              id="name"
+              name="name"
+              placeholder="Nombre restaurante"
+              isGhost
+            />
           </div>
 
-          {/* <div className="flex flex-col gap-2">
-            <label htmlFor="foodType">
-              Tipo de comida
-            </label>
-            <select
-              id="foodType"
-              className="
-                p-3
-                rounded
-                border
-                border-gray-dark
-              "
-              value={selectedFoodType}
-              onChange={(e) => setSelectedFoodType(e.target.value)}
-            >
-              <option>
-                Escoge el tipo
-              </option>
-              {FOOD_TYPES.map((food: string) => {
-                return <option key={food} value={food}>{food}</option>
+          <div className="
+            flex
+            flex-col
+            gap-5
 
-              })}
+            md:grid
+            md:grid-cols-2
+            md:items-end
+          ">
+            <div className="flex flex-col gap-2">
+              <label htmlFor="province">
+                Provincia
+              </label>
 
-            </select>
+              <select
+                required
+                id="province"
+                className="
+                  p-3
+                  rounded
+                  border
+                  border-gray-dark
+                  bg-white
+                  text-black
+                "
+                value={selectedProvince}
+                onChange={(e) => setSelectedProvince(e.target.value)}
+              >
+                {AVAILABLE_RESTAURANT_PROVINCES.map((province: string) => (
+                  <option key={province} value={province}>
+                    {province}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          </div> */}
+            <Button type="submit" className="h-[48px]">
+              Buscar
+            </Button>
+          </div>
+        </form>
 
-          <Button type="submit" className="h-[48px]">
-            Buscar
-          </Button>
-        </div>
-      </form>
+      </div>
+
     </section>
   );
 }

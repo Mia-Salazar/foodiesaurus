@@ -15,15 +15,15 @@ export default function Button({
   const variants = {
     primary:
       `
-      bg-foodiesaurus-purple
+      bg-foodiesaurus-secondary
       text-white
       hover:opacity-80
       `,
     secondary:
       `
       border
-      border-foodiesaurus-purple
-      text-foodiesaurus-purple
+      border-foodiesaurus-secondary
+      text-foodiesaurus-secondary
       bg-transparent
       hover:opacity-80
       `,
@@ -31,8 +31,8 @@ export default function Button({
     ghost:
       `
       border
-      border-foodiesaurus-purple
-      text-foodiesaurus-purple
+      border-foodiesaurus-secondary
+      text-foodiesaurus-secondary
       bg-transparent
       `
   };

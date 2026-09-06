@@ -78,14 +78,14 @@ export default function Header({ isLoggedIn = false }: HeaderProps) {
           >
             <span>Foodie</span>
             
-            <span className="relative w-10 h-10 mx-1">
+            <figure className="relative w-10 h-10 mx-1">
               <Image 
-                src="/img/foodiesaurus.png" 
+                src="/img/foodiesaurus-transparent.png" 
                 alt="" 
                 fill 
                 className="object-contain" 
               />
-            </span>
+            </figure>
 
             <span>saurus</span>
           </Link>

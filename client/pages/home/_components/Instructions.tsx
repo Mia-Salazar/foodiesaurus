@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const items = [
   <>
-    Buscar por nombre, ciudad o tipo de comida
+    Buscar por nombre y ciudad (Sevilla, Madrid y Barcelona de momento)
   </>,
   <>
     Consulta opiniones de otros{" "}
@@ -22,8 +22,8 @@ const items = [
     Ve al restaurante y disfruta la comida
   </>,
   <>
-    <strong>Puntúa la experiencia</strong>{" "}
-    y ayuda a otros
+    Y no te olvides de <strong>puntuar la experiencia</strong>{" "}
+    para ayudar a otros
   </>,
 ];
 
@@ -51,7 +51,7 @@ export default function Instructions() {
         className="m-0 flex justify-center"
       >
         <Image
-          src="/img/middle.jpg"
+          src="/img/poke.png"
           alt=""
           width={500}
           height={500}
@@ -59,27 +59,36 @@ export default function Instructions() {
             max-w-full
             max-h-full
             object-contain
+            mb-4
           "
         />
       </figure>
-      <ol
-        className="
-          list-decimal
-          pl-5
-          space-y-3
-          text-lg
-          leading-7
-        "
-      >
-        {
-          items.map((item,index)=>(
-            <li key={index}>
-              {item}
-            </li>
-          ))
-        }
+      <div>
+        <h3 className="text-white text-3xl font-semibold mb-4">
+          <span className="leading-relaxed bg-foodiesaurus-secondary bg-contain px-2 py-1 box-decoration-clone">
+            ¿Quieres saber si un restaurante es seguro para ti?
+          </span>
+        </h3>
+        <ol
+          className="
+            list-decimal
+            pl-5
+            space-y-3
+            text-lg
+            leading-7
+          "
+        >
+          {
+            items.map((item,index)=>(
+              <li key={index}>
+                {item}
+              </li>
+            ))
+          }
 
-      </ol>
+        </ol>
+      </div>
+
     </section>
   );
 }

@@ -13,7 +13,7 @@ module.exports = {
           dark: '#15803d',    // Variante oscura (texto, bordes)
         },
         // Nuevo color corporativo secundario (Púrpura / Berry)
-        'foodiesaurus-purple': {
+        'foodiesaurus-secondary': {
           DEFAULT: '#781C68', // Color corporativo #781C68
           light: '#a12c8c',   // Variante clara para hovers, badges y acentos
           dark: '#521147',    // Variante oscura para sombras y estados activos

@@ -40,7 +40,7 @@ export default function Footer() {
     <footer
       className="
         flex flex-col items-center
-        bg-foodiesaurus-purple
+        bg-foodiesaurus-secondary
         text-white
         px-4 py-4 pb-20
         md:grid md:grid-cols-2
