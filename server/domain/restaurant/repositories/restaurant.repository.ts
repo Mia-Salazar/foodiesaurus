@@ -1,5 +1,10 @@
 import { Restaurant } from "../entities/restaurant.entity";
 
+export interface RestaurantSearchFilters {
+  province: string;
+  term?: string;
+}
+
 export interface RestaurantRepository {
-  findByProvince(province: string): Promise<Restaurant[]>;
+  search(filters: RestaurantSearchFilters): Promise<Restaurant[]>;
 }

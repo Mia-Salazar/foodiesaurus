@@ -1,11 +1,19 @@
-import { RestaurantRepository } from "@/server/domain/restaurant/repositories/restaurant.repository";
+import { RestaurantRepository, RestaurantSearchFilters } from "@/server/domain/restaurant/repositories/restaurant.repository";
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
 import { prisma } from "../database/prisma";
+import { Prisma } from "@prisma/client";
 
 export class PrismaRestaurantRepository implements RestaurantRepository {
-  async findByProvince(province: string): Promise<Restaurant[]> {
+  async search(filters: RestaurantSearchFilters): Promise<Restaurant[]> {
+    const where: Prisma.RestaurantWhereInput = {
+      province: { equals: filters.province, mode: "insensitive" },
+      ...(filters.term
+        ? { name: { contains: filters.term, mode: "insensitive" } }
+        : {}),
+    };
+
     const rows = await prisma.restaurant.findMany({
-      where: { province: { equals: province, mode: "insensitive" } },
+      where,
       orderBy: { name: "asc" },
     });
 
