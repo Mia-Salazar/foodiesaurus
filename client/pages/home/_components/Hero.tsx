@@ -29,7 +29,7 @@ export default function Hero() {
           "
         >
           <Image
-            src="/img/foodiesaurus-v3.png"
+            src="/img/foodiesaurus-v4.png"
             alt="Rita, la dinosaurita, comiendo pizza"
             fill
             sizes="50vw"
@@ -41,14 +41,15 @@ export default function Hero() {
           <h1 className="
             text-3xl
             font-bold
+            leading-tight
             mb-6
             md:text-5xl
           ">
-            ¡El meteorito no me extinguió, pero unas gambas casi lo hacen!
+            ¡El meteorito no me extinguió, pero unas <span className="inline-block leading-none pb-2 text-white bg-foodiesaurus-secondary">gambas</span> casi lo hacen!
           </h1>
 
           <h2 className="text-xl">
-            Rita, la dinosaurita, te ayuda a encontrar restaurantes 100% adaptados a tus alergias para que te ahorres el paseo en ambulancia.
+            <span className="font-semibold">Rita, la dinosaurita</span>, te ayuda a encontrar restaurantes 100% adaptados a tus alergias para que te ahorres el paseo en ambulancia.
           </h2>
         </div>
       </div>

@@ -9,11 +9,11 @@
 @theme inline {
   --font-teko: var(--teko-font);
 
-  --color-foodiesaurus:  #276853;
+  --color-foodiesaurus:  #007979;
   --color-foodiesaurus-light: #317D65;
   --color-foodiesaurus-dark: #1f3f35;
 
-  --color-foodiesaurus-secondary: #AA3B1D;
+  --color-foodiesaurus-secondary: #C1571A;
   --color-foodiesaurus-secondary-light: #D94C25;
   --color-foodiesaurus-secondary-dark: #361309;
 }
