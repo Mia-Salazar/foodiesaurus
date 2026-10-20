@@ -16,8 +16,8 @@ export function RestaurantMap({ name, latitude, longitude }: RestaurantMapProps)
   const openSrc = `https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}#map=16/${latitude}/${longitude}`;
 
   return (
-    <figure className="mx-auto mt-6 max-w-[56.25rem] px-4 md:mt-8">
-      <div className="relative h-56 max-w-[28.125rem] overflow-hidden rounded-md border border-neutral-200">
+    <figure className="flex h-full min-h-64 flex-col overflow-hidden rounded-md border border-neutral-200 bg-white shadow-sm">
+      <div className="relative min-h-64 flex-1 overflow-hidden">
         <iframe
           title={`Mapa de ${name}`}
           src={embedSrc}
@@ -25,12 +25,12 @@ export function RestaurantMap({ name, latitude, longitude }: RestaurantMapProps)
           loading="lazy"
         />
       </div>
-      <figcaption className="mt-2 text-sm">
+      <figcaption className="border-t border-neutral-100 px-4 py-2.5">
         <a
           href={openSrc}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-foodiesaurus underline hover:opacity-80"
+          className="text-sm text-foodiesaurus underline hover:opacity-80"
         >
           Ver en OpenStreetMap
         </a>

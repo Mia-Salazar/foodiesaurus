@@ -1,42 +1,92 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { FaLocationDot, FaPhone, FaUtensils } from "react-icons/fa6";
 import { formatScore } from "../lib/formatScore";
+import { hasValue } from "../lib/hasValue";
 import { Restaurant } from "../model/types";
 
+function InfoRow({
+  icon,
+  label,
+  children,
+}: {
+  icon: ReactNode;
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex gap-3">
+      <span
+        className="
+          mt-0.5
+          flex
+          h-9
+          w-9
+          shrink-0
+          items-center
+          justify-center
+          rounded-md
+          bg-foodiesaurus/10
+          text-foodiesaurus
+        "
+        aria-hidden
+      >
+        {icon}
+      </span>
+      <div className="min-w-0">
+        <p className="m-0 text-xs font-semibold uppercase tracking-wide text-neutral-500">
+          {label}
+        </p>
+        <div className="mt-0.5 text-sm text-neutral-800 break-words">{children}</div>
+      </div>
+    </div>
+  );
+}
+
 export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
-  const location = [restaurant.address, restaurant.zip].filter(Boolean).join(", ");
+  const address = [restaurant.address, restaurant.zip, restaurant.province]
+    .filter(hasValue)
+    .join(", ");
 
   return (
-    <article
-      className="
-        relative
-        rounded-md
-        border
-        border-neutral-200
-        bg-white
-        p-4
-        shadow-sm
-        transition
-        hover:border-foodiesaurus
-        hover:shadow-md
-        md:min-h-[11rem]
-        md:pb-16
-      "
-    >
-      <h2 className="pr-16 mb-3 text-xl font-semibold text-black">
-        {restaurant.name}
-      </h2>
+    <article className="relative rounded-md border border-neutral-200 bg-white p-5 shadow-sm transition hover:border-foodiesaurus hover:shadow-md">
+      <div className="pr-20">
+        {hasValue(restaurant.foodType) && (
+          <p className="mb-2">
+            <span
+              className="
+                inline-flex
+                items-center
+                gap-1.5
+                rounded
+                bg-foodiesaurus-secondary/10
+                px-2
+                py-1
+                text-xs
+                font-semibold
+                text-foodiesaurus-secondary
+              "
+            >
+              <FaUtensils aria-hidden />
+              {restaurant.foodType}
+            </span>
+          </p>
+        )}
+        <h2 className="m-0 font-teko text-3xl font-semibold tracking-wide">
+          {restaurant.name}
+        </h2>
+      </div>
 
       {restaurant.score != null && (
         <p
           className="
             absolute
-            top-4
-            right-4
+            top-5
+            right-5
             m-0
             flex
-            h-14
-            w-14
+            h-16
+            w-16
             flex-col
             items-center
             justify-center
@@ -46,55 +96,30 @@ export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
             leading-none
           "
         >
-          <span className="font-teko text-[1.75rem] font-semibold">
+          <span className="font-teko text-[2rem] font-semibold">
             {formatScore(restaurant.score)}
           </span>
           <span className="mt-0.5 text-[0.65rem] font-semibold">/10</span>
         </p>
       )}
 
-      {restaurant.foodType && (
-        <p className="mb-3">
-          <span
-            className="
-              inline-flex
-              items-center
-              gap-1.5
-              rounded
-              bg-foodiesaurus-secondary/10
-              px-2
-              py-1
-              text-xs
-              font-semibold
-              text-foodiesaurus-secondary
-            "
-          >
-            <FaUtensils aria-hidden />
-            {restaurant.foodType}
-          </span>
-        </p>
-      )}
-
-      {(location || restaurant.province) && (
-        <p className="mb-2 flex items-start gap-2 text-sm text-neutral-600">
-          <FaLocationDot className="mt-0.5 shrink-0 text-foodiesaurus" aria-hidden />
-          <span>
-            {[location, restaurant.province].filter(Boolean).join(" · ")}
-          </span>
-        </p>
-      )}
-
-      {restaurant.phone && (
-        <p className="mb-4 flex items-center gap-2 text-sm text-neutral-600 md:mb-0">
-          <FaPhone className="shrink-0 text-foodiesaurus" aria-hidden />
-          <span>{restaurant.phone}</span>
-        </p>
-      )}
+      <div className="mt-4 space-y-3">
+        {address && (
+          <InfoRow icon={<FaLocationDot />} label="Dirección">
+            {address}
+          </InfoRow>
+        )}
+        {hasValue(restaurant.phone) && (
+          <InfoRow icon={<FaPhone />} label="Teléfono">
+            {restaurant.phone}
+          </InfoRow>
+        )}
+      </div>
 
       <Link
         href={`/restaurants/${restaurant.id}`}
         className="
-          mt-4
+          mt-5
           inline-flex
           items-center
           justify-center
@@ -109,10 +134,6 @@ export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
           text-white
           hover:opacity-80
           transition
-          md:absolute
-          md:bottom-4
-          md:right-4
-          md:mt-0
         "
       >
         Ver restaurante

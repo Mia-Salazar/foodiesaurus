@@ -2,57 +2,34 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section className="
-      relative
-      px-4
-      pt-10
-      pb-0
-      md:h-80
-      lg:h-95
-      md:my-10
-    ">
-      <div className="
-        max-w-5xl
-        mx-auto
-        md:grid
-        md:grid-cols-2
-        md:items-center
-      ">
-
-        <figure
-          className="
-            h-30
-            relative
-            md:h-72
-            lg:h-80
-            mb-4
-          "
-        >
+    <header className="border-b border-neutral-200 bg-white">
+      <div className="mx-auto grid max-w-[56.25rem] items-center gap-6 px-4 py-8 md:grid-cols-2 md:py-10">
+        <figure className="relative mx-auto h-40 w-full max-w-xs md:h-72 md:max-w-none">
           <Image
             src="/img/foodiesaurus-v4.png"
             alt="Rita, la dinosaurita, comiendo pizza"
             fill
-            sizes="50vw"
+            sizes="(min-width: 768px) 28rem, 20rem"
             className="object-contain"
+            priority
           />
         </figure>
 
-        <div className="max-w-lg">
-          <h1 className="
-            text-3xl
-            font-bold
-            leading-tight
-            mb-6
-            md:text-5xl
-          ">
-            ¡El meteorito no me extinguió, pero unas <span className="inline-block leading-none pb-2 text-white bg-foodiesaurus-secondary">gambas</span> casi lo hacen!
+        <div>
+          <h1 className="m-0 font-teko text-4xl font-semibold leading-tight tracking-wide md:text-5xl">
+            ¡El meteorito no me extinguió, pero unas{" "}
+            <span className="bg-foodiesaurus-secondary px-1.5 text-white">
+              gambas
+            </span>{" "}
+            casi lo hacen!
           </h1>
-
-          <h2 className="text-xl">
-            <span className="font-semibold">Rita, la dinosaurita</span>, te ayuda a encontrar restaurantes 100% adaptados a tus alergias para que te ahorres el paseo en ambulancia.
-          </h2>
+          <p className="mt-4 mb-0 text-neutral-600">
+            <span className="font-semibold text-neutral-800">Rita, la dinosaurita</span>,
+            te ayuda a encontrar restaurantes 100% adaptados a tus alergias para
+            que te ahorres el paseo en ambulancia.
+          </p>
         </div>
       </div>
-    </section>
+    </header>
   );
 }

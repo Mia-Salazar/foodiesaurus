@@ -38,14 +38,7 @@ export function ResultsSearchForm({ province, term, sort }: ResultsSearchFormPro
     <section className="bg-foodiesaurus px-4 py-6">
       <form
         onSubmit={handleSubmit}
-        className="
-          mx-auto
-          max-w-4xl
-          grid
-          gap-3
-          md:grid-cols-[1fr_12rem_auto]
-          md:items-end
-        "
+        className="mx-auto grid max-w-[56.25rem] gap-3 md:grid-cols-[1fr_12rem_auto] md:items-end"
       >
         <div className="flex flex-col gap-1">
           <label htmlFor="results-name" className="text-sm text-white">
@@ -69,7 +62,7 @@ export function ResultsSearchForm({ province, term, sort }: ResultsSearchFormPro
           <select
             required
             id="results-province"
-            className="p-3 rounded border border-gray-dark bg-white text-black"
+            className="rounded border border-gray-dark bg-white p-3 text-black"
             value={selectedProvince}
             onChange={(e) => setSelectedProvince(e.target.value)}
           >
