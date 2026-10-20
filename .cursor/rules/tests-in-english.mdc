@@ -1,0 +1,26 @@
+---
+description: Test titles in English as nested Given-When-Then
+globs: **/*.{test,spec}.{ts,tsx}
+alwaysApply: false
+---
+
+# Tests
+
+Write `describe` / `it` titles in English as Gherkin steps. Do not put Given / When / Then in comments.
+
+Nest describes for Given / And / When, and use `it` for Then / And outcomes:
+
+```ts
+describe("Given Alfa scores 4", () => {
+  describe("And Beta scores 9", () => {
+    describe("And I am looking at restaurants in Madrid", () => {
+      describe("When I ask to sort from highest score to lowest", () => {
+        it("Then Beta should appear before Alfa", () => {});
+        it("And the sort should be kept in the URL", () => {});
+      });
+    });
+  });
+});
+```
+
+Keep asserted UI copy in the app language (Spanish).
