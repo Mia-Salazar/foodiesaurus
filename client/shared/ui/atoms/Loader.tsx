@@ -9,6 +9,8 @@ export default function Loader({
   return (
 
     <span
+      role="status"
+      aria-label="Cargando"
       className={`
       inline-block
       w-5

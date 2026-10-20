@@ -19,6 +19,7 @@ export default function LinkText({
       "
     >
       {children}
+      <span className="sr-only"> (se abre en otra pestaña)</span>
     </a>
   );
 }

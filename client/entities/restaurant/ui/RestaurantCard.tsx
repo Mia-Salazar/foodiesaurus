@@ -1,47 +1,9 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
 import { FaLocationDot, FaPhone, FaUtensils } from "react-icons/fa6";
 import { formatScore } from "../lib/formatScore";
 import { hasValue } from "../lib/hasValue";
 import { Restaurant } from "../model/types";
-
-function InfoRow({
-  icon,
-  label,
-  children,
-}: {
-  icon: ReactNode;
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="flex gap-3">
-      <span
-        className="
-          mt-0.5
-          flex
-          h-9
-          w-9
-          shrink-0
-          items-center
-          justify-center
-          rounded-md
-          bg-foodiesaurus/10
-          text-foodiesaurus
-        "
-        aria-hidden
-      >
-        {icon}
-      </span>
-      <div className="min-w-0">
-        <p className="m-0 text-xs font-semibold uppercase tracking-wide text-neutral-500">
-          {label}
-        </p>
-        <div className="mt-0.5 text-sm text-neutral-800 break-words">{children}</div>
-      </div>
-    </div>
-  );
-}
+import { InfoRow } from "./InfoRow";
 
 export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
   const address = [restaurant.address, restaurant.zip, restaurant.province]
@@ -126,6 +88,7 @@ export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
           w-fit
           no-underline
           px-5
+          min-h-11
           py-2.5
           rounded
           font-bold
@@ -136,7 +99,7 @@ export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
           transition
         "
       >
-        Ver restaurante
+        {`Ver ${restaurant.name}`}
       </Link>
     </article>
   );

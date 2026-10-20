@@ -13,7 +13,7 @@ export async function searchRestaurants(
   if (term) params.set("term", term);
 
   const res = await fetch(`/api/restaurants?${params.toString()}`, { signal });
-  if (!res.ok) throw new Error("No se pudieron cargar los restaurantes");
+  if (!res.ok) throw new Error("No hemos podido mostrar los restaurantes. Prueba otra vez.");
   const json = await res.json();
   return json.data ?? [];
 }

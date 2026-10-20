@@ -26,7 +26,7 @@ export function RestaurantDetailPage({
         <div className="mx-auto max-w-[56.25rem] px-4 py-8">
           <Link
             href={resultsHref}
-            className="inline-flex items-center gap-2 text-sm text-foodiesaurus hover:opacity-80"
+            className="inline-flex min-h-11 items-center gap-2 text-sm text-foodiesaurus hover:opacity-80"
           >
             <FaArrowLeft aria-hidden />
             Volver a restaurantes
@@ -113,7 +113,7 @@ export function RestaurantDetailPage({
             <AveragesSection averages={restaurant.averages} />
           ) : (
             <p className="rounded-md border border-dashed border-neutral-300 bg-white px-4 py-8 text-center text-neutral-600">
-              No hay puntuaciones medias para este restaurante
+              No hay notas para este restaurante.
             </p>
           )}
           <ReviewList reviews={restaurant.reviews} />

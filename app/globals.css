@@ -9,20 +9,26 @@
 @theme inline {
   --font-teko: var(--teko-font);
 
-  --color-foodiesaurus:  #007979;
-  --color-foodiesaurus-light: #317D65;
+  --color-foodiesaurus: #005c5c;
+  --color-foodiesaurus-light: #317d65;
   --color-foodiesaurus-dark: #1f3f35;
 
-  --color-foodiesaurus-secondary: #C1571A;
-  --color-foodiesaurus-secondary-light: #D94C25;
+  --color-foodiesaurus-secondary: #8b3e14;
+  --color-foodiesaurus-secondary-light: #c1571a;
   --color-foodiesaurus-secondary-dark: #361309;
 }
 
 /* Establece la fuente genérica sans por defecto en toda la app */
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: var(--background);
   color: var(--foreground);
+  line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-foodiesaurus);
+  outline-offset: 2px;
 }
 
 ::-webkit-scrollbar {

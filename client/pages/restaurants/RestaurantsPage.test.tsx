@@ -39,7 +39,9 @@ describe("When I open the restaurant list without a province", () => {
   });
 
   it("Then I should be asked to choose a province", () => {
-    expect(screen.getByText(/elige una provincia para ver restaurantes/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/elige una provincia. así verás los restaurantes de esa zona/i),
+    ).toBeInTheDocument();
   });
 
   it("And I should be able to go back home", () => {
@@ -62,14 +64,14 @@ describe("Given Friki Pizza exists in Madrid", () => {
 
     it("Then I should see Friki Pizza", () => {
       expect(screen.getByRole("heading", { name: "Friki Pizza" })).toBeInTheDocument();
-      expect(screen.getByText(/resultados para “friki”/i)).toBeInTheDocument();
+      expect(screen.getByText(/restaurantes que coinciden con friki/i)).toBeInTheDocument();
     });
 
     it("And I should be able to open its detail", () => {
-      expect(screen.getByRole("link", { name: "Ver restaurante" })).toHaveAttribute(
-        "href",
-        "/restaurants/24",
-      );
+    expect(screen.getByRole("link", { name: "Ver Friki Pizza" })).toHaveAttribute(
+      "href",
+      "/restaurants/24",
+    );
     });
   });
 });
@@ -115,12 +117,12 @@ describe("Given no restaurant matches the search", () => {
     beforeEach(async () => {
       mockSearchResponse([]);
       render(<RestaurantsPage province="Madrid" term="zzz" />);
-      await screen.findByRole("heading", { name: "No se encontraron restaurantes" });
+      await screen.findByRole("heading", { name: "No hay restaurantes con esa búsqueda" });
     });
 
     it("Then I should see that none were found", () => {
       expect(
-        screen.getByRole("heading", { name: "No se encontraron restaurantes" }),
+        screen.getByRole("heading", { name: "No hay restaurantes con esa búsqueda" }),
       ).toBeInTheDocument();
     });
 
@@ -140,7 +142,7 @@ describe("Given the restaurant search cannot be completed", () => {
       render(<RestaurantsPage province="Madrid" />);
 
       expect(
-        await screen.findByText("No se pudieron cargar los restaurantes"),
+        await screen.findByText("No hemos podido mostrar los restaurantes. Prueba otra vez."),
       ).toBeInTheDocument();
     });
   });

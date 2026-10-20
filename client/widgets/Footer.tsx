@@ -10,27 +10,27 @@ import {
 const socialLinks = [
   {
     href: "https://twitter.com/miadeveloper",
-    label: "Ir a mi Twitter",
+    label: "Twitter de Mia Salazar (se abre en otra pestaña)",
     icon: FaTwitter,
   },
   {
     href: "https://www.linkedin.com/in/miasalazar/",
-    label: "Ir a mi LinkedIn",
+    label: "LinkedIn de Mia Salazar (se abre en otra pestaña)",
     icon: FaLinkedinIn,
   },
   {
     href: "https://dev.to/miasalazar",
-    label: "Ir a mi Dev.to",
+    label: "Dev.to de Mia Salazar (se abre en otra pestaña)",
     icon: FaDev,
   },
   {
     href: "https://marasalazar.medium.com/",
-    label: "Ir a mi Medium",
+    label: "Medium de Mia Salazar (se abre en otra pestaña)",
     icon: FaMedium,
   },
   {
     href: "https://github.com/Mia-Salazar",
-    label: "Ir a mi GitHub",
+    label: "GitHub de Mia Salazar (se abre en otra pestaña)",
     icon: FaGithub,
   },
 ];
@@ -72,8 +72,8 @@ export default function Footer() {
           <p>saurus</p>
         </div>
 
-        <p className="text-[10px] mt-5 font-sans">
-          Foodiesaurus©, restaurantes sin alergias
+        <p className="mt-5 font-sans text-sm">
+          Foodiesaurus. Restaurantes sin alergias.
         </p>
       </div>
 
@@ -85,7 +85,7 @@ export default function Footer() {
           md:mt-0 md:items-end
         "
       >
-        <p className="mb-1 text-xs text-center font-sans">
+        <p className="mb-1 text-center font-sans text-sm">
           Por{" "}
           <a
             href="https://miasalazar.netlify.app/"
@@ -101,6 +101,7 @@ export default function Footer() {
             "
           >
             Mia Salazar
+            <span className="sr-only"> (se abre en otra pestaña)</span>
           </a>
         </p>
 
@@ -114,8 +115,8 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="
                   flex
-                  h-9
-                  w-9
+                  h-11
+                  w-11
                   items-center
                   justify-center
                   rounded-full

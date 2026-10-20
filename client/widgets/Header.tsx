@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -22,6 +22,17 @@ export default function Header({ isLoggedIn = false }: HeaderProps) {
     setIsMobileMenuOpen(false);
     setIsDropdownOpen(false);
   };
+
+  useEffect(() => {
+    if (!isMobileMenuOpen && !isDropdownOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMenus();
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isMobileMenuOpen, isDropdownOpen]);
 
   const menuItems = [
     {
@@ -92,7 +103,7 @@ export default function Header({ isLoggedIn = false }: HeaderProps) {
 
           <button
             type="button"
-            className="lg:hidden z-50 p-2 rounded-md text-white hover:bg-white/10 focus:ring-2 focus:ring-white"
+            className="lg:hidden z-50 flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-white hover:bg-white/10 focus:ring-2 focus:ring-white"
             aria-controls="main-navigation"
             aria-expanded={isMobileMenuOpen}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -131,7 +142,7 @@ export default function Header({ isLoggedIn = false }: HeaderProps) {
                   <Link
                     href={item.href}
                     onClick={closeMenus}
-                    className="flex items-center justify-center gap-2 px-3 py-3 text-white text-xl lg:text-lg rounded-md hover:bg-white/10 focus:ring-2 focus:ring-white"
+                    className="flex min-h-11 items-center justify-center gap-2 rounded-md px-3 py-3 text-xl text-white lg:text-lg hover:bg-white/10 focus:ring-2 focus:ring-white"
                   >
                     {item.label}
                   </Link>
@@ -145,8 +156,9 @@ export default function Header({ isLoggedIn = false }: HeaderProps) {
                   type="button"
                   aria-expanded={isDropdownOpen}
                   aria-haspopup="true"
+                  aria-controls="account-menu"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center justify-center gap-2 px-3 py-3 text-white text-xl lg:text-lg rounded-md hover:bg-white/10 w-full"
+                  className="flex min-h-11 w-full items-center justify-center gap-2 rounded-md px-3 py-3 text-xl text-white lg:text-lg hover:bg-white/10"
                 >
                   Mi cuenta
                   <FaChevronDown
@@ -156,13 +168,16 @@ export default function Header({ isLoggedIn = false }: HeaderProps) {
                 </button>
 
                 {isDropdownOpen && (
-                  <ul className="mt-2 lg:absolute lg:right-0 lg:w-52 bg-white rounded-md shadow-lg overflow-hidden text-gray-700">
+                  <ul
+                    id="account-menu"
+                    className="mt-2 overflow-hidden rounded-md bg-white text-gray-800 shadow-lg lg:absolute lg:right-0 lg:w-52"
+                  >
                     {accountItems.map((item) => (
                       <li key={item.href}>
                         <Link
                           href={item.href}
                           onClick={closeMenus}
-                          className="block px-4 py-3 hover:bg-teal-50 hover:text-[#319DA0]"
+                          className="block min-h-11 px-4 py-3 hover:bg-teal-50 hover:text-foodiesaurus"
                         >
                           {item.label}
                         </Link>

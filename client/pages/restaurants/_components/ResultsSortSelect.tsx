@@ -21,7 +21,7 @@ export function ResultsSortSelect({ value, onChange }: ResultsSortSelectProps) {
       </label>
       <select
         id="restaurant-sort"
-        className="p-2 rounded border border-neutral-300 bg-white text-black"
+        className="min-h-11 rounded border border-neutral-300 bg-white p-2 text-black"
         value={value}
         onChange={(e) => onChange(e.target.value as RestaurantSort)}
       >

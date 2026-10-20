@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/client/shared/ui/atoms/Button";
 import Input from "@/client/shared/ui/atoms/Input";
-import { AVAILABLE_RESTAURANT_PROVINCES } from "@/client/pages/entities/restaurant/restaurant.constants.trestaurant.constants";
+import { AVAILABLE_RESTAURANT_PROVINCES } from "@/client/entities/restaurant/restaurant.constants";
 
 interface ResultsSearchFormProps {
   province?: string;
@@ -47,12 +47,16 @@ export function ResultsSearchForm({ province, term, sort }: ResultsSearchFormPro
           <Input
             id="results-name"
             name="name"
-            placeholder="Nombre restaurante"
+            placeholder="Ejemplo: Friki Pizza"
             isGhost
             maxLength={40}
             value={name}
             onChange={(e) => setName(e.target.value)}
+            aria-describedby="results-name-help"
           />
+          <p id="results-name-help" className="m-0 text-sm text-white">
+            Nombre del restaurante. Si no lo sabes, déjalo vacío.
+          </p>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -62,9 +66,10 @@ export function ResultsSearchForm({ province, term, sort }: ResultsSearchFormPro
           <select
             required
             id="results-province"
-            className="rounded border border-gray-dark bg-white p-3 text-black"
+            className="min-h-11 rounded border border-gray-dark bg-white p-3 text-black"
             value={selectedProvince}
             onChange={(e) => setSelectedProvince(e.target.value)}
+            aria-describedby="results-province-help"
           >
             {AVAILABLE_RESTAURANT_PROVINCES.map((item) => (
               <option key={item} value={item}>
@@ -72,9 +77,12 @@ export function ResultsSearchForm({ province, term, sort }: ResultsSearchFormPro
               </option>
             ))}
           </select>
+          <p id="results-province-help" className="m-0 text-sm text-white">
+            Elige la zona. Ahora hay Madrid, Barcelona y Sevilla.
+          </p>
         </div>
 
-        <Button type="submit" className="h-[48px] md:w-auto">
+        <Button type="submit" className="min-h-12 md:w-auto">
           Buscar
         </Button>
       </form>
