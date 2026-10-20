@@ -17,6 +17,7 @@ export function useSearchRestaurants(province?: string, term?: string) {
       return;
     }
 
+    const selectedProvince = province;
     const controller = new AbortController();
 
     async function load() {
@@ -25,7 +26,7 @@ export function useSearchRestaurants(province?: string, term?: string) {
 
       try {
         const data = await searchRestaurants(
-          { province, term },
+          { province: selectedProvince, term },
           controller.signal,
         );
         setRestaurants(data);
