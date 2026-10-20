@@ -12,7 +12,7 @@ export default function Hero({
   return (
     <section
       className={`
-        relative flex h-52 bg-cover bg-center
+        relative flex h-52 overflow-hidden bg-cover bg-center
         ${className}
       `}
       style={{
@@ -25,11 +25,14 @@ export default function Hero({
         className="
           relative z-10
           m-auto
+          w-full
+          px-4
           text-center
-          text-3xl
+          text-4xl
           font-bold
           text-white
           font-teko
+          tracking-wide
         "
       >
         {title}

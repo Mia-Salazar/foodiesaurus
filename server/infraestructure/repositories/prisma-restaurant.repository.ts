@@ -15,22 +15,29 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
     const rows = await prisma.restaurant.findMany({
       where,
       orderBy: { name: "asc" },
+      include: {
+        scores: { select: { generalScore: true } },
+      },
     });
 
-    return rows.map(
-      (r) =>
-        new Restaurant(
-          r.id,
-          r.name,
-          r.province,
-          r.address,
-          r.zip ?? undefined,
-          r.url ?? undefined,
-          r.phone ?? undefined,
-          r.foodType ?? undefined,
-          r.latitude ? Number(r.latitude) : undefined,
-          r.longitude ? Number(r.longitude) : undefined,
-        )
-    );
+    return rows.map((r) => {
+      const score = r.scores.length
+        ? r.scores.reduce((sum, item) => sum + item.generalScore, 0) / r.scores.length
+        : undefined;
+
+      return new Restaurant(
+        r.id,
+        r.name,
+        r.province,
+        r.address,
+        r.zip ?? undefined,
+        r.url ?? undefined,
+        r.phone ?? undefined,
+        r.foodType ?? undefined,
+        r.latitude ? Number(r.latitude) : undefined,
+        r.longitude ? Number(r.longitude) : undefined,
+        score,
+      );
+    });
   }
 }

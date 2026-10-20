@@ -9,4 +9,5 @@ export interface Restaurant {
   foodType?: string;
   latitude?: number;
   longitude?: number;
+  score?: number;
 }

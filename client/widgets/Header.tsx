@@ -32,7 +32,7 @@ export default function Header({ isLoggedIn = false }: HeaderProps) {
       ? [
           {
             label: 'Añadir restaurante',
-            href: '/restaurant/search',
+            href: '/restaurants/create',
           }
         ]
       : []),

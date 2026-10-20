@@ -10,5 +10,6 @@ export class Restaurant {
     public readonly foodType?: string,
     public readonly latitude?: number,
     public readonly longitude?: number,
+    public readonly score?: number,
   ) {}
 }

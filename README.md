@@ -55,6 +55,7 @@ project-root/
 ├── public/
 │
 ├── package.json
+├── pnpm-lock.yaml
 └── README.md
 ```
 
@@ -364,16 +365,24 @@ This architecture provides:
 
 # Development
 
+This project uses [pnpm](https://pnpm.io) as the package manager. Do not use npm or yarn.
+
+Enable pnpm with Corepack (included with Node.js):
+
+```bash
+corepack enable pnpm
+```
+
 Install dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 Run development server:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Application:
@@ -384,11 +393,11 @@ http://localhost:3000
 
 Prisma studio
 ```
-npx prisma studio
+pnpm prisma studio
 http://localhost:51212/
 ```
 
-Migarte data base
+Migrate data base
 ```
-npm run migrate-data
+pnpm migrate-data
 ```

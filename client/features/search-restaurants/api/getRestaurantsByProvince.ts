@@ -1,8 +1,19 @@
 import { Restaurant } from "@/client/entities/restaurant/model/types";
 
-export async function getRestaurantsByProvince(province: string): Promise<Restaurant[]> {
-  const res = await fetch(`/api/restaurants?province=${encodeURIComponent(province)}`);
-  if (!res.ok) throw new Error("Failed to fetch restaurants");
+interface SearchParams {
+  province: string;
+  term?: string;
+}
+
+export async function searchRestaurants(
+  { province, term }: SearchParams,
+  signal?: AbortSignal,
+): Promise<Restaurant[]> {
+  const params = new URLSearchParams({ province });
+  if (term) params.set("term", term);
+
+  const res = await fetch(`/api/restaurants?${params.toString()}`, { signal });
+  if (!res.ok) throw new Error("No se pudieron cargar los restaurantes");
   const json = await res.json();
-  return json.data;
+  return json.data ?? [];
 }

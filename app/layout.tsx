@@ -28,8 +28,8 @@ export default async function RootLayout({
   const isLoggedIn = Boolean(await auth());
 
   return (
-    <html lang="es">
-      <body className={`${teko.variable} min-h-screen flex-col flex`}>
+    <html lang="es" suppressHydrationWarning>
+      <body className={`${teko.variable} min-h-screen flex-col flex`} suppressHydrationWarning>
         <SkipToContent />
         <Header isLoggedIn={isLoggedIn} />
 
