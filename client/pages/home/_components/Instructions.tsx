@@ -1,20 +1,12 @@
 import Image from "next/image";
 
 const items = [
-  "Buscar por nombre y ciudad (Sevilla, Madrid y Barcelona de momento)",
-  <>
-    Consulta opiniones de otros <strong>foodies</strong>
-  </>,
-  <>
-    Comprueba si la <strong>carta de alérgenos</strong> es de fiar
-  </>,
-  <>
-    O si alguien ha reportado una <strong>reacción alérgica</strong>
-  </>,
-  "Ve al restaurante y disfruta la comida",
-  <>
-    Y no te olvides de <strong>puntuar la experiencia</strong> para ayudar a otros
-  </>,
+  "Busca por nombre y por provincia. Ahora hay Madrid, Barcelona y Sevilla.",
+  "Lee las opiniones de otras personas con alergia.",
+  "Mira si el restaurante tiene carta de alérgenos. La carta de alérgenos es la lista de ingredientes que pueden dar alergia.",
+  "Mira si alguien ha tenido una reacción alérgica.",
+  "Si te encaja, ve al restaurante y come con más calma.",
+  "Después, deja tu nota. Así ayudas a más personas.",
 ];
 
 export default function Instructions() {
@@ -23,7 +15,7 @@ export default function Instructions() {
       <figure className="m-0 mb-6 flex justify-center md:mb-0">
         <Image
           src="/img/poke.png"
-          alt=""
+          alt="Un bol de poke"
           width={500}
           height={500}
           className="max-h-72 w-auto max-w-full object-contain"
@@ -32,7 +24,7 @@ export default function Instructions() {
 
       <div>
         <h2 className="mb-5 text-2xl font-semibold">
-          ¿Quieres saber si un restaurante es seguro para ti?
+          ¿Es seguro este restaurante para ti?
         </h2>
         <ol className="m-0 list-none space-y-3 p-0">
           {items.map((item, index) => (
@@ -41,8 +33,8 @@ export default function Instructions() {
                 className="
                   mt-0.5
                   flex
-                  h-9
-                  w-9
+                  h-11
+                  w-11
                   shrink-0
                   items-center
                   justify-center
@@ -56,7 +48,7 @@ export default function Instructions() {
               >
                 {index + 1}
               </span>
-              <p className="m-0 pt-1.5 text-sm text-neutral-700">{item}</p>
+              <p className="m-0 pt-1.5 text-sm leading-relaxed text-neutral-800">{item}</p>
             </li>
           ))}
         </ol>

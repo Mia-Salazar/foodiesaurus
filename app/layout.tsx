@@ -9,7 +9,8 @@ import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Foodiesaurus, restaurantes sin alergias",
-  description: "Encuenta restaurantes seguros para personas con alergias e intolerancias",
+  description:
+    "Encuentra restaurantes seguros si tienes alergia o intolerancia a algún alimento.",
 };
 
 const teko = Teko({
@@ -33,7 +34,7 @@ export default async function RootLayout({
         <SkipToContent />
         <Header isLoggedIn={isLoggedIn} />
 
-        <main className="flex-1">
+        <main id="main" className="flex-1">
           {children}
         </main>
 

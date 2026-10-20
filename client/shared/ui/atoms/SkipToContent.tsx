@@ -1,44 +1,32 @@
-import React from "react";
-
 interface SkipToContentProps {
   targetId?: string;
   label?: string;
-  className?: string;
 }
 
-const SkipToContent: React.FC<SkipToContentProps> = ({
+export default function SkipToContent({
   targetId = "main",
   label = "Saltar al contenido",
-  className = "",
-}) => {
+}: SkipToContentProps) {
   return (
     <a
       href={`#${targetId}`}
-      className={`
+      className="
         absolute
-        left-1/2
-        top-[-50%]
-        -translate-y-full
-        transition-transform
-        duration-300
-        bg-[var(--secondaryColor)]
-        text-[var(--white)]
-        h-[1.875rem]
-        px-4
-        pt-[0.688rem]
-        pb-0
+        left-4
+        top-0
         z-50
-
-        focus:left-0
-        focus:top-0
-        focus:translate-y-0
-
-        ${className}
-      `}
+        min-h-11
+        -translate-y-full
+        rounded
+        bg-foodiesaurus
+        px-4
+        py-2
+        font-bold
+        text-white
+        focus:translate-y-4
+      "
     >
       {label}
     </a>
   );
-};
-
-export default SkipToContent;
+}

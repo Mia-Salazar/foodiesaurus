@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "a11y-readability": {
+      "command": "npx",
+      "args": ["-y", "@weaaare/mcp-a11y-readability"]
+    }
+  }
+}

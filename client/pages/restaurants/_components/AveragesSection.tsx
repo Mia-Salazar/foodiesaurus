@@ -34,8 +34,8 @@ function AverageBox({
           {icon}
         </span>
         <div>
-          <h4 className="m-0 text-lg font-semibold">{title}</h4>
-          <p className="mt-1 mb-0 text-sm text-neutral-500">{description}</p>
+          <h3 className="m-0 text-lg font-semibold">{title}</h3>
+          <p className="mt-1 mb-0 text-sm leading-relaxed text-neutral-700">{description}</p>
         </div>
       </div>
       <div className="space-y-4">{children}</div>
@@ -47,7 +47,7 @@ export function AveragesSection({ averages }: { averages: RestaurantAverages }) 
   return (
     <section>
       <h2 className="mb-6 text-2xl font-semibold">
-        Puntuaciones{" "}
+        Notas{" "}
         <span className="font-teko text-3xl font-semibold text-foodiesaurus">
           ({averages.totalReviews})
         </span>
@@ -55,8 +55,8 @@ export function AveragesSection({ averages }: { averages: RestaurantAverages }) 
       <div className="grid gap-4 md:grid-cols-2">
         <AverageBox
           icon={<FaStar />}
-          title="Puntuaciones generales"
-          description="La general combina todos los puntos. La atención valora el trato del personal al conocer las alergias."
+          title="Notas generales"
+          description="La nota general junta todos los puntos. La atención mira cómo te trata el personal si dices que tienes alergia."
         >
           <ScoreBar label="General" value={averages.general} />
           <ScoreBar label="Atención del personal" value={averages.attention} />
@@ -65,7 +65,7 @@ export function AveragesSection({ averages }: { averages: RestaurantAverages }) 
         <AverageBox
           icon={<FaBookOpen />}
           title="Carta de alérgenos"
-          description="Si el local tiene carta de alérgenos y si se corresponde con la comida que se recibe."
+          description="La carta de alérgenos es la lista de ingredientes que pueden dar alergia. Aquí ves si el local la tiene y si encaja con la comida."
         >
           <ScoreBar
             label="Visitas con carta de alérgenos"
@@ -78,7 +78,7 @@ export function AveragesSection({ averages }: { averages: RestaurantAverages }) 
         <AverageBox
           icon={<FaHeartPulse />}
           title="Reacciones alérgicas"
-          description="Es el valor con más peso. Mide si alguien tuvo una reacción adversa tras comer aquí."
+          description="Esta nota pesa más que las otras. Dice si alguien se puso malo después de comer aquí."
         >
           <ScoreBar
             label="Porcentaje de reacciones"

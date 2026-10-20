@@ -60,7 +60,7 @@ describe("Given Friki Pizza has an address, phone, website, map and a comment", 
     });
 
     it("And I should be able to visit its website", () => {
-      expect(screen.getByRole("link", { name: "Visitar web" })).toHaveAttribute(
+      expect(screen.getByRole("link", { name: "Visitar la web de Friki Pizza" })).toHaveAttribute(
         "href",
         "https://frikipizza.es/menu.html",
       );
@@ -131,12 +131,12 @@ describe("Given the restaurant has no averages or comments", () => {
 
     it("Then I should see that there are no scores", () => {
       expect(
-        screen.getByText("No hay puntuaciones medias para este restaurante"),
+        screen.getByText("No hay notas para este restaurante."),
       ).toBeInTheDocument();
     });
 
     it("And I should see that there are no comments", () => {
-      expect(screen.getByText("No hay comentarios para este restaurante")).toBeInTheDocument();
+      expect(screen.getByText("No hay comentarios para este restaurante.")).toBeInTheDocument();
     });
   });
 });

@@ -53,7 +53,7 @@ export function RestaurantsPage({
         <div className="mx-auto max-w-[56.25rem] px-4 py-8">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm text-foodiesaurus hover:opacity-80"
+            className="inline-flex min-h-11 items-center gap-2 text-sm text-foodiesaurus hover:opacity-80"
           >
             <FaArrowLeft aria-hidden />
             Volver al inicio
@@ -65,7 +65,7 @@ export function RestaurantsPage({
             <p className="mt-2 mb-0 text-sm text-neutral-500">
               {restaurants.length}{" "}
               {restaurants.length === 1 ? "restaurante" : "restaurantes"}
-              {term ? ` · Resultados para “${term}”` : ""}
+              {term ? ` · Restaurantes que coinciden con ${term}` : ""}
             </p>
           )}
         </div>
@@ -76,7 +76,7 @@ export function RestaurantsPage({
       <div className="mx-auto max-w-[56.25rem] space-y-6 px-4 py-8">
         {!province && (
           <p className="rounded-md border border-dashed border-neutral-300 bg-white px-4 py-8 text-center text-neutral-600">
-            Elige una provincia para ver restaurantes.{" "}
+            Elige una provincia. Así verás los restaurantes de esa zona.{" "}
             <Link href="/" className="text-foodiesaurus underline hover:opacity-80">
               Volver al inicio
             </Link>
@@ -84,30 +84,38 @@ export function RestaurantsPage({
         )}
 
         {province && loading && (
-          <div className="flex min-h-64 flex-col items-center justify-center gap-3 text-neutral-600">
+          <div
+            className="flex min-h-64 flex-col items-center justify-center gap-3 text-neutral-800"
+            role="status"
+            aria-live="polite"
+          >
             <Loader />
-            <p>Buscando restaurantes...</p>
+            <p>Buscando restaurantes.</p>
           </div>
         )}
 
         {province && error && (
-          <p className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-700">
+          <p
+            className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-800"
+            role="alert"
+          >
             {error}
           </p>
         )}
 
         {province && !loading && !error && restaurants.length === 0 && (
           <div className="rounded-md border border-dashed border-neutral-300 bg-white px-4 py-10 text-center">
-            <h2 className="text-xl font-semibold">No se encontraron restaurantes</h2>
-            <p className="mx-auto mt-2 max-w-md text-neutral-600">
-              Prueba con otro nombre o provincia, o añade el restaurante si lo
-              conoces.
+            <h2 className="text-xl font-semibold">No hay restaurantes con esa búsqueda</h2>
+            <p className="mx-auto mt-2 max-w-md text-neutral-800">
+              Prueba con otro nombre o con otra provincia. Si conoces el
+              restaurante, puedes crearlo.
             </p>
             <Link
               href="/restaurants/create"
               className="
                 mt-5
                 inline-flex
+                min-h-11
                 items-center
                 justify-center
                 px-5
@@ -115,7 +123,6 @@ export function RestaurantsPage({
                 rounded
                 font-bold
                 text-sm
-                h-10
                 bg-foodiesaurus-secondary
                 text-white
                 hover:opacity-80
@@ -131,7 +138,7 @@ export function RestaurantsPage({
           <section>
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="m-0 text-2xl font-semibold">
-                Resultados{" "}
+                Restaurantes{" "}
                 <span className="font-teko text-3xl font-semibold text-foodiesaurus">
                   ({restaurants.length})
                 </span>

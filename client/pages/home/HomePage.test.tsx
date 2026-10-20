@@ -5,7 +5,7 @@ import { mockPush } from "@/vitest.setup";
 import { HomePage } from "./HomePage";
 
 function searchForm() {
-  return screen.getByRole("heading", { name: /empieza a buscar restaurantes/i }).closest(
+  return screen.getByRole("heading", { name: /busca un restaurante/i }).closest(
     "section",
   ) as HTMLElement;
 }

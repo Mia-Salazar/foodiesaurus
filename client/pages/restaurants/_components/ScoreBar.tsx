@@ -11,7 +11,7 @@ export function ScoreBar({ value, max = 10, label }: ScoreBarProps) {
   return (
     <div>
       <div className="mb-2 flex items-baseline justify-between gap-3">
-        <h5 className="m-0 text-sm font-semibold text-neutral-800">{label}</h5>
+        <p className="m-0 text-sm font-semibold text-neutral-800">{label}</p>
         <p className="m-0 shrink-0 text-sm tabular-nums">
           <span className="font-semibold text-foodiesaurus">{display}</span>
           {max === 10 && <span className="text-neutral-400">/10</span>}

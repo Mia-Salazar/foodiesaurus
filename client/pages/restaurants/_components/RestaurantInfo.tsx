@@ -1,48 +1,10 @@
-import type { ReactNode } from "react";
 import { FaGlobe, FaLocationDot, FaPhone, FaUtensils } from "react-icons/fa6";
 import { hasValue } from "@/client/entities/restaurant/lib/hasValue";
 import { RestaurantDetail } from "@/client/entities/restaurant/model/types";
+import { InfoRow } from "@/client/entities/restaurant/ui/InfoRow";
 
 function toHref(url: string) {
   return /^https?:\/\//i.test(url) ? url : `https://${url}`;
-}
-
-function InfoRow({
-  icon,
-  label,
-  children,
-}: {
-  icon: ReactNode;
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="flex gap-3">
-      <span
-        className="
-          mt-0.5
-          flex
-          h-9
-          w-9
-          shrink-0
-          items-center
-          justify-center
-          rounded-md
-          bg-foodiesaurus/10
-          text-foodiesaurus
-        "
-        aria-hidden
-      >
-        {icon}
-      </span>
-      <div className="min-w-0">
-        <p className="m-0 text-xs font-semibold uppercase tracking-wide text-neutral-500">
-          {label}
-        </p>
-        <div className="mt-0.5 text-sm text-neutral-800 break-words">{children}</div>
-      </div>
-    </div>
-  );
 }
 
 export function RestaurantInfo({ restaurant }: { restaurant: RestaurantDetail }) {
@@ -77,7 +39,7 @@ export function RestaurantInfo({ restaurant }: { restaurant: RestaurantDetail })
               rel="noopener noreferrer"
               className="text-foodiesaurus underline hover:opacity-80"
             >
-              Visitar web
+              Visitar la web de {restaurant.name}
             </a>
           </InfoRow>
         )}

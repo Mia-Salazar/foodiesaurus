@@ -35,7 +35,7 @@ export function ReviewList({ reviews }: { reviews: RestaurantReview[] }) {
       </h2>
       {reviews.length === 0 ? (
         <p className="rounded-md border border-dashed border-neutral-300 bg-white px-4 py-8 text-center text-neutral-600">
-          No hay comentarios para este restaurante
+          No hay comentarios para este restaurante.
         </p>
       ) : (
         <ul className="grid list-none gap-4 p-0">

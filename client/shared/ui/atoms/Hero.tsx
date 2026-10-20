@@ -1,26 +1,29 @@
+import Image from "next/image";
+
 interface HeroProps {
-  title: string,
-  image?: string,
-  className?: string
+  title: string;
+  image?: string;
+  imageAlt?: string;
+  className?: string;
 }
 
 export default function Hero({
   title,
-  image = "/images/happy.jpg",
+  image = "/img/restaurant.jpg",
+  imageAlt = "",
   className = "",
 }: HeroProps) {
   return (
-    <section
-      className={`
-        relative flex h-52 overflow-hidden bg-cover bg-center
-        ${className}
-      `}
-      style={{
-        backgroundImage: `url(${image})`,
-      }}
-    >
+    <section className={`relative flex h-52 overflow-hidden ${className}`}>
+      <Image
+        src={image}
+        alt={imageAlt}
+        fill
+        className="object-cover"
+        sizes="100vw"
+        priority
+      />
       <div className="absolute inset-0 bg-black/70" />
-
       <h1
         className="
           relative z-10

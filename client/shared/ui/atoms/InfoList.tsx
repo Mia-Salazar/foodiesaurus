@@ -10,7 +10,7 @@ export default function InfoList({
       className="
         my-4
         w-fit
-        list-none
+        list-disc
         rounded-md
         border
         border-gray-200
@@ -24,14 +24,11 @@ export default function InfoList({
           className="
             relative
             mb-2
-            pl-3
+            ml-4
             text-sm
-            text-gray-600
+            leading-relaxed
+            text-neutral-800
             last:mb-0
-            before:absolute
-            before:left-0
-            before:text-gray-400
-            before:content-['-']
           "
         >
           {item}

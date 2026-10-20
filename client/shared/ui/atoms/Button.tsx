@@ -45,7 +45,7 @@ export default function Button({
       rounded
       font-bold
       text-sm
-      h-10
+      min-h-11
       w-full
       transition
       ${variants[variant]}

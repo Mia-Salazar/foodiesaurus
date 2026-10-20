@@ -23,10 +23,9 @@ export default function Hero() {
             </span>{" "}
             casi lo hacen!
           </h1>
-          <p className="mt-4 mb-0 text-neutral-600">
-            <span className="font-semibold text-neutral-800">Rita, la dinosaurita</span>,
-            te ayuda a encontrar restaurantes 100% adaptados a tus alergias para
-            que te ahorres el paseo en ambulancia.
+          <p className="mt-4 mb-0 text-neutral-800">
+            <span className="font-semibold">Rita, la dinosaurita</span> te
+            ayuda a encontrar restaurantes seguros si tienes alergia.
           </p>
         </div>
       </div>
