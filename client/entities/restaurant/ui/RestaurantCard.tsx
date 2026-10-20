@@ -1,13 +1,7 @@
 import Link from "next/link";
 import { FaLocationDot, FaPhone, FaUtensils } from "react-icons/fa6";
+import { formatScore } from "../lib/formatScore";
 import { Restaurant } from "../model/types";
-
-function formatScore(score: number) {
-  const rounded = Math.round(score * 10) / 10;
-  return Number.isInteger(rounded)
-    ? String(rounded)
-    : String(rounded).replace(".", ",");
-}
 
 export function RestaurantCard({ restaurant }: { restaurant: Restaurant }) {
   const location = [restaurant.address, restaurant.zip].filter(Boolean).join(", ");
