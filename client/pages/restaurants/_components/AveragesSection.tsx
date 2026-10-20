@@ -1,69 +1,85 @@
 import type { ReactNode } from "react";
+import { FaBookOpen, FaHeartPulse, FaStar } from "react-icons/fa6";
 import { RestaurantAverages } from "@/client/entities/restaurant/model/types";
 import { ScoreBar } from "./ScoreBar";
 
 function AverageBox({
+  icon,
   title,
+  description,
   children,
 }: {
+  icon: ReactNode;
   title: string;
+  description: string;
   children: ReactNode;
 }) {
   return (
-    <div className="rounded-md border border-neutral-200 bg-white p-5">
-      <h4 className="mb-4 text-lg font-semibold">{title}</h4>
-      {children}
+    <div className="rounded-md border border-neutral-200 bg-white p-5 shadow-sm">
+      <div className="mb-3 flex items-start gap-3">
+        <span
+          className="
+            flex
+            h-9
+            w-9
+            shrink-0
+            items-center
+            justify-center
+            rounded-md
+            bg-foodiesaurus/10
+            text-foodiesaurus
+          "
+          aria-hidden
+        >
+          {icon}
+        </span>
+        <div>
+          <h4 className="m-0 text-lg font-semibold">{title}</h4>
+          <p className="mt-1 mb-0 text-sm text-neutral-500">{description}</p>
+        </div>
+      </div>
+      <div className="space-y-4">{children}</div>
     </div>
   );
 }
 
 export function AveragesSection({ averages }: { averages: RestaurantAverages }) {
   return (
-    <>
-      <h3 className="mx-auto mb-8 max-w-[56.25rem] text-xl font-semibold">
-        Puntuaciones ({averages.totalReviews})
-      </h3>
-      <div className="mx-auto mb-8 grid max-w-[56.25rem] gap-4 md:grid-cols-2">
-        <AverageBox title="Puntuaciones generales">
-          <ul className="mb-6 list-disc space-y-2 pl-5 text-sm text-neutral-600">
-            <li>La puntuación general se calcula teniendo en cuenta todos los puntos</li>
-            <li>
-              La atención recibida hace referencia a cómo nos ha tratado el personal
-              una vez conoció nuestras alergias o intolerancias
-            </li>
-          </ul>
-          <div className="space-y-5">
-            <ScoreBar label="General" value={averages.general} />
-            <ScoreBar label="Atención del personal" value={averages.attention} />
-          </div>
+    <section>
+      <h2 className="mb-6 text-2xl font-semibold">
+        Puntuaciones{" "}
+        <span className="font-teko text-3xl font-semibold text-foodiesaurus">
+          ({averages.totalReviews})
+        </span>
+      </h2>
+      <div className="grid gap-4 md:grid-cols-2">
+        <AverageBox
+          icon={<FaStar />}
+          title="Puntuaciones generales"
+          description="La general combina todos los puntos. La atención valora el trato del personal al conocer las alergias."
+        >
+          <ScoreBar label="General" value={averages.general} />
+          <ScoreBar label="Atención del personal" value={averages.attention} />
         </AverageBox>
 
-        <AverageBox title="Carta de alérgenos">
-          <ul className="mb-6 list-disc space-y-2 pl-5 text-sm text-neutral-600">
-            <li>En este punto comprobamos si el restaurante tiene carta de alérgenos</li>
-            <li>
-              Si el local lo tiene, observamos si ésta se corresponde con la comida
-              que se recibe
-            </li>
-          </ul>
-          <div className="space-y-5">
-            <ScoreBar
-              label="Visitas en las que hubo carta de alérgenos"
-              value={averages.allergenChartPercent}
-              max={100}
-            />
-            <ScoreBar label="Calidad de la carta" value={averages.fidelity} />
-          </div>
+        <AverageBox
+          icon={<FaBookOpen />}
+          title="Carta de alérgenos"
+          description="Si el local tiene carta de alérgenos y si se corresponde con la comida que se recibe."
+        >
+          <ScoreBar
+            label="Visitas con carta de alérgenos"
+            value={averages.allergenChartPercent}
+            max={100}
+          />
+          <ScoreBar label="Calidad de la carta" value={averages.fidelity} />
         </AverageBox>
 
-        <AverageBox title="Reacciones alérgicas">
-          <ul className="mb-6 list-disc space-y-2 pl-5 text-sm text-neutral-600">
-            <li>
-              Aquí medimos si alguna persona ha tenido una reacción alérgica o
-              reacción adversa tras comer en el local
-            </li>
-            <li>Las reacciones alérgicas son el valor con mayor peso en el cálculo general</li>
-          </ul>
+        <AverageBox
+          icon={<FaHeartPulse />}
+          title="Reacciones alérgicas"
+          description="Es el valor con más peso. Mide si alguien tuvo una reacción adversa tras comer aquí."
+        >
           <ScoreBar
             label="Porcentaje de reacciones"
             value={averages.allergicReactionPercent}
@@ -71,6 +87,6 @@ export function AveragesSection({ averages }: { averages: RestaurantAverages }) 
           />
         </AverageBox>
       </div>
-    </>
+    </section>
   );
 }
