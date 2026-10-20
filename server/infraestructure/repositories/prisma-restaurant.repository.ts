@@ -1,4 +1,4 @@
-import { RestaurantRepository, RestaurantSearchFilters } from "@/server/domain/restaurant/repositories/restaurant.repository";
+import { RestaurantRepository, RestaurantSearchFilters, RestaurantWithScores } from "@/server/domain/restaurant/repositories/restaurant.repository";
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
 import { prisma } from "../database/prisma";
 import { Prisma } from "@prisma/client";
@@ -39,5 +39,47 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
         score,
       );
     });
+  }
+
+  async findById(id: number): Promise<RestaurantWithScores | null> {
+    const row = await prisma.restaurant.findUnique({
+      where: { id },
+      include: {
+        scores: {
+          orderBy: { createdAt: "desc" },
+          include: {
+            user: { select: { name: true } },
+          },
+        },
+      },
+    });
+
+    if (!row) return null;
+
+    return {
+      restaurant: new Restaurant(
+        row.id,
+        row.name,
+        row.province,
+        row.address,
+        row.zip ?? undefined,
+        row.url ?? undefined,
+        row.phone ?? undefined,
+        row.foodType ?? undefined,
+        row.latitude ? Number(row.latitude) : undefined,
+        row.longitude ? Number(row.longitude) : undefined,
+      ),
+      scores: row.scores.map((score) => ({
+        id: score.id,
+        comment: score.comment ?? undefined,
+        createdAt: score.createdAt,
+        generalScore: score.generalScore,
+        allergenChart: score.allergenChart,
+        fidelityScore: score.fidelityScore,
+        attentionScore: score.attentionScore,
+        allergicReaction: score.allergicReaction ?? undefined,
+        userName: score.user.name ?? undefined,
+      })),
+    };
   }
 }
