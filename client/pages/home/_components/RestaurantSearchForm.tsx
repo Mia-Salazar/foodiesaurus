@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
 import Button from "@/client/shared/ui/atoms/Button";
-import { AVAILABLE_RESTAURANT_PROVINCES } from "../../entities/restaurant/restaurant.constants.trestaurant.constants";
 import Input from "@/client/shared/ui/atoms/Input";
+import { AVAILABLE_RESTAURANT_PROVINCES } from "../../entities/restaurant/restaurant.constants.trestaurant.constants";
 
 export default function RestaurantSearchForm() {
   const router = useRouter();
@@ -24,26 +23,14 @@ export default function RestaurantSearchForm() {
   };
 
   return (
-    <section className="my-12 px-4 py-10 bg-foodiesaurus">
-      <div className="max-w-xl mx-auto md:my-5 text-white">
-        <h2
-          className="
-          text-center
-          text-white
-          text-2xl
-          font-bold
-          max-w-md
-          mx-auto
-          mb-4
-        "
-        >
+    <section className="bg-foodiesaurus px-4 py-10">
+      <div className="mx-auto max-w-xl text-white">
+        <h2 className="mb-6 text-center text-2xl font-bold text-white">
           Empieza a buscar restaurantes
         </h2>
-
         <form className="space-y-5" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
             <label htmlFor="name">Nombre</label>
-
             <Input
               id="name"
               name="name"
@@ -51,35 +38,17 @@ export default function RestaurantSearchForm() {
               isGhost
               maxLength={40}
               value={term}
-              onChange={(eve) => setTerm(eve.target.value)}
+              onChange={(event) => setTerm(event.target.value)}
             />
           </div>
 
-          <div
-            className="
-            flex
-            flex-col
-            gap-5
-
-            md:grid
-            md:grid-cols-2
-            md:items-end
-          "
-          >
+          <div className="flex flex-col gap-5 md:grid md:grid-cols-2 md:items-end">
             <div className="flex flex-col gap-2">
               <label htmlFor="province">Provincia</label>
-
               <select
                 required
                 id="province"
-                className="
-                  p-3
-                  rounded
-                  border
-                  border-gray-dark
-                  bg-white
-                  text-black
-                "
+                className="rounded border border-gray-dark bg-white p-3 text-black"
                 value={selectedProvince}
                 onChange={(e) => setSelectedProvince(e.target.value)}
               >
