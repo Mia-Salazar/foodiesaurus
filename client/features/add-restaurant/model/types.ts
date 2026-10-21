@@ -1,6 +1,6 @@
 import { Restaurant } from "@/client/entities/restaurant/model/types";
 
-export interface SpainRestaurantMatch {
+export interface DirectoryRestaurantMatch {
   sourceId: string;
   name: string;
   address: string;
@@ -11,5 +11,5 @@ export interface SpainRestaurantMatch {
 }
 
 export type RestaurantLookupResult =
-  | { source: "ours"; restaurants: Restaurant[] }
-  | { source: "spain"; restaurants: SpainRestaurantMatch[] };
+  | { source: "catalog"; restaurants: Restaurant[] }
+  | { source: "directory"; restaurants: DirectoryRestaurantMatch[] };

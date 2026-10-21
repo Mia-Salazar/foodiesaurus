@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { FindRestaurantForScoringUseCase } from "@/server/application/find-restaurant-for-scoring/find-restaurant-for-scoring.usecase";
-import { NominatimSpainRestaurantDirectory } from "@/server/infraestructure/directory/nominatim-spain-restaurant.directory";
+import { NominatimRestaurantDirectory } from "@/server/infraestructure/directory/nominatim-spain-restaurant.directory";
 import { PrismaRestaurantRepository } from "@/server/infraestructure/repositories/prisma-restaurant.repository";
 import { findRestaurantForScoringSchema } from "@/server/infraestructure/validators/find-restaurant-for-scoring.validator";
 
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
     const useCase = new FindRestaurantForScoringUseCase(
       new PrismaRestaurantRepository(),
-      new NominatimSpainRestaurantDirectory(),
+      new NominatimRestaurantDirectory(),
     );
     const result = await useCase.execute(parsed.data.term);
 

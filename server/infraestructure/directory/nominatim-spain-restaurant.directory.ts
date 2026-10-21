@@ -1,5 +1,5 @@
-import { SpainRestaurant } from "@/server/domain/restaurant/entities/spain-restaurant";
-import { SpainRestaurantDirectory } from "@/server/domain/restaurant/repositories/spain-restaurant.directory";
+import { DirectoryRestaurant } from "@/server/domain/restaurant/entities/spain-restaurant";
+import { RestaurantDirectory } from "@/server/domain/restaurant/repositories/spain-restaurant.directory";
 
 interface NominatimPlace {
   osm_id?: number;
@@ -49,8 +49,8 @@ function formatAddress(place: NominatimPlace) {
   return place.display_name ?? "";
 }
 
-export class NominatimSpainRestaurantDirectory implements SpainRestaurantDirectory {
-  async searchByName(term: string): Promise<SpainRestaurant[]> {
+export class NominatimRestaurantDirectory implements RestaurantDirectory {
+  async searchByName(term: string): Promise<DirectoryRestaurant[]> {
     const url = new URL("https://nominatim.openstreetmap.org/search");
     url.searchParams.set("q", term);
     url.searchParams.set("format", "jsonv2");
@@ -85,7 +85,7 @@ export class NominatimSpainRestaurantDirectory implements SpainRestaurantDirecto
       const longitude = place.lon != null ? Number(place.lon) : undefined;
 
       return [
-        new SpainRestaurant(
+        new DirectoryRestaurant(
           sourceId,
           name,
           formatAddress(place),

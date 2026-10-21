@@ -1,5 +1,5 @@
-import { SpainRestaurant } from "../entities/spain-restaurant";
+import { DirectoryRestaurant } from "../entities/spain-restaurant";
 
-export interface SpainRestaurantDirectory {
-  searchByName(term: string): Promise<SpainRestaurant[]>;
+export interface RestaurantDirectory {
+  searchByName(term: string): Promise<DirectoryRestaurant[]>;
 }

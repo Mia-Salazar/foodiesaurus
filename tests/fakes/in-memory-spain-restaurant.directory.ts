@@ -1,12 +1,12 @@
-import { SpainRestaurant } from "@/server/domain/restaurant/entities/spain-restaurant";
-import { SpainRestaurantDirectory } from "@/server/domain/restaurant/repositories/spain-restaurant.directory";
+import { DirectoryRestaurant } from "@/server/domain/restaurant/entities/spain-restaurant";
+import { RestaurantDirectory } from "@/server/domain/restaurant/repositories/spain-restaurant.directory";
 
-export class InMemorySpainRestaurantDirectory implements SpainRestaurantDirectory {
-  constructor(private readonly restaurants: SpainRestaurant[] = []) {}
+export class InMemoryRestaurantDirectory implements RestaurantDirectory {
+  constructor(private readonly restaurants: DirectoryRestaurant[] = []) {}
 
   readonly calls: string[] = [];
 
-  async searchByName(term: string): Promise<SpainRestaurant[]> {
+  async searchByName(term: string): Promise<DirectoryRestaurant[]> {
     this.calls.push(term);
     const name = term.toLowerCase();
 

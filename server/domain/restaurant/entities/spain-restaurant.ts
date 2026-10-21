@@ -1,4 +1,4 @@
-export class SpainRestaurant {
+export class DirectoryRestaurant {
   constructor(
     public readonly sourceId: string,
     public readonly name: string,

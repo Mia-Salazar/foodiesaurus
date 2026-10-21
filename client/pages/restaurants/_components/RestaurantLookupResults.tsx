@@ -4,8 +4,8 @@ import { FaLocationDot } from "react-icons/fa6";
 import { hasValue } from "@/client/entities/restaurant/lib/hasValue";
 import { Restaurant } from "@/client/entities/restaurant/model/types";
 import {
+  DirectoryRestaurantMatch,
   RestaurantLookupResult,
-  SpainRestaurantMatch,
 } from "@/client/features/add-restaurant/model/types";
 import { InfoRow } from "@/client/entities/restaurant/ui/InfoRow";
 
@@ -13,25 +13,27 @@ function createScoreHrefForCatalogRestaurant(restaurantId: number) {
   return `/restaurants/${restaurantId}/scores/create`;
 }
 
-function createScoreHrefForSpainRestaurant(spainRestaurant: SpainRestaurantMatch) {
+function createScoreHrefForDirectoryRestaurant(
+  directoryRestaurant: DirectoryRestaurantMatch,
+) {
   const params = new URLSearchParams({
-    name: spainRestaurant.name,
-    address: spainRestaurant.address,
+    name: directoryRestaurant.name,
+    address: directoryRestaurant.address,
   });
-  if (hasValue(spainRestaurant.province)) {
-    params.set("province", spainRestaurant.province);
+  if (hasValue(directoryRestaurant.province)) {
+    params.set("province", directoryRestaurant.province);
   }
-  if (hasValue(spainRestaurant.zip)) {
-    params.set("zip", spainRestaurant.zip);
+  if (hasValue(directoryRestaurant.zip)) {
+    params.set("zip", directoryRestaurant.zip);
   }
-  if (spainRestaurant.sourceId) {
-    params.set("sourceId", spainRestaurant.sourceId);
+  if (directoryRestaurant.sourceId) {
+    params.set("sourceId", directoryRestaurant.sourceId);
   }
-  if (spainRestaurant.latitude != null) {
-    params.set("lat", String(spainRestaurant.latitude));
+  if (directoryRestaurant.latitude != null) {
+    params.set("lat", String(directoryRestaurant.latitude));
   }
-  if (spainRestaurant.longitude != null) {
-    params.set("lng", String(spainRestaurant.longitude));
+  if (directoryRestaurant.longitude != null) {
+    params.set("lng", String(directoryRestaurant.longitude));
   }
   return `/restaurants/create/score?${params.toString()}`;
 }
@@ -120,7 +122,7 @@ export function RestaurantLookupResults({
     );
   }
 
-  if (searchResult.source === "ours") {
+  if (searchResult.source === "catalog") {
     return (
       <RestaurantLookupSection heading="Ya está en Foodiesaurus">
         {searchResult.restaurants.map((catalogRestaurant) => (
@@ -140,12 +142,14 @@ export function RestaurantLookupResults({
 
   return (
     <RestaurantLookupSection heading="Restaurantes de España con ese nombre">
-      {searchResult.restaurants.map((spainRestaurant) => (
-        <li key={spainRestaurant.sourceId}>
+      {searchResult.restaurants.map((directoryRestaurant) => (
+        <li key={directoryRestaurant.sourceId}>
           <RestaurantLookupCard
-            restaurantName={spainRestaurant.name}
-            restaurantAddress={spainRestaurant.address}
-            createScoreHref={createScoreHrefForSpainRestaurant(spainRestaurant)}
+            restaurantName={directoryRestaurant.name}
+            restaurantAddress={directoryRestaurant.address}
+            createScoreHref={createScoreHrefForDirectoryRestaurant(
+              directoryRestaurant,
+            )}
           />
         </li>
       ))}

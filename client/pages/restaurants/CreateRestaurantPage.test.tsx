@@ -35,7 +35,7 @@ describe("Given Friki Pizza is already in Foodiesaurus", () => {
     beforeEach(async () => {
       mockLookupResponse({
         data: {
-          source: "ours",
+          source: "catalog",
           restaurants: [
             {
               id: 24,
@@ -69,7 +69,7 @@ describe("Given that name is not in Foodiesaurus", () => {
       beforeEach(async () => {
         mockLookupResponse({
           data: {
-            source: "spain",
+            source: "directory",
             restaurants: [
               {
                 sourceId: "N:123",
@@ -113,7 +113,7 @@ describe("Given that name is not in Foodiesaurus", () => {
     describe("When I search for an unknown name", () => {
       beforeEach(async () => {
         mockLookupResponse({
-          data: { source: "spain", restaurants: [] },
+          data: { source: "directory", restaurants: [] },
         });
         render(<CreateRestaurantPage />);
         await userEvent.type(screen.getByLabelText("Nombre"), "Inventado");

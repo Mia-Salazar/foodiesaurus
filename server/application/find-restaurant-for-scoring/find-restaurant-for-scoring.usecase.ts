@@ -1,16 +1,16 @@
+import { DirectoryRestaurant } from "@/server/domain/restaurant/entities/spain-restaurant";
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
-import { SpainRestaurant } from "@/server/domain/restaurant/entities/spain-restaurant";
+import { RestaurantDirectory } from "@/server/domain/restaurant/repositories/spain-restaurant.directory";
 import { RestaurantRepository } from "@/server/domain/restaurant/repositories/restaurant.repository";
-import { SpainRestaurantDirectory } from "@/server/domain/restaurant/repositories/spain-restaurant.directory";
 
 export type FindRestaurantForScoringResult =
-  | { source: "ours"; restaurants: Restaurant[] }
-  | { source: "spain"; restaurants: SpainRestaurant[] };
+  | { source: "catalog"; restaurants: Restaurant[] }
+  | { source: "directory"; restaurants: DirectoryRestaurant[] };
 
 export class FindRestaurantForScoringUseCase {
   constructor(
-    private readonly restaurants: RestaurantRepository,
-    private readonly spainDirectory: SpainRestaurantDirectory,
+    private readonly catalog: RestaurantRepository,
+    private readonly restaurantDirectory: RestaurantDirectory,
   ) {}
 
   async execute(term: string): Promise<FindRestaurantForScoringResult> {
@@ -19,12 +19,12 @@ export class FindRestaurantForScoringUseCase {
       throw new Error("Name is required");
     }
 
-    const ours = await this.restaurants.searchByName(name);
-    if (ours.length > 0) {
-      return { source: "ours", restaurants: ours };
+    const catalogRestaurants = await this.catalog.searchByName(name);
+    if (catalogRestaurants.length > 0) {
+      return { source: "catalog", restaurants: catalogRestaurants };
     }
 
-    const spain = await this.spainDirectory.searchByName(name);
-    return { source: "spain", restaurants: spain };
+    const directoryRestaurants = await this.restaurantDirectory.searchByName(name);
+    return { source: "directory", restaurants: directoryRestaurants };
   }
 }

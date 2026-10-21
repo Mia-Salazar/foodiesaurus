@@ -1,28 +1,28 @@
 import { describe, expect, it } from "vitest";
+import { DirectoryRestaurant } from "@/server/domain/restaurant/entities/spain-restaurant";
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
-import { SpainRestaurant } from "@/server/domain/restaurant/entities/spain-restaurant";
+import { InMemoryRestaurantDirectory } from "@/tests/fakes/in-memory-spain-restaurant.directory";
 import { InMemoryRestaurantRepository } from "@/tests/fakes/in-memory-restaurant.repository";
-import { InMemorySpainRestaurantDirectory } from "@/tests/fakes/in-memory-spain-restaurant.directory";
 import { FindRestaurantForScoringUseCase } from "./find-restaurant-for-scoring.usecase";
 
-function restaurant(id: number, name: string, province: string, address: string) {
+function catalogRestaurant(id: number, name: string, province: string, address: string) {
   return new Restaurant(id, name, province, address);
 }
 
-function spainRestaurant(name: string, address: string) {
-  return new SpainRestaurant(`${name}-id`, name, address, "Madrid", "28006");
+function directoryRestaurant(name: string, address: string) {
+  return new DirectoryRestaurant(`${name}-id`, name, address, "Madrid", "28006");
 }
 
 function lookup(
-  ours: Restaurant[] = [],
-  spain: SpainRestaurant[] = [],
+  catalog: Restaurant[] = [],
+  directoryMatches: DirectoryRestaurant[] = [],
 ) {
-  const directory = new InMemorySpainRestaurantDirectory(spain);
+  const restaurantDirectory = new InMemoryRestaurantDirectory(directoryMatches);
   return {
-    directory,
+    restaurantDirectory,
     useCase: new FindRestaurantForScoringUseCase(
-      new InMemoryRestaurantRepository(ours),
-      directory,
+      new InMemoryRestaurantRepository(catalog),
+      restaurantDirectory,
     ),
   };
 }
@@ -40,15 +40,15 @@ describe("Given I have not written a name", () => {
 describe("Given Friki Pizza is already in Foodiesaurus", () => {
   describe("When I search for Friki", () => {
     it("Then I should get the catalog restaurant and skip the directory", async () => {
-      const { useCase, directory } = lookup(
-        [restaurant(24, "Friki Pizza", "Madrid", "Calle de Alcántara, 71")],
-        [spainRestaurant("Friki Pizza", "Calle Inventada 1")],
+      const { useCase, restaurantDirectory } = lookup(
+        [catalogRestaurant(24, "Friki Pizza", "Madrid", "Calle de Alcántara, 71")],
+        [directoryRestaurant("Friki Pizza", "Calle Inventada 1")],
       );
 
       const result = await useCase.execute(" friki ");
 
       expect(result).toEqual({
-        source: "ours",
+        source: "catalog",
         restaurants: [
           expect.objectContaining({
             id: 24,
@@ -57,7 +57,7 @@ describe("Given Friki Pizza is already in Foodiesaurus", () => {
           }),
         ],
       });
-      expect(directory.calls).toEqual([]);
+      expect(restaurantDirectory.calls).toEqual([]);
     });
   });
 });
@@ -67,16 +67,16 @@ describe("Given that name is not in Foodiesaurus", () => {
     describe("When I search for Canalla", () => {
       it("Then I should get the directory restaurants with name and address", async () => {
         const { useCase } = lookup(
-          [restaurant(24, "Friki Pizza", "Madrid", "Calle de Alcántara, 71")],
+          [catalogRestaurant(24, "Friki Pizza", "Madrid", "Calle de Alcántara, 71")],
           [
-            spainRestaurant("Canalla Bistro", "Carrer de la Llotja, 2"),
-            spainRestaurant("Canalla Bar", "Gran Vía 10"),
+            directoryRestaurant("Canalla Bistro", "Carrer de la Llotja, 2"),
+            directoryRestaurant("Canalla Bar", "Gran Vía 10"),
           ],
         );
 
         const result = await useCase.execute("Canalla");
 
-        expect(result.source).toBe("spain");
+        expect(result.source).toBe("directory");
         expect(result.restaurants.map((item) => item.name)).toEqual([
           "Canalla Bistro",
           "Canalla Bar",
@@ -96,7 +96,7 @@ describe("Given that name is not in Foodiesaurus", () => {
 
         const result = await useCase.execute("Restaurante Inventado");
 
-        expect(result).toEqual({ source: "spain", restaurants: [] });
+        expect(result).toEqual({ source: "directory", restaurants: [] });
       });
     });
   });
