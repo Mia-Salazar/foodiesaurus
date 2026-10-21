@@ -24,6 +24,14 @@ export class InMemoryRestaurantRepository implements RestaurantRepository {
       .sort((a, b) => a.name.localeCompare(b.name, "es"));
   }
 
+  async searchByName(term: string): Promise<Restaurant[]> {
+    const name = term.toLowerCase();
+
+    return this.restaurants
+      .filter((restaurant) => restaurant.name.toLowerCase().includes(name))
+      .sort((a, b) => a.name.localeCompare(b.name, "es"));
+  }
+
   async findById(id: number): Promise<RestaurantWithScores | null> {
     return this.details.get(id) ?? null;
   }
