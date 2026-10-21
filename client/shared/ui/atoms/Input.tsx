@@ -12,7 +12,7 @@ export default function Input({ isGhost, className, ...props }: InputProps) {
         border-gray-dark
         rounded
         text-base
-        ${isGhost ? "bg-white placeholder-black" : ""}
+        ${isGhost ? "bg-white text-neutral-900 placeholder-neutral-800" : ""}
         ${className ?? ""}
       `}
     />
