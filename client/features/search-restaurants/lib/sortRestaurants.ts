@@ -2,8 +2,8 @@ import { Restaurant } from "@/client/entities/restaurant/model/types";
 
 export const RESTAURANT_SORT_OPTIONS = [
   { value: "name", label: "Nombre" },
-  { value: "score-desc", label: "Nota: de más alta a más baja" },
-  { value: "score-asc", label: "Nota: de más baja a más alta" },
+  { value: "score-desc", label: "Puntuación: de más alta a más baja" },
+  { value: "score-asc", label: "Puntuación: de más baja a más alta" },
 ] as const;
 
 export type RestaurantSort = (typeof RESTAURANT_SORT_OPTIONS)[number]["value"];

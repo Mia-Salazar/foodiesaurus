@@ -6,7 +6,7 @@ const items = [
   "Mira si el restaurante tiene carta de alérgenos. La carta de alérgenos es la lista de ingredientes que pueden dar alergia.",
   "Mira si alguien ha tenido una reacción alérgica.",
   "Si te encaja, ve al restaurante y come con más calma.",
-  "Después, deja tu nota. Así ayudas a más personas.",
+  "Después, deja tu puntuación. Así ayudas a más personas.",
 ];
 
 export default function Instructions() {

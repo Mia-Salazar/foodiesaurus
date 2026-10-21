@@ -56,7 +56,7 @@ describe("Given Friki Pizza is already in Foodiesaurus", () => {
     it("Then I should go to add a score for that restaurant", () => {
       expect(screen.getByText("Ya está en Foodiesaurus")).toBeInTheDocument();
       expect(
-        screen.getByRole("link", { name: "Añadir nota a Friki Pizza" }),
+        screen.getByRole("link", { name: "Añadir puntuación a Friki Pizza" }),
       ).toHaveAttribute("href", "/restaurants/24/scores/create");
       expect(screen.getByText(/calle de alcántara, 71/i)).toBeInTheDocument();
     });
@@ -99,7 +99,7 @@ describe("Given that name is not in Foodiesaurus", () => {
 
       it("And I should go to add a score when I choose it", () => {
         const href = screen
-          .getByRole("link", { name: "Añadir nota a Canalla Bistro" })
+          .getByRole("link", { name: "Añadir puntuación a Canalla Bistro" })
           .getAttribute("href");
 
         expect(href).toContain("/restaurants/create/score?");

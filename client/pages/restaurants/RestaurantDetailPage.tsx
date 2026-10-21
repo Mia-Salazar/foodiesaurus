@@ -113,7 +113,7 @@ export function RestaurantDetailPage({
             <AveragesSection averages={restaurant.averages} />
           ) : (
             <p className="rounded-md border border-dashed border-neutral-300 bg-white px-4 py-8 text-center text-neutral-600">
-              No hay notas para este restaurante.
+              No hay puntuaciones para este restaurante.
             </p>
           )}
           <ReviewList reviews={restaurant.reviews} />

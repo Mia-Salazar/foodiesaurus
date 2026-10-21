@@ -4,7 +4,7 @@ import { requirePageSession } from "@/server/infraestructure/auth/require-sessio
 
 export const metadata: Metadata = {
   title: "Añadir restaurante | Foodiesaurus",
-  description: "Busca un restaurante por su nombre para dejar una nota.",
+  description: "Busca un restaurante por su nombre para dejar una puntuación.",
 };
 
 export default async function Page() {

@@ -47,7 +47,7 @@ export function AveragesSection({ averages }: { averages: RestaurantAverages }) 
   return (
     <section>
       <h2 className="mb-6 text-2xl font-semibold">
-        Notas{" "}
+        Puntuaciones{" "}
         <span className="font-teko text-3xl font-semibold text-foodiesaurus">
           ({averages.totalReviews})
         </span>
@@ -55,8 +55,8 @@ export function AveragesSection({ averages }: { averages: RestaurantAverages }) 
       <div className="grid gap-4 md:grid-cols-2">
         <AverageBox
           icon={<FaStar />}
-          title="Notas generales"
-          description="La nota general junta todos los puntos. La atención mira cómo te trata el personal si dices que tienes alergia."
+          title="Puntuaciones generales"
+          description="La puntuación general junta todos los puntos. La atención mira cómo te trata el personal si dices que tienes alergia."
         >
           <ScoreBar label="General" value={averages.general} />
           <ScoreBar label="Atención del personal" value={averages.attention} />
@@ -78,7 +78,7 @@ export function AveragesSection({ averages }: { averages: RestaurantAverages }) 
         <AverageBox
           icon={<FaHeartPulse />}
           title="Reacciones alérgicas"
-          description="Esta nota pesa más que las otras. Dice si alguien se puso malo después de comer aquí."
+          description="Esta puntuación pesa más que las otras. Dice si alguien se puso malo después de comer aquí."
         >
           <ScoreBar
             label="Porcentaje de reacciones"

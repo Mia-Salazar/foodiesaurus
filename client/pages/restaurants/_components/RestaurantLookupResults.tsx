@@ -68,7 +68,7 @@ function ChoiceCard({
           hover:opacity-80
         "
       >
-        {`Añadir nota a ${name}`}
+        {`Añadir puntuación a ${name}`}
       </Link>
     </article>
   );
@@ -85,7 +85,7 @@ function ResultsList({
     <section>
       <h2 className="mb-2 text-2xl font-semibold">{title}</h2>
       <p className="mt-0 mb-6 text-neutral-800">
-        Elige el restaurante. Luego vas a dejar una nota.
+        Elige el restaurante. Luego vas a dejar una puntuación.
       </p>
       <ul className="list-none space-y-4 p-0">{children}</ul>
     </section>

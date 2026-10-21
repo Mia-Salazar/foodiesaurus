@@ -29,7 +29,7 @@ export function CreateRestaurantPage() {
           <div className="max-w-xl space-y-2 text-neutral-800">
             <p className="m-0">Busca el restaurante por su nombre.</p>
             <p className="m-0">
-              Si ya está en Foodiesaurus, vas a dejar una nota.
+              Si ya está en Foodiesaurus, vas a dejar una puntuación.
             </p>
             <p className="m-0">
               Si no está, te enseñamos restaurantes de España con ese nombre.

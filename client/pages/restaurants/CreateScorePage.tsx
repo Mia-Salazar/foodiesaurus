@@ -14,7 +14,7 @@ export function CreateScorePage() {
             Volver a añadir restaurante
           </Link>
           <h1 className="mt-5 mb-0 font-teko text-4xl font-semibold tracking-wide md:text-5xl">
-            Añadir nota
+            Añadir puntuación
           </h1>
         </div>
       </header>
