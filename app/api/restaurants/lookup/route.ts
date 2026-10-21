@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { FindRestaurantForScoringUseCase } from "@/server/application/find-restaurant-for-scoring/find-restaurant-for-scoring.usecase";
-import { NominatimRestaurantDirectory } from "@/server/infraestructure/directory/nominatim-spain-restaurant.directory";
+import { NominatimRestaurantDirectory } from "@/server/infraestructure/directory/nominatim-restaurant.directory";
 import { PrismaRestaurantRepository } from "@/server/infraestructure/repositories/prisma-restaurant.repository";
 import { findRestaurantForScoringSchema } from "@/server/infraestructure/validators/find-restaurant-for-scoring.validator";
 

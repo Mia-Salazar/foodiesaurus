@@ -1,6 +1,6 @@
-import { DirectoryRestaurant } from "@/server/domain/restaurant/entities/spain-restaurant";
+import { DirectoryRestaurant } from "@/server/domain/restaurant/entities/directory-restaurant";
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
-import { RestaurantDirectory } from "@/server/domain/restaurant/repositories/spain-restaurant.directory";
+import { RestaurantDirectory } from "@/server/domain/restaurant/repositories/restaurant-directory";
 import { RestaurantRepository } from "@/server/domain/restaurant/repositories/restaurant.repository";
 
 export type FindRestaurantForScoringResult =

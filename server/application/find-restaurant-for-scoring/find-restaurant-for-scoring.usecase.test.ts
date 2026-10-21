@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { DirectoryRestaurant } from "@/server/domain/restaurant/entities/spain-restaurant";
+import { DirectoryRestaurant } from "@/server/domain/restaurant/entities/directory-restaurant";
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
-import { InMemoryRestaurantDirectory } from "@/tests/fakes/in-memory-spain-restaurant.directory";
+import { InMemoryRestaurantDirectory } from "@/tests/fakes/in-memory-restaurant.directory";
 import { InMemoryRestaurantRepository } from "@/tests/fakes/in-memory-restaurant.repository";
 import { FindRestaurantForScoringUseCase } from "./find-restaurant-for-scoring.usecase";
 
