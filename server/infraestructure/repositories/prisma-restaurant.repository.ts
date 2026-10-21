@@ -3,6 +3,40 @@ import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entit
 import { prisma } from "../database/prisma";
 import { Prisma } from "@prisma/client";
 
+type RestaurantSearchRow = {
+  id: number;
+  name: string;
+  province: string;
+  address: string;
+  zip: string | null;
+  url: string | null;
+  phone: string | null;
+  foodType: string | null;
+  latitude: unknown;
+  longitude: unknown;
+  scores: { generalScore: number }[];
+};
+
+function toSearchRestaurant(r: RestaurantSearchRow): Restaurant {
+  const score = r.scores.length
+    ? r.scores.reduce((sum, item) => sum + item.generalScore, 0) / r.scores.length
+    : undefined;
+
+  return new Restaurant(
+    r.id,
+    r.name,
+    r.province,
+    r.address,
+    r.zip ?? undefined,
+    r.url ?? undefined,
+    r.phone ?? undefined,
+    r.foodType ?? undefined,
+    r.latitude != null ? Number(r.latitude) : undefined,
+    r.longitude != null ? Number(r.longitude) : undefined,
+    score,
+  );
+}
+
 export class PrismaRestaurantRepository implements RestaurantRepository {
   async search(filters: RestaurantSearchFilters): Promise<Restaurant[]> {
     const where: Prisma.RestaurantWhereInput = {
@@ -20,25 +54,19 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
       },
     });
 
-    return rows.map((r) => {
-      const score = r.scores.length
-        ? r.scores.reduce((sum, item) => sum + item.generalScore, 0) / r.scores.length
-        : undefined;
+    return rows.map(toSearchRestaurant);
+  }
 
-      return new Restaurant(
-        r.id,
-        r.name,
-        r.province,
-        r.address,
-        r.zip ?? undefined,
-        r.url ?? undefined,
-        r.phone ?? undefined,
-        r.foodType ?? undefined,
-        r.latitude ? Number(r.latitude) : undefined,
-        r.longitude ? Number(r.longitude) : undefined,
-        score,
-      );
+  async searchByName(term: string): Promise<Restaurant[]> {
+    const rows = await prisma.restaurant.findMany({
+      where: { name: { contains: term, mode: "insensitive" } },
+      orderBy: { name: "asc" },
+      include: {
+        scores: { select: { generalScore: true } },
+      },
     });
+
+    return rows.map(toSearchRestaurant);
   }
 
   async findById(id: number): Promise<RestaurantWithScores | null> {

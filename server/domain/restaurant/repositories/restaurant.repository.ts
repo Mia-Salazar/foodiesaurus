@@ -24,5 +24,6 @@ export interface RestaurantWithScores {
 
 export interface RestaurantRepository {
   search(filters: RestaurantSearchFilters): Promise<Restaurant[]>;
+  searchByName(term: string): Promise<Restaurant[]>;
   findById(id: number): Promise<RestaurantWithScores | null>;
 }
