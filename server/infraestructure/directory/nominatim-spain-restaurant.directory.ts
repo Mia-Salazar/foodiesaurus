@@ -67,7 +67,7 @@ export class NominatimSpainRestaurantDirectory implements SpainRestaurantDirecto
     });
 
     if (!response.ok) {
-      throw new Error("Spain restaurant directory is unavailable");
+      throw new Error("Restaurant directory is unavailable");
     }
 
     const places = (await response.json()) as NominatimPlace[];

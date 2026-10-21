@@ -39,7 +39,7 @@ describe("Given I have not written a name", () => {
 
 describe("Given Friki Pizza is already in Foodiesaurus", () => {
   describe("When I search for Friki", () => {
-    it("Then I should get our restaurant and skip Spain", async () => {
+    it("Then I should get the catalog restaurant and skip the directory", async () => {
       const { useCase, directory } = lookup(
         [restaurant(24, "Friki Pizza", "Madrid", "Calle de Alcántara, 71")],
         [spainRestaurant("Friki Pizza", "Calle Inventada 1")],
@@ -63,9 +63,9 @@ describe("Given Friki Pizza is already in Foodiesaurus", () => {
 });
 
 describe("Given that name is not in Foodiesaurus", () => {
-  describe("And Spain has matching restaurants", () => {
+  describe("And the restaurant directory has matching restaurants", () => {
     describe("When I search for Canalla", () => {
-      it("Then I should get the Spain restaurants with name and address", async () => {
+      it("Then I should get the directory restaurants with name and address", async () => {
         const { useCase } = lookup(
           [restaurant(24, "Friki Pizza", "Madrid", "Calle de Alcántara, 71")],
           [
@@ -89,9 +89,9 @@ describe("Given that name is not in Foodiesaurus", () => {
     });
   });
 
-  describe("And Spain has no matching restaurants", () => {
+  describe("And the restaurant directory has no matching restaurants", () => {
     describe("When I search for un restaurante inventado", () => {
-      it("Then I should get an empty Spain list", async () => {
+      it("Then I should get an empty directory list", async () => {
         const { useCase } = lookup();
 
         const result = await useCase.execute("Restaurante Inventado");

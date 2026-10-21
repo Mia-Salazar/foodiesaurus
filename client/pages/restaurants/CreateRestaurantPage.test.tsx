@@ -64,7 +64,7 @@ describe("Given Friki Pizza is already in Foodiesaurus", () => {
 });
 
 describe("Given that name is not in Foodiesaurus", () => {
-  describe("And Spain has Canalla Bistro", () => {
+  describe("And the restaurant directory has Canalla Bistro", () => {
     describe("When I search for Canalla", () => {
       beforeEach(async () => {
         mockLookupResponse({
@@ -86,7 +86,7 @@ describe("Given that name is not in Foodiesaurus", () => {
         await screen.findByRole("heading", { name: "Canalla Bistro" });
       });
 
-      it("Then I should see the Spain restaurant by name and address", () => {
+      it("Then I should see the directory restaurant by name and address", () => {
         expect(
           screen.getByRole("heading", {
             name: "Restaurantes de España con ese nombre",
@@ -109,7 +109,7 @@ describe("Given that name is not in Foodiesaurus", () => {
     });
   });
 
-  describe("And Spain has no matches", () => {
+  describe("And the restaurant directory has no matches", () => {
     describe("When I search for an unknown name", () => {
       beforeEach(async () => {
         mockLookupResponse({
