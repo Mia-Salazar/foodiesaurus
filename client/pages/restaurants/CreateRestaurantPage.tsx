@@ -62,7 +62,7 @@ export function CreateRestaurantPage() {
         )}
 
         {!loading && !error && result && (
-          <RestaurantLookupResults result={result} />
+          <RestaurantLookupResults searchResult={result} />
         )}
       </div>
     </div>
