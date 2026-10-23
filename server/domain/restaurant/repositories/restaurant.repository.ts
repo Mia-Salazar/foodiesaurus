@@ -28,6 +28,17 @@ export interface NewRestaurant {
   foodType?: string;
 }
 
+export interface NewScore {
+  restaurantId: number;
+  userId: string;
+  generalScore: number;
+  allergenChart: number;
+  fidelityScore: number;
+  attentionScore: number;
+  allergicReaction: number;
+  comment?: string;
+}
+
 export interface RestaurantWithScores {
   restaurant: Restaurant;
   scores: RestaurantScoreRecord[];
@@ -38,4 +49,5 @@ export interface RestaurantRepository {
   searchByName(term: string): Promise<Restaurant[]>;
   findById(id: number): Promise<RestaurantWithScores | null>;
   create(restaurant: NewRestaurant): Promise<Restaurant>;
+  addScore(score: NewScore): Promise<{ id: number }>;
 }
