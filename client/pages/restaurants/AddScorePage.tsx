@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
-import { AddScoreForm } from "./_components/AddScoreForm";
+import { AddScoreForm } from "./_components/add-score/AddScoreForm";
 
 export function AddScorePage({
   restaurant,
