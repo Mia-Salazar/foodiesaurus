@@ -34,17 +34,17 @@ function createScoreHrefForDirectoryRestaurant(
   directoryRestaurant: DirectoryRestaurantMatch,
 ) {
   const params = new URLSearchParams({
-    name: directoryRestaurant.name,
-    address: directoryRestaurant.address,
+    name: directoryRestaurant.name.slice(0, 40),
+    address: directoryRestaurant.address.slice(0, 150),
   });
   if (hasValue(directoryRestaurant.province)) {
-    params.set("province", directoryRestaurant.province);
+    params.set("province", directoryRestaurant.province.slice(0, 50));
   }
   if (hasValue(directoryRestaurant.zip)) {
-    params.set("zip", directoryRestaurant.zip);
+    params.set("zip", directoryRestaurant.zip.slice(0, 10));
   }
   if (directoryRestaurant.sourceId) {
-    params.set("sourceId", directoryRestaurant.sourceId);
+    params.set("sourceId", directoryRestaurant.sourceId.slice(0, 150));
   }
   if (directoryRestaurant.latitude != null) {
     params.set("lat", String(directoryRestaurant.latitude));
