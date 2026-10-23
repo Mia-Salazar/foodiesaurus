@@ -37,9 +37,12 @@ export function ResultsSearchForm({ province, term, sort }: ResultsSearchFormPro
   return (
     <section className="bg-foodiesaurus px-4 py-6">
       <form onSubmit={handleSubmit} className="mx-auto max-w-[56.25rem]">
-        <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_12rem_auto] md:items-end">
+        <div className="grid items-start gap-4 md:grid-cols-[minmax(0,1.4fr)_minmax(16rem,1fr)_auto]">
           <div className="flex min-w-0 flex-col gap-1">
-            <label htmlFor="results-name" className="text-sm text-white">
+            <label
+              htmlFor="results-name"
+              className="text-lg font-bold text-white"
+            >
               Nombre
             </label>
             <Input
@@ -52,10 +55,16 @@ export function ResultsSearchForm({ province, term, sort }: ResultsSearchFormPro
               onChange={(e) => setName(e.target.value)}
               aria-describedby="results-name-help"
             />
+            <p id="results-name-help" className="m-0 text-sm font-normal text-white">
+              Nombre del restaurante. Si no lo sabes, déjalo vacío.
+            </p>
           </div>
 
           <div className="flex min-w-0 flex-col gap-1">
-            <label htmlFor="results-province" className="text-sm text-white">
+            <label
+              htmlFor="results-province"
+              className="text-lg font-bold text-white"
+            >
               Provincia
             </label>
             <select
@@ -72,20 +81,22 @@ export function ResultsSearchForm({ province, term, sort }: ResultsSearchFormPro
                 </option>
               ))}
             </select>
+            <p
+              id="results-province-help"
+              className="m-0 text-sm font-normal text-white"
+            >
+              Elige la zona. Ahora hay Madrid, Barcelona y Sevilla.
+            </p>
           </div>
 
-          <Button type="submit" className="min-h-12 md:!w-auto">
-            Buscar
-          </Button>
-        </div>
-
-        <div className="mt-2 grid gap-3 md:grid-cols-[minmax(0,1fr)_12rem_auto]">
-          <p id="results-name-help" className="m-0 text-sm text-white">
-            Nombre del restaurante. Si no lo sabes, déjalo vacío.
-          </p>
-          <p id="results-province-help" className="m-0 text-sm text-white">
-            Elige la zona. Ahora hay Madrid, Barcelona y Sevilla.
-          </p>
+          <div className="flex flex-col gap-1">
+            <span className="hidden text-lg font-bold md:block" aria-hidden>
+              &nbsp;
+            </span>
+            <Button type="submit" className="min-h-12 md:!w-auto">
+              Buscar
+            </Button>
+          </div>
         </div>
       </form>
     </section>
