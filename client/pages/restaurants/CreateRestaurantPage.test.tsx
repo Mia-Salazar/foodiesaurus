@@ -25,6 +25,10 @@ describe("Given I am adding a restaurant", () => {
       ).toBeInTheDocument();
       expect(screen.getByLabelText("Nombre")).toBeInTheDocument();
       expect(screen.getByRole("button", { name: "Buscar" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Busca tu restaurante" }),
+      ).toBeInTheDocument();
+      expect(screen.getByText("Luego deja una puntuación.")).toBeInTheDocument();
     });
   });
 });
@@ -53,6 +57,9 @@ describe("Given Friki Pizza is already in Foodiesaurus", () => {
     });
 
     it("Then I should go to add a score for that restaurant", () => {
+      expect(
+        screen.queryByRole("heading", { name: "Busca tu restaurante" }),
+      ).not.toBeInTheDocument();
       expect(screen.getByText("Ya está en Foodiesaurus")).toBeInTheDocument();
       expect(
         screen.getByRole("link", { name: "Añadir puntuación a Friki Pizza" }),

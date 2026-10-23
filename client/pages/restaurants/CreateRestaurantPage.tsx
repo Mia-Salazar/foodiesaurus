@@ -6,6 +6,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { useFindRestaurantForScoring } from "@/client/features/add-restaurant/hooks/useFindRestaurantForScoring";
 import Loader from "@/client/shared/ui/atoms/Loader";
 import { RestaurantLookupForm } from "./_components/RestaurantLookupForm";
+import { RestaurantLookupIdle } from "./_components/RestaurantLookupIdle";
 import { RestaurantLookupResults } from "./_components/RestaurantLookupResults";
 
 export function CreateRestaurantPage() {
@@ -41,31 +42,33 @@ export function CreateRestaurantPage() {
 
       <RestaurantLookupForm term={term} onTermChange={setTerm} onSearch={search} />
 
-      <div className="mx-auto max-w-[56.25rem] space-y-6 px-4 py-8">
-        {loading && (
-          <div
-            className="flex min-h-64 flex-col items-center justify-center gap-3 text-neutral-800"
-            role="status"
-            aria-live="polite"
-          >
-            <Loader />
-            <p>Buscando restaurantes.</p>
-          </div>
-        )}
+      {!loading && !error && !result && <RestaurantLookupIdle />}
 
-        {error && (
-          <p
-            className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-800"
-            role="alert"
-          >
-            {error}
-          </p>
-        )}
+      {(loading || error || result) && (
+        <div className="mx-auto max-w-[56.25rem] space-y-6 px-4 py-8">
+          {loading && (
+            <div
+              className="flex min-h-64 flex-col items-center justify-center gap-3 text-neutral-800"
+              role="status"
+              aria-live="polite"
+            >
+              <Loader />
+              <p>Buscando restaurantes.</p>
+            </div>
+          )}
 
-        {!loading && !error && result && (
-          <RestaurantLookupResults searchResult={result} />
-        )}
-      </div>
+          {error && (
+            <p
+              className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-800"
+              role="alert"
+            >
+              {error}
+            </p>
+          )}
+
+          {result && <RestaurantLookupResults searchResult={result} />}
+        </div>
+      )}
     </div>
   );
 }
