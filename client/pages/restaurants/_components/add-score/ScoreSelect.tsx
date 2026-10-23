@@ -1,5 +1,5 @@
 const selectClassName =
-  "min-h-11 rounded border border-gray-dark bg-white p-3 text-neutral-900";
+  "min-h-11 w-full rounded border border-gray-dark bg-white p-3 text-neutral-900";
 
 const SCORES = Array.from({ length: 10 }, (_, index) => index + 1);
 

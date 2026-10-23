@@ -46,13 +46,13 @@ export default function RestaurantSearchForm() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-5 md:grid md:grid-cols-2 md:items-end">
-            <div className="flex flex-col gap-2">
+          <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+            <div className="flex min-w-0 flex-col gap-2">
               <label htmlFor="province">Provincia</label>
               <select
                 required
                 id="province"
-                className="min-h-11 rounded border border-gray-dark bg-white p-3 text-black"
+                className="min-h-11 w-full rounded border border-gray-dark bg-white p-3 text-black"
                 value={selectedProvince}
                 onChange={(e) => setSelectedProvince(e.target.value)}
                 aria-describedby="province-help"
@@ -63,15 +63,15 @@ export default function RestaurantSearchForm() {
                   </option>
                 ))}
               </select>
-              <p id="province-help" className="m-0 text-sm text-white">
-                Elige la zona. Ahora hay Madrid, Barcelona y Sevilla.
-              </p>
             </div>
 
-            <Button type="submit" className="min-h-12">
+            <Button type="submit" className="min-h-12 md:!w-auto">
               Buscar
             </Button>
           </div>
+          <p id="province-help" className="m-0 text-sm text-white">
+            Elige la zona. Ahora hay Madrid, Barcelona y Sevilla.
+          </p>
         </form>
       </div>
     </section>
