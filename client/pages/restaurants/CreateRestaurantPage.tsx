@@ -34,6 +34,7 @@ export function CreateRestaurantPage() {
             <p className="m-0">
               Si no está, te enseñamos restaurantes de España con ese nombre.
             </p>
+            <p className="m-0">Si no es el que buscas, puedes añadirlo tú.</p>
           </div>
         </div>
       </header>
