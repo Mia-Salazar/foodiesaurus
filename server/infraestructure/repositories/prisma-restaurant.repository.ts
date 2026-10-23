@@ -1,4 +1,4 @@
-import { RestaurantRepository, RestaurantSearchFilters, RestaurantWithScores } from "@/server/domain/restaurant/repositories/restaurant.repository";
+import { NewRestaurant, RestaurantRepository, RestaurantSearchFilters, RestaurantWithScores } from "@/server/domain/restaurant/repositories/restaurant.repository";
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
 import { prisma } from "../database/prisma";
 import { Prisma } from "@prisma/client";
@@ -109,5 +109,11 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
         userName: score.user.name ?? undefined,
       })),
     };
+  }
+
+  async create(restaurant: NewRestaurant): Promise<Restaurant> {
+    const row = await prisma.restaurant.create({ data: restaurant });
+
+    return toSearchRestaurant({ ...row, scores: [] });
   }
 }

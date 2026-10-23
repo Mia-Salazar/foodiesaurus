@@ -4,14 +4,13 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CreateRestaurantPage } from "./CreateRestaurantPage";
 
 function mockLookupResponse(body: unknown, status = 200) {
-  vi.stubGlobal(
-    "fetch",
-    vi.fn(async () => ({
-      ok: status >= 200 && status < 300,
-      status,
-      json: async () => body,
-    })),
-  );
+  const fetchMock = vi.fn(async () => ({
+    ok: status >= 200 && status < 300,
+    status,
+    json: async () => body,
+  }));
+  vi.stubGlobal("fetch", fetchMock);
+  return fetchMock;
 }
 
 describe("Given I am adding a restaurant", () => {
@@ -26,6 +25,10 @@ describe("Given I am adding a restaurant", () => {
       ).toBeInTheDocument();
       expect(screen.getByLabelText("Nombre")).toBeInTheDocument();
       expect(screen.getByRole("button", { name: "Buscar" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Busca tu restaurante" }),
+      ).toBeInTheDocument();
+      expect(screen.getByText("Luego deja una puntuación.")).toBeInTheDocument();
     });
   });
 });
@@ -54,11 +57,23 @@ describe("Given Friki Pizza is already in Foodiesaurus", () => {
     });
 
     it("Then I should go to add a score for that restaurant", () => {
+      expect(
+        screen.queryByRole("heading", { name: "Busca tu restaurante" }),
+      ).not.toBeInTheDocument();
       expect(screen.getByText("Ya está en Foodiesaurus")).toBeInTheDocument();
       expect(
         screen.getByRole("link", { name: "Añadir puntuación a Friki Pizza" }),
       ).toHaveAttribute("href", "/restaurants/24/scores/create");
       expect(screen.getByText(/calle de alcántara, 71/i)).toBeInTheDocument();
+    });
+
+    it("And I should be able to add another restaurant by hand", () => {
+      expect(
+        screen.getByText("Si no es ninguno, puedes añadirlo tú."),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("link", { name: "Añadir restaurante a mano" }),
+      ).toHaveAttribute("href", "/restaurants/create/manual");
     });
   });
 });
@@ -66,8 +81,10 @@ describe("Given Friki Pizza is already in Foodiesaurus", () => {
 describe("Given that name is not in Foodiesaurus", () => {
   describe("And the restaurant directory has Canalla Bistro", () => {
     describe("When I search for Canalla", () => {
+      let fetchMock: ReturnType<typeof mockLookupResponse>;
+
       beforeEach(async () => {
-        mockLookupResponse({
+        fetchMock = mockLookupResponse({
           data: {
             source: "directory",
             restaurants: [
@@ -106,6 +123,19 @@ describe("Given that name is not in Foodiesaurus", () => {
         expect(href).toContain("name=Canalla+Bistro");
         expect(href).toContain("address=Carrer+de+la+Llotja%2C+2");
       });
+
+      it("And it should not be saved in Foodiesaurus", () => {
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+      });
+
+      it("And I should be able to add another restaurant by hand", () => {
+        expect(
+          screen.getByText("Si no es ninguno, puedes añadirlo tú."),
+        ).toBeInTheDocument();
+        expect(
+          screen.getByRole("link", { name: "Añadir restaurante a mano" }),
+        ).toHaveAttribute("href", "/restaurants/create/manual");
+      });
     });
   });
 
@@ -118,15 +148,20 @@ describe("Given that name is not in Foodiesaurus", () => {
         render(<CreateRestaurantPage />);
         await userEvent.type(screen.getByLabelText("Nombre"), "Inventado");
         await userEvent.click(screen.getByRole("button", { name: "Buscar" }));
-        await screen.findByText(/no hemos encontrado un restaurante/i);
+        await screen.findByRole("heading", {
+          name: "No hemos encontrado ese restaurante",
+        });
       });
 
-      it("Then I should be told to try another name", () => {
+      it("Then I should be able to add the restaurant by hand", () => {
         expect(
           screen.getByText(
-            "No hemos encontrado un restaurante con ese nombre. Prueba otro nombre.",
+            "No está en Foodiesaurus. Tampoco está en los restaurantes de España.",
           ),
         ).toBeInTheDocument();
+        expect(
+          screen.getByRole("link", { name: "Añadir restaurante a mano" }),
+        ).toHaveAttribute("href", "/restaurants/create/manual");
       });
     });
   });

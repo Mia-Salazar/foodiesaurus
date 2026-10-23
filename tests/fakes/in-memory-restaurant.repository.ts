@@ -1,11 +1,13 @@
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
 import {
+  NewRestaurant,
   RestaurantRepository,
   RestaurantSearchFilters,
   RestaurantWithScores,
 } from "@/server/domain/restaurant/repositories/restaurant.repository";
 
 export class InMemoryRestaurantRepository implements RestaurantRepository {
+  readonly created: NewRestaurant[] = [];
   constructor(
     private readonly restaurants: Restaurant[] = [],
     private readonly details = new Map<number, RestaurantWithScores>(),
@@ -34,5 +36,23 @@ export class InMemoryRestaurantRepository implements RestaurantRepository {
 
   async findById(id: number): Promise<RestaurantWithScores | null> {
     return this.details.get(id) ?? null;
+  }
+
+  async create(input: NewRestaurant): Promise<Restaurant> {
+    const id = Math.max(0, ...this.restaurants.map((item) => item.id)) + 1;
+    const restaurant = new Restaurant(
+      id,
+      input.name,
+      input.province,
+      input.address,
+      input.zip,
+      input.url,
+      input.phone,
+      input.foodType,
+    );
+
+    this.created.push(input);
+    this.restaurants.push(restaurant);
+    return restaurant;
   }
 }

@@ -9,6 +9,23 @@ import {
 } from "@/client/features/add-restaurant/model/types";
 import { InfoRow } from "@/client/entities/restaurant/ui/InfoRow";
 
+const actionClassName = `
+  inline-flex
+  min-h-11
+  items-center
+  justify-center
+  rounded
+  bg-foodiesaurus-secondary
+  px-5
+  py-2.5
+  text-sm
+  font-bold
+  text-white
+  no-underline
+  transition
+  hover:opacity-80
+`;
+
 function createScoreHrefForCatalogRestaurant(restaurantId: number) {
   return `/restaurants/${restaurantId}/scores/create`;
 }
@@ -65,29 +82,21 @@ function RestaurantLookupCard({
           {restaurantAddress}
         </InfoRow>
       )}
-      <Link
-        href={createScoreHref}
-        className="
-          mt-5
-          inline-flex
-          min-h-11
-          items-center
-          justify-center
-          rounded
-          bg-foodiesaurus-secondary
-          px-5
-          py-2.5
-          text-sm
-          font-bold
-          text-white
-          no-underline
-          transition
-          hover:opacity-80
-        "
-      >
+      <Link href={createScoreHref} className={`mt-5 ${actionClassName}`}>
         {`Añadir puntuación a ${restaurantName}`}
       </Link>
     </article>
+  );
+}
+
+function AddRestaurantManuallyLink() {
+  return (
+    <Link
+      href="/restaurants/create/manual"
+      className={actionClassName}
+    >
+      Añadir restaurante a mano
+    </Link>
   );
 }
 
@@ -105,6 +114,10 @@ function RestaurantLookupSection({
         Elige el restaurante. Luego vas a dejar una puntuación.
       </p>
       <ul className="list-none space-y-4 p-0">{children}</ul>
+      <p className="mt-8 mb-4 text-neutral-800">
+        Si no es ninguno, puedes añadirlo tú.
+      </p>
+      <AddRestaurantManuallyLink />
     </section>
   );
 }
@@ -116,9 +129,16 @@ export function RestaurantLookupResults({
 }) {
   if (searchResult.restaurants.length === 0) {
     return (
-      <p className="rounded-md border border-dashed border-neutral-300 bg-white px-4 py-8 text-center text-neutral-800">
-        No hemos encontrado un restaurante con ese nombre. Prueba otro nombre.
-      </p>
+      <section className="rounded-md border border-dashed border-neutral-300 bg-white px-4 py-8 text-center text-neutral-800">
+        <h2 className="mt-0 mb-3 text-2xl font-semibold">
+          No hemos encontrado ese restaurante
+        </h2>
+        <p className="m-0">
+          No está en Foodiesaurus. Tampoco está en los restaurantes de España.
+        </p>
+        <p className="mt-3 mb-6">Puedes añadirlo tú.</p>
+        <AddRestaurantManuallyLink />
+      </section>
     );
   }
 
