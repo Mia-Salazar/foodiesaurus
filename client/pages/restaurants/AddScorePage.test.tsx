@@ -66,6 +66,14 @@ describe("Given I want to score Friki Pizza", () => {
         screen.getByLabelText("¿Cómo te atendió el personal?"),
       ).toBeRequired();
       expect(screen.getByLabelText("Comentario")).not.toBeRequired();
+      expect(
+        screen.getByRole("button", { name: "Guardar puntuación" }),
+      ).toBeDisabled();
+      expect(
+        screen.getByText(
+          "Responde las preguntas para guardar. El comentario es opcional.",
+        ),
+      ).toBeInTheDocument();
     });
 
     it("And I should not be asked about the chart quality yet", () => {
@@ -85,6 +93,45 @@ describe("Given I want to score Friki Pizza", () => {
       const quality = screen.getByLabelText("¿Cómo era la carta de alérgenos?");
       expect(quality).toBeRequired();
       expect(quality.querySelectorAll("option:not([disabled])")).toHaveLength(10);
+      expect(
+        screen.getByRole("button", { name: "Guardar puntuación" }),
+      ).toBeDisabled();
+    });
+  });
+
+  describe("When I answer the other questions but not the chart quality", () => {
+    beforeEach(async () => {
+      render(<AddScorePage restaurant={restaurant} />);
+      await answer("¿Tenían carta de alérgenos?", "Sí");
+      await answer("¿Tuviste una reacción alérgica?", "No");
+      await userEvent.selectOptions(
+        screen.getByLabelText("¿Cómo te atendió el personal?"),
+        "8",
+      );
+    });
+
+    it("Then I still cannot save the score", () => {
+      expect(
+        screen.getByRole("button", { name: "Guardar puntuación" }),
+      ).toBeDisabled();
+    });
+  });
+
+  describe("When I answer every question except the comment", () => {
+    beforeEach(async () => {
+      render(<AddScorePage restaurant={restaurant} />);
+      await answerWithoutChart();
+    });
+
+    it("Then I can save the score", () => {
+      expect(
+        screen.getByRole("button", { name: "Guardar puntuación" }),
+      ).toBeEnabled();
+      expect(
+        screen.queryByText(
+          "Responde las preguntas para guardar. El comentario es opcional.",
+        ),
+      ).not.toBeInTheDocument();
     });
   });
 

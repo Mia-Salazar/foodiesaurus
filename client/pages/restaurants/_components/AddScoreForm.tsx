@@ -51,10 +51,12 @@ function ScoreSelect({
   id,
   name,
   label,
+  onChange,
 }: {
   id: string;
   name: string;
   label: string;
+  onChange: (score: number) => void;
 }) {
   return (
     <div className="flex flex-col gap-2">
@@ -67,6 +69,7 @@ function ScoreSelect({
         defaultValue=""
         aria-describedby={`${id}-help`}
         aria-required="true"
+        onChange={(event) => onChange(Number(event.target.value))}
       >
         <option value="" disabled>
           Elige un número
@@ -101,9 +104,21 @@ function readScoreFromForm(form: FormData): NewScoreData {
 
 export function AddScoreForm({ restaurantId }: { restaurantId: number }) {
   const router = useRouter();
-  const [hasAllergenChart, setHasAllergenChart] = useState(false);
+  const [hasAllergenChart, setHasAllergenChart] = useState<boolean | null>(null);
+  const [allergenChartQuality, setAllergenChartQuality] = useState<number | null>(
+    null,
+  );
+  const [hadAllergicReaction, setHadAllergicReaction] = useState<boolean | null>(
+    null,
+  );
+  const [attentionScore, setAttentionScore] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const answersComplete =
+    hasAllergenChart !== null &&
+    hadAllergicReaction !== null &&
+    attentionScore !== null &&
+    (!hasAllergenChart || allergenChartQuality !== null);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -148,7 +163,10 @@ export function AddScoreForm({ restaurantId }: { restaurantId: number }) {
           <YesNoQuestion
             name="hasAllergenChart"
             legend="¿Tenían carta de alérgenos?"
-            onChange={setHasAllergenChart}
+            onChange={(yes) => {
+              setHasAllergenChart(yes);
+              setAllergenChartQuality(null);
+            }}
           />
 
           {hasAllergenChart && (
@@ -156,18 +174,21 @@ export function AddScoreForm({ restaurantId }: { restaurantId: number }) {
               id="score-allergen-chart-quality"
               name="allergenChartQuality"
               label="¿Cómo era la carta de alérgenos?"
+              onChange={setAllergenChartQuality}
             />
           )}
 
           <YesNoQuestion
             name="hadAllergicReaction"
             legend="¿Tuviste una reacción alérgica?"
+            onChange={setHadAllergicReaction}
           />
 
           <ScoreSelect
             id="score-attention"
             name="attentionScore"
             label="¿Cómo te atendió el personal?"
+            onChange={setAttentionScore}
           />
 
           <div className="flex flex-col gap-2">
@@ -200,7 +221,17 @@ export function AddScoreForm({ restaurantId }: { restaurantId: number }) {
             </p>
           )}
 
-          <Button type="submit" className="min-h-12">
+          {!answersComplete && (
+            <p id="score-submit-help" className="m-0 text-sm text-neutral-800">
+              Responde las preguntas para guardar. El comentario es opcional.
+            </p>
+          )}
+
+          <Button
+            type="submit"
+            className="min-h-12"
+            disabled={!answersComplete || saving}
+          >
             Guardar puntuación
           </Button>
         </form>
