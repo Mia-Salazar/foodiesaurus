@@ -1,4 +1,4 @@
-import { computeRestaurantAverages } from "@/server/domain/restaurant/lib/computeRestaurantAverages";
+import { toStoredScore } from "@/server/domain/restaurant/lib/toStoredScore";
 import { RestaurantRepository } from "@/server/domain/restaurant/repositories/restaurant.repository";
 
 export interface AddRestaurantScoreInput {
@@ -18,19 +18,12 @@ export class AddRestaurantScoreUseCase {
     const restaurant = await this.repository.findById(input.restaurantId);
     if (!restaurant) return null;
 
-    const ratings = {
-      allergenChart: input.hasAllergenChart ? 1 : 0,
-      fidelityScore: input.hasAllergenChart ? (input.allergenChartQuality ?? 0) : 0,
-      attentionScore: input.attentionScore,
-      allergicReaction: input.hadAllergicReaction ? 1 : 0,
-    };
+    const stored = toStoredScore(input);
 
     return this.repository.addScore({
-      ...ratings,
+      ...stored,
       restaurantId: input.restaurantId,
       userId: input.userId,
-      generalScore: computeRestaurantAverages([ratings])!.general,
-      comment: input.comment,
     });
   }
 }

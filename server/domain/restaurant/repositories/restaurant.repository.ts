@@ -26,6 +26,9 @@ export interface NewRestaurant {
   url?: string;
   phone?: string;
   foodType?: string;
+  latitude?: number;
+  longitude?: number;
+  apiId?: string;
 }
 
 export interface NewScore {
@@ -50,4 +53,8 @@ export interface RestaurantRepository {
   findById(id: number): Promise<RestaurantWithScores | null>;
   create(restaurant: NewRestaurant): Promise<Restaurant>;
   addScore(score: NewScore): Promise<{ id: number }>;
+  createWithScore(
+    restaurant: NewRestaurant,
+    score: Omit<NewScore, "restaurantId">,
+  ): Promise<{ restaurantId: number }>;
 }

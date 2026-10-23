@@ -48,7 +48,29 @@ describe("Given I add a restaurant by hand", () => {
       expect(screen.getByLabelText("Tipo de comida")).toBeInTheDocument();
       expect(
         screen.getByRole("button", { name: "Añadir restaurante" }),
+      ).toBeDisabled();
+      expect(
+        screen.getByText(
+          "Escribe el nombre, la dirección y la provincia para guardar. El resto es opcional.",
+        ),
       ).toBeInTheDocument();
+    });
+  });
+
+  describe("When I fill only the name and the address", () => {
+    beforeEach(async () => {
+      render(<CreateManualRestaurantPage />);
+      await userEvent.type(screen.getByLabelText("Nombre"), "Canalla Bistro");
+      await userEvent.type(
+        screen.getByLabelText("Dirección"),
+        "Carrer de la Llotja, 2",
+      );
+    });
+
+    it("Then I still cannot add the restaurant", () => {
+      expect(
+        screen.getByRole("button", { name: "Añadir restaurante" }),
+      ).toBeDisabled();
     });
   });
 

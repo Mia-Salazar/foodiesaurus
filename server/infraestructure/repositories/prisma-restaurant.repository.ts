@@ -120,4 +120,17 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
   async addScore(score: NewScore): Promise<{ id: number }> {
     return prisma.score.create({ data: score, select: { id: true } });
   }
+
+  async createWithScore(
+    restaurant: NewRestaurant,
+    score: Omit<NewScore, "restaurantId">,
+  ): Promise<{ restaurantId: number }> {
+    return prisma.$transaction(async (tx) => {
+      const row = await tx.restaurant.create({ data: restaurant });
+      await tx.score.create({
+        data: { ...score, restaurantId: row.id },
+      });
+      return { restaurantId: row.id };
+    });
+  }
 }

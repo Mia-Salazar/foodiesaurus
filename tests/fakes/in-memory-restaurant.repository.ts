@@ -63,4 +63,13 @@ export class InMemoryRestaurantRepository implements RestaurantRepository {
     this.addedScores.push(score);
     return { id: this.addedScores.length };
   }
+
+  async createWithScore(
+    restaurant: NewRestaurant,
+    score: Omit<NewScore, "restaurantId">,
+  ): Promise<{ restaurantId: number }> {
+    const created = await this.create(restaurant);
+    await this.addScore({ ...score, restaurantId: created.id });
+    return { restaurantId: created.id };
+  }
 }

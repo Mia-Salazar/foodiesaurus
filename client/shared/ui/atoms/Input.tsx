@@ -7,6 +7,7 @@ export default function Input({ isGhost, className, ...props }: InputProps) {
     <input
       {...props}
       className={`
+        w-full
         p-3
         border
         border-gray-dark

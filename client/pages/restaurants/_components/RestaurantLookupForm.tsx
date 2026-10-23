@@ -22,28 +22,33 @@ export function RestaurantLookupForm({
 
   return (
     <section className="bg-foodiesaurus px-4 py-10">
-      <form className="mx-auto max-w-xl space-y-5 text-white" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="restaurant-name">Nombre</label>
-          <Input
-            id="restaurant-name"
-            name="name"
-            required
-            placeholder="Ejemplo: Friki Pizza"
-            isGhost
-            maxLength={40}
-            value={term}
-            onChange={(event) => onTermChange(event.target.value)}
-            aria-describedby="restaurant-name-help"
-          />
-          <p id="restaurant-name-help" className="m-0 text-sm text-white">
-            Escribe el nombre del restaurante.
-          </p>
-        </div>
+      <form
+        className="mx-auto max-w-[56.25rem] space-y-5 text-white"
+        onSubmit={handleSubmit}
+      >
+        <div className="max-w-xl space-y-5">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="restaurant-name">Nombre</label>
+            <Input
+              id="restaurant-name"
+              name="name"
+              required
+              placeholder="Ejemplo: Friki Pizza"
+              isGhost
+              maxLength={40}
+              value={term}
+              onChange={(event) => onTermChange(event.target.value)}
+              aria-describedby="restaurant-name-help"
+            />
+            <p id="restaurant-name-help" className="m-0 text-sm text-white">
+              Escribe el nombre del restaurante.
+            </p>
+          </div>
 
-        <Button type="submit" className="min-h-12">
-          Buscar
-        </Button>
+          <Button type="submit" className="min-h-12">
+            Buscar
+          </Button>
+        </div>
       </form>
     </section>
   );
