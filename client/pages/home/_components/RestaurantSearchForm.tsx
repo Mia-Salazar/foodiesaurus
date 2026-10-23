@@ -29,8 +29,10 @@ export default function RestaurantSearchForm() {
           Busca un restaurante
         </h2>
         <form className="space-y-5" onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="name">Nombre</label>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="name" className="text-lg font-bold text-white">
+              Nombre
+            </label>
             <Input
               id="name"
               name="name"
@@ -41,14 +43,16 @@ export default function RestaurantSearchForm() {
               onChange={(event) => setTerm(event.target.value)}
               aria-describedby="name-help"
             />
-            <p id="name-help" className="m-0 text-sm text-white">
+            <p id="name-help" className="m-0 text-sm font-normal text-white">
               Nombre del restaurante. Si no lo sabes, déjalo vacío.
             </p>
           </div>
 
-          <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-            <div className="flex min-w-0 flex-col gap-2">
-              <label htmlFor="province">Provincia</label>
+          <div className="grid items-start gap-3 md:grid-cols-[minmax(0,1fr)_auto]">
+            <div className="flex min-w-0 flex-col gap-1">
+              <label htmlFor="province" className="text-lg font-bold text-white">
+                Provincia
+              </label>
               <select
                 required
                 id="province"
@@ -63,15 +67,20 @@ export default function RestaurantSearchForm() {
                   </option>
                 ))}
               </select>
+              <p id="province-help" className="m-0 text-sm font-normal text-white">
+                Elige la zona. Ahora hay Madrid, Barcelona y Sevilla.
+              </p>
             </div>
 
-            <Button type="submit" className="min-h-12 md:!w-auto">
-              Buscar
-            </Button>
+            <div className="flex flex-col gap-1">
+              <span className="hidden text-lg font-bold md:block" aria-hidden>
+                &nbsp;
+              </span>
+              <Button type="submit" className="min-h-12 md:!w-auto">
+                Buscar
+              </Button>
+            </div>
           </div>
-          <p id="province-help" className="m-0 text-sm text-white">
-            Elige la zona. Ahora hay Madrid, Barcelona y Sevilla.
-          </p>
         </form>
       </div>
     </section>
