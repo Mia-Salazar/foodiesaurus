@@ -56,12 +56,17 @@ function readRestaurantFromForm(form: FormData): NewRestaurantData {
 
 export function CreateManualRestaurantForm() {
   const router = useRouter();
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [province, setProvince] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const requiredComplete =
+    name.trim() !== "" && address.trim() !== "" && province !== "";
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (saving) return;
+    if (saving || !requiredComplete) return;
     setSaving(true);
     setError(null);
 
@@ -110,6 +115,8 @@ export function CreateManualRestaurantForm() {
               placeholder="Ejemplo: Friki Pizza"
               isGhost
               maxLength={40}
+              value={name}
+              onChange={(event) => setName(event.target.value)}
               aria-describedby="manual-restaurant-name-help"
               aria-required="true"
             />
@@ -128,6 +135,8 @@ export function CreateManualRestaurantForm() {
               placeholder="Ejemplo: Calle de Alcántara, 71"
               isGhost
               maxLength={150}
+              value={address}
+              onChange={(event) => setAddress(event.target.value)}
               aria-describedby="manual-restaurant-address-help"
               aria-required="true"
             />
@@ -162,7 +171,8 @@ export function CreateManualRestaurantForm() {
               name="province"
               required
               className={selectClassName}
-              defaultValue=""
+              value={province}
+              onChange={(event) => setProvince(event.target.value)}
               aria-describedby="manual-restaurant-province-help"
               aria-required="true"
             >
@@ -246,7 +256,17 @@ export function CreateManualRestaurantForm() {
             </p>
           )}
 
-          <Button type="submit" className="min-h-12">
+          {!requiredComplete && (
+            <p id="manual-restaurant-submit-help" className="m-0 text-sm text-neutral-800">
+              Escribe el nombre, la dirección y la provincia para guardar. El resto es opcional.
+            </p>
+          )}
+
+          <Button
+            type="submit"
+            className="min-h-12"
+            disabled={!requiredComplete || saving}
+          >
             Añadir restaurante
           </Button>
         </form>
