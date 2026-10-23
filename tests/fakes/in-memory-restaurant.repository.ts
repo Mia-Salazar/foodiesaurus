@@ -10,6 +10,7 @@ import {
 export class InMemoryRestaurantRepository implements RestaurantRepository {
   readonly created: NewRestaurant[] = [];
   readonly addedScores: NewScore[] = [];
+  private readonly handCreatedByOwner = new Map<string, Restaurant[]>();
 
   constructor(
     private readonly restaurants: Restaurant[] = [],
@@ -56,7 +57,18 @@ export class InMemoryRestaurantRepository implements RestaurantRepository {
 
     this.created.push(input);
     this.restaurants.push(restaurant);
+    if (!input.apiId) {
+      const owned = this.handCreatedByOwner.get(input.ownerId) ?? [];
+      owned.push(restaurant);
+      this.handCreatedByOwner.set(input.ownerId, owned);
+    }
     return restaurant;
+  }
+
+  async findCreatedByHand(ownerId: string): Promise<Restaurant[]> {
+    return [...(this.handCreatedByOwner.get(ownerId) ?? [])].sort((a, b) =>
+      a.name.localeCompare(b.name, "es"),
+    );
   }
 
   async addScore(score: NewScore): Promise<{ id: number }> {

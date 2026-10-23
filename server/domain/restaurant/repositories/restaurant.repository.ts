@@ -50,6 +50,7 @@ export interface RestaurantWithScores {
 export interface RestaurantRepository {
   search(filters: RestaurantSearchFilters): Promise<Restaurant[]>;
   searchByName(term: string): Promise<Restaurant[]>;
+  findCreatedByHand(ownerId: string): Promise<Restaurant[]>;
   findById(id: number): Promise<RestaurantWithScores | null>;
   create(restaurant: NewRestaurant): Promise<Restaurant>;
   addScore(score: NewScore): Promise<{ id: number }>;
