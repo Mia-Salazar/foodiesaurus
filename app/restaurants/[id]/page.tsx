@@ -1,7 +1,9 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { auth } from "@/auth";
 import { RestaurantDetailPage } from "@/client/pages/restaurants/RestaurantDetailPage";
+import { GetHandCreatedRestaurantUseCase } from "@/server/application/get-hand-created-restaurant/get-hand-created-restaurant.usecase";
 import { GetRestaurantByIdUseCase } from "@/server/application/get-restaurant-by-id/get-restaurant-by-id.usecase";
 import { PrismaRestaurantRepository } from "@/server/infraestructure/repositories/prisma-restaurant.repository";
 
@@ -47,5 +49,14 @@ export default async function Page({
   const restaurant = await getRestaurantDetail(id);
   if (!restaurant) notFound();
 
-  return <RestaurantDetailPage restaurant={restaurant} />;
+  const ownerId = (await auth())?.user?.id;
+  const editable = ownerId
+    ? await new GetHandCreatedRestaurantUseCase(
+        new PrismaRestaurantRepository(),
+      ).execute(id, ownerId)
+    : null;
+
+  return (
+    <RestaurantDetailPage restaurant={restaurant} canEdit={editable != null} />
+  );
 }

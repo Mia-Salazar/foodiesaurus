@@ -136,3 +136,81 @@ describe("Given I add a restaurant by hand", () => {
     });
   });
 });
+
+describe("Given I edit Canalla Bistro", () => {
+  const restaurant = {
+    id: 31,
+    name: "Canalla Bistro",
+    province: "Valencia",
+    address: "Carrer de la Llotja, 2",
+    zip: "46003",
+    phone: "963551470",
+    url: "https://www.canallabistro.com",
+    foodType: "Tapas",
+  };
+
+  describe("When I open the form", () => {
+    beforeEach(() => {
+      render(<CreateManualRestaurantPage restaurant={restaurant} />);
+    });
+
+    it("Then I should see the restaurant data ready to change", () => {
+      expect(
+        screen.getByRole("heading", { level: 1, name: "Editar restaurante" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("Vas a cambiar los datos del restaurante."),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("link", { name: "Volver a Canalla Bistro" }),
+      ).toHaveAttribute("href", "/restaurants/31");
+      expect(screen.getByLabelText("Nombre")).toHaveValue("Canalla Bistro");
+      expect(screen.getByLabelText("Dirección")).toHaveValue(
+        "Carrer de la Llotja, 2",
+      );
+      expect(screen.getByLabelText("Provincia")).toHaveValue("Valencia");
+      expect(screen.getByLabelText("Código postal")).toHaveValue("46003");
+      expect(screen.getByLabelText("Teléfono")).toHaveValue("963551470");
+      expect(screen.getByLabelText("Sitio web")).toHaveValue(
+        "https://www.canallabistro.com",
+      );
+      expect(screen.getByLabelText("Tipo de comida")).toHaveValue("Tapas");
+      expect(
+        screen.getByRole("button", { name: "Guardar cambios" }),
+      ).toBeEnabled();
+    });
+  });
+
+  describe("When I change the name and save", () => {
+    let fetchMock: ReturnType<typeof mockCreateResponse>;
+
+    beforeEach(async () => {
+      fetchMock = mockCreateResponse({ data: { id: 31 } }, 200);
+      render(<CreateManualRestaurantPage restaurant={restaurant} />);
+      await userEvent.clear(screen.getByLabelText("Nombre"));
+      await userEvent.type(screen.getByLabelText("Nombre"), "Canalla Nuevo");
+      await userEvent.click(screen.getByRole("button", { name: "Guardar cambios" }));
+    });
+
+    it("Then the restaurant should be updated", () => {
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/api/restaurants/31",
+        expect.objectContaining({ method: "PATCH" }),
+      );
+      const [, request] = fetchMock.mock.calls[0] as unknown as [
+        string,
+        { body: string },
+      ];
+      expect(JSON.parse(request.body)).toEqual({
+        name: "Canalla Nuevo",
+        address: "Carrer de la Llotja, 2",
+        province: "Valencia",
+        zip: "46003",
+        phone: "963551470",
+        url: "https://www.canallabistro.com",
+        foodType: "Tapas",
+      });
+      expect(mockPush).toHaveBeenCalledWith("/restaurants/31");
+    });
+  });
+});

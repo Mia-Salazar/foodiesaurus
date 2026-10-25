@@ -48,6 +48,9 @@ describe("Given Friki Pizza has an address, phone, website, map and a comment", 
 
     it("Then I should see its name, food type and address", () => {
       expect(screen.getByRole("heading", { level: 1, name: "Friki Pizza" })).toBeInTheDocument();
+      expect(
+        screen.queryByRole("link", { name: "Editar restaurante" }),
+      ).not.toBeInTheDocument();
       expect(screen.getAllByText("Pizza").length).toBeGreaterThan(0);
       expect(screen.getByText(/calle de alcántara, 71/i)).toBeInTheDocument();
     });
@@ -137,6 +140,19 @@ describe("Given the restaurant has no averages or comments", () => {
 
     it("And I should see that there are no comments", () => {
       expect(screen.getByText("No hay comentarios para este restaurante.")).toBeInTheDocument();
+    });
+  });
+});
+
+describe("Given I created this restaurant by hand", () => {
+  describe("When I open its detail", () => {
+    it("Then I should be able to edit it", () => {
+      render(<RestaurantDetailPage restaurant={detail()} canEdit />);
+
+      expect(screen.getByRole("link", { name: "Editar restaurante" })).toHaveAttribute(
+        "href",
+        "/restaurants/24/edit",
+      );
     });
   });
 });

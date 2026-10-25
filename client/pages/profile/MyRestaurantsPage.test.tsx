@@ -48,6 +48,9 @@ describe("Given I open my restaurants", () => {
       expect(
         screen.getByRole("link", { name: "Ver Canalla Bistro" }),
       ).toHaveAttribute("href", "/restaurants/31");
+      expect(
+        screen.getByRole("link", { name: "Editar Canalla Bistro" }),
+      ).toHaveAttribute("href", "/restaurants/31/edit");
     });
   });
 });
