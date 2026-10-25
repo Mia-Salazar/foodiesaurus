@@ -52,6 +52,19 @@ export interface NewScore {
   comment?: string;
 }
 
+export interface UserScore {
+  id: number;
+  restaurantId: number;
+  restaurantName: string;
+  createdAt: Date;
+  generalScore: number;
+  allergenChart: number;
+  fidelityScore: number;
+  attentionScore: number;
+  allergicReaction?: number;
+  comment?: string;
+}
+
 export interface RestaurantWithScores {
   restaurant: Restaurant;
   scores: RestaurantScoreRecord[];
@@ -70,6 +83,7 @@ export interface RestaurantRepository {
   findById(id: number): Promise<RestaurantWithScores | null>;
   create(restaurant: NewRestaurant): Promise<Restaurant>;
   addScore(score: NewScore): Promise<{ id: number }>;
+  findScoresByUser(userId: string): Promise<UserScore[]>;
   createWithScore(
     restaurant: NewRestaurant,
     score: Omit<NewScore, "restaurantId">,
