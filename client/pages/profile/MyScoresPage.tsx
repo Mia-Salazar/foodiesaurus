@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
 import { formatScore } from "@/client/entities/restaurant/lib/formatScore";
+import { Fact } from "@/client/entities/restaurant/ui/Fact";
 
 export interface MyScore {
   id: number;
@@ -13,15 +14,6 @@ export interface MyScore {
   attentionScore: number;
   allergicReaction: boolean;
   comment?: string;
-}
-
-function Fact({ label, value }: { label: string; value: string }) {
-  return (
-    <li className="rounded bg-neutral-50 px-2.5 py-1 text-sm text-neutral-800">
-      <span className="font-semibold">{label}: </span>
-      {value}
-    </li>
-  );
 }
 
 function formatDate(value: string) {
