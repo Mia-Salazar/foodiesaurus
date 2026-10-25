@@ -1,4 +1,4 @@
-import { NewRestaurant, NewScore, RestaurantRepository, RestaurantSearchFilters, RestaurantWithScores } from "@/server/domain/restaurant/repositories/restaurant.repository";
+import { NewRestaurant, NewScore, RestaurantEdits, RestaurantRepository, RestaurantSearchFilters, RestaurantWithScores } from "@/server/domain/restaurant/repositories/restaurant.repository";
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
 import { prisma } from "../database/prisma";
 import { Prisma } from "@prisma/client";
@@ -79,6 +79,42 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
     });
 
     return rows.map(toSearchRestaurant);
+  }
+
+  async findCreatedByHandById(id: number, ownerId: string): Promise<Restaurant | null> {
+    const row = await prisma.restaurant.findFirst({
+      where: { id, ownerId, apiId: null },
+      include: { scores: { select: { generalScore: true } } },
+    });
+    return row ? toSearchRestaurant(row) : null;
+  }
+
+  async updateCreatedByHand(
+    id: number,
+    ownerId: string,
+    edits: RestaurantEdits,
+  ): Promise<Restaurant | null> {
+    const existing = await prisma.restaurant.findFirst({
+      where: { id, ownerId, apiId: null },
+      select: { id: true },
+    });
+    if (!existing) return null;
+
+    const row = await prisma.restaurant.update({
+      where: { id },
+      data: {
+        name: edits.name,
+        province: edits.province,
+        address: edits.address,
+        zip: edits.zip ?? null,
+        url: edits.url ?? null,
+        phone: edits.phone ?? null,
+        foodType: edits.foodType ?? null,
+      },
+      include: { scores: { select: { generalScore: true } } },
+    });
+
+    return toSearchRestaurant(row);
   }
 
   async findById(id: number): Promise<RestaurantWithScores | null> {

@@ -2,6 +2,7 @@ import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entit
 import {
   NewRestaurant,
   NewScore,
+  RestaurantEdits,
   RestaurantRepository,
   RestaurantSearchFilters,
   RestaurantWithScores,
@@ -69,6 +70,42 @@ export class InMemoryRestaurantRepository implements RestaurantRepository {
     return [...(this.handCreatedByOwner.get(ownerId) ?? [])].sort((a, b) =>
       a.name.localeCompare(b.name, "es"),
     );
+  }
+
+  async findCreatedByHandById(id: number, ownerId: string): Promise<Restaurant | null> {
+    return (
+      (this.handCreatedByOwner.get(ownerId) ?? []).find((item) => item.id === id) ??
+      null
+    );
+  }
+
+  async updateCreatedByHand(
+    id: number,
+    ownerId: string,
+    edits: RestaurantEdits,
+  ): Promise<Restaurant | null> {
+    const owned = this.handCreatedByOwner.get(ownerId) ?? [];
+    const index = owned.findIndex((item) => item.id === id);
+    if (index < 0) return null;
+
+    const current = owned[index];
+    const updated = new Restaurant(
+      current.id,
+      edits.name,
+      edits.province,
+      edits.address,
+      edits.zip,
+      edits.url,
+      edits.phone,
+      edits.foodType,
+      current.latitude,
+      current.longitude,
+      current.score,
+    );
+    owned[index] = updated;
+    const listIndex = this.restaurants.findIndex((item) => item.id === id);
+    if (listIndex >= 0) this.restaurants[listIndex] = updated;
+    return updated;
   }
 
   async addScore(score: NewScore): Promise<{ id: number }> {
