@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CreateManualRestaurantPage } from "@/client/pages/restaurants/CreateManualRestaurantPage";
+import { ManualRestaurantPage } from "@/client/pages/restaurants/ManualRestaurantPage";
 import { requirePageSession } from "@/server/infraestructure/auth/require-session";
 
 export const metadata: Metadata = {
@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   await requirePageSession();
-  return <CreateManualRestaurantPage />;
+  return <ManualRestaurantPage />;
 }

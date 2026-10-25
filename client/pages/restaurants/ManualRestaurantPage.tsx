@@ -3,7 +3,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { NewRestaurantData } from "@/client/features/add-restaurant/api/createRestaurant";
 import { CreateManualRestaurantForm } from "./_components/CreateManualRestaurantForm";
 
-export function CreateManualRestaurantPage({
+export function ManualRestaurantPage({
   restaurant,
 }: {
   restaurant?: NewRestaurantData & { id: number };

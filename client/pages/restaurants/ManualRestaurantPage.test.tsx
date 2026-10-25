@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mockPush } from "@/vitest.setup";
-import { CreateManualRestaurantPage } from "./CreateManualRestaurantPage";
+import { ManualRestaurantPage } from "./ManualRestaurantPage";
 
 function mockCreateResponse(body: unknown, status = 201) {
   const fetchMock = vi.fn(async () => ({
@@ -23,7 +23,7 @@ async function fillRequiredFields() {
 describe("Given I add a restaurant by hand", () => {
   describe("When I open the page", () => {
     beforeEach(() => {
-      render(<CreateManualRestaurantPage />);
+      render(<ManualRestaurantPage />);
     });
 
     it("Then I should see a form to write the restaurant data", () => {
@@ -59,7 +59,7 @@ describe("Given I add a restaurant by hand", () => {
 
   describe("When I fill only the name and the address", () => {
     beforeEach(async () => {
-      render(<CreateManualRestaurantPage />);
+      render(<ManualRestaurantPage />);
       await userEvent.type(screen.getByLabelText("Nombre"), "Canalla Bistro");
       await userEvent.type(
         screen.getByLabelText("Dirección"),
@@ -79,7 +79,7 @@ describe("Given I add a restaurant by hand", () => {
 
     beforeEach(async () => {
       fetchMock = mockCreateResponse({ data: { id: 31, name: "Canalla Bistro" } });
-      render(<CreateManualRestaurantPage />);
+      render(<ManualRestaurantPage />);
       await fillRequiredFields();
       await userEvent.type(screen.getByLabelText("Código postal"), "46003");
       await userEvent.type(screen.getByLabelText("Teléfono"), "963551470");
@@ -121,7 +121,7 @@ describe("Given I add a restaurant by hand", () => {
   describe("When the restaurant cannot be saved", () => {
     beforeEach(async () => {
       mockCreateResponse({ error: "Internal server error" }, 500);
-      render(<CreateManualRestaurantPage />);
+      render(<ManualRestaurantPage />);
       await fillRequiredFields();
       await userEvent.click(
         screen.getByRole("button", { name: "Añadir restaurante" }),
@@ -151,7 +151,7 @@ describe("Given I edit Canalla Bistro", () => {
 
   describe("When I open the form", () => {
     beforeEach(() => {
-      render(<CreateManualRestaurantPage restaurant={restaurant} />);
+      render(<ManualRestaurantPage restaurant={restaurant} />);
     });
 
     it("Then I should see the restaurant data ready to change", () => {
@@ -186,7 +186,7 @@ describe("Given I edit Canalla Bistro", () => {
 
     beforeEach(async () => {
       fetchMock = mockCreateResponse({ data: { id: 31 } }, 200);
-      render(<CreateManualRestaurantPage restaurant={restaurant} />);
+      render(<ManualRestaurantPage restaurant={restaurant} />);
       await userEvent.clear(screen.getByLabelText("Nombre"));
       await userEvent.type(screen.getByLabelText("Nombre"), "Canalla Nuevo");
       await userEvent.click(screen.getByRole("button", { name: "Guardar cambios" }));

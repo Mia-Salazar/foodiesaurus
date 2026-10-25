@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { CreateManualRestaurantPage } from "@/client/pages/restaurants/CreateManualRestaurantPage";
+import { ManualRestaurantPage } from "@/client/pages/restaurants/ManualRestaurantPage";
 import { GetHandCreatedRestaurantUseCase } from "@/server/application/get-hand-created-restaurant/get-hand-created-restaurant.usecase";
 import { requirePageSession } from "@/server/infraestructure/auth/require-session";
 import { PrismaRestaurantRepository } from "@/server/infraestructure/repositories/prisma-restaurant.repository";
@@ -29,7 +29,7 @@ export default async function Page({
   if (!restaurant) notFound();
 
   return (
-    <CreateManualRestaurantPage
+    <ManualRestaurantPage
       restaurant={{
         id: restaurant.id,
         name: restaurant.name,
