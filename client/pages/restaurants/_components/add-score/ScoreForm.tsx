@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, ReactNode, useState } from "react";
-import { NewScoreData } from "@/client/features/add-score/api/addScore";
+import { NewScoreData, ScoreDraft } from "@/client/features/add-score/api/addScore";
 import Button from "@/client/shared/ui/atoms/Button";
 import { ScoreSelect } from "./ScoreSelect";
 import { YesNoQuestion } from "./YesNoQuestion";
@@ -23,21 +23,29 @@ function readScoreFromForm(form: FormData): NewScoreData {
 
 export function ScoreForm({
   onSave,
+  initial,
+  editing = false,
   extraComplete = true,
   children,
 }: {
   onSave: (score: NewScoreData) => Promise<void>;
+  initial?: ScoreDraft;
+  editing?: boolean;
   extraComplete?: boolean;
   children?: ReactNode;
 }) {
-  const [hasAllergenChart, setHasAllergenChart] = useState<boolean | null>(null);
+  const [hasAllergenChart, setHasAllergenChart] = useState<boolean | null>(
+    initial?.hasAllergenChart ?? null,
+  );
   const [allergenChartQuality, setAllergenChartQuality] = useState<number | null>(
-    null,
+    initial?.allergenChartQuality ?? null,
   );
   const [hadAllergicReaction, setHadAllergicReaction] = useState<boolean | null>(
-    null,
+    initial?.hadAllergicReaction ?? null,
   );
-  const [attentionScore, setAttentionScore] = useState<number | null>(null);
+  const [attentionScore, setAttentionScore] = useState<number | null>(
+    initial?.attentionScore ?? null,
+  );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const answersComplete =
@@ -72,8 +80,9 @@ export function ScoreForm({
             Tu visita
           </h2>
           <p className="m-0">
-            Cuenta cómo fue tu visita. Así ayudas a otras personas con
-            alergias.
+            {editing
+              ? "Cambia cómo fue tu visita."
+              : "Cuenta cómo fue tu visita. Así ayudas a otras personas con alergias."}
           </p>
         </div>
       </div>
@@ -88,6 +97,7 @@ export function ScoreForm({
           <YesNoQuestion
             name="hasAllergenChart"
             legend="¿Tenían carta de alérgenos?"
+            answer={hasAllergenChart}
             onChange={(yes) => {
               setHasAllergenChart(yes);
               setAllergenChartQuality(null);
@@ -99,20 +109,40 @@ export function ScoreForm({
               id="score-allergen-chart-quality"
               name="allergenChartQuality"
               label="¿Cómo era la carta de alérgenos?"
+              value={allergenChartQuality}
               onChange={setAllergenChartQuality}
             />
           )}
 
-          <YesNoQuestion
-            name="hadAllergicReaction"
-            legend="¿Tuviste una reacción alérgica?"
-            onChange={setHadAllergicReaction}
-          />
+          {editing && hadAllergicReaction !== null ? (
+            <div>
+              <p className="m-0">
+                <span className="font-semibold">¿Tuviste una reacción alérgica?</span>{" "}
+                {hadAllergicReaction ? "Sí" : "No"}
+              </p>
+              <p className="mt-2 mb-0 text-sm text-neutral-800">
+                Esta respuesta no se puede cambiar.
+              </p>
+              <input
+                type="hidden"
+                name="hadAllergicReaction"
+                value={hadAllergicReaction ? "yes" : "no"}
+              />
+            </div>
+          ) : (
+            <YesNoQuestion
+              name="hadAllergicReaction"
+              legend="¿Tuviste una reacción alérgica?"
+              answer={hadAllergicReaction}
+              onChange={setHadAllergicReaction}
+            />
+          )}
 
           <ScoreSelect
             id="score-attention"
             name="attentionScore"
             label="¿Cómo te atendió el personal?"
+            value={attentionScore}
             onChange={setAttentionScore}
           />
 
@@ -125,6 +155,7 @@ export function ScoreForm({
               maxLength={300}
               className="w-full rounded border border-gray-dark bg-white p-3 text-neutral-900"
               aria-describedby="score-comment-help"
+              defaultValue={initial?.comment ?? ""}
             />
             <p id="score-comment-help" className="m-0 text-sm text-neutral-800">
               Puedes contar algo más. No es obligatorio. Máximo 300 letras.
@@ -142,7 +173,7 @@ export function ScoreForm({
 
           {saving && (
             <p className="m-0" role="status" aria-live="polite">
-              Guardando la puntuación.
+              {editing ? "Guardando los cambios." : "Guardando la puntuación."}
             </p>
           )}
 
@@ -157,7 +188,7 @@ export function ScoreForm({
             className="min-h-12"
             disabled={!answersComplete || saving}
           >
-            Guardar puntuación
+            {editing ? "Guardar cambios" : "Guardar puntuación"}
           </Button>
         </form>
       </div>

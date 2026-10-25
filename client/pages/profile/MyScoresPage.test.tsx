@@ -58,8 +58,9 @@ describe("Given I open my opinions", () => {
       expect(
         screen.getByRole("link", { name: "Ver Canalla Bistro" }),
       ).toHaveAttribute("href", "/restaurants/31");
-      expect(screen.queryByRole("link", { name: /editar/i })).not.toBeInTheDocument();
-      expect(screen.queryByRole("button", { name: /editar/i })).not.toBeInTheDocument();
+      expect(
+        screen.getByRole("link", { name: "Editar puntuación de Canalla Bistro" }),
+      ).toHaveAttribute("href", "/profile/scores/15/edit");
     });
   });
 

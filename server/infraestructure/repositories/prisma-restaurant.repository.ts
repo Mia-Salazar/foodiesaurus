@@ -1,4 +1,4 @@
-import { NewRestaurant, NewScore, RestaurantEdits, RestaurantRepository, RestaurantSearchFilters, RestaurantWithScores, UserScore } from "@/server/domain/restaurant/repositories/restaurant.repository";
+import { NewRestaurant, NewScore, RestaurantEdits, RestaurantRepository, RestaurantSearchFilters, RestaurantWithScores, ScoreChanges, UserScore } from "@/server/domain/restaurant/repositories/restaurant.repository";
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
 import { prisma } from "../database/prisma";
 import { Prisma } from "@prisma/client";
@@ -35,6 +35,31 @@ function toSearchRestaurant(r: RestaurantSearchRow): Restaurant {
     r.longitude != null ? Number(r.longitude) : undefined,
     score,
   );
+}
+
+function toUserScore(score: {
+  id: number;
+  createdAt: Date;
+  generalScore: number;
+  allergenChart: number;
+  fidelityScore: number;
+  attentionScore: number;
+  allergicReaction: number | null;
+  comment: string | null;
+  restaurant: { id: number; name: string };
+}): UserScore {
+  return {
+    id: score.id,
+    restaurantId: score.restaurant.id,
+    restaurantName: score.restaurant.name,
+    createdAt: score.createdAt,
+    generalScore: score.generalScore,
+    allergenChart: score.allergenChart,
+    fidelityScore: score.fidelityScore,
+    attentionScore: score.attentionScore,
+    allergicReaction: score.allergicReaction ?? undefined,
+    comment: score.comment ?? undefined,
+  };
 }
 
 export class PrismaRestaurantRepository implements RestaurantRepository {
@@ -176,18 +201,42 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
       include: { restaurant: { select: { id: true, name: true } } },
     });
 
-    return rows.map((score) => ({
-      id: score.id,
-      restaurantId: score.restaurant.id,
-      restaurantName: score.restaurant.name,
-      createdAt: score.createdAt,
-      generalScore: score.generalScore,
-      allergenChart: score.allergenChart,
-      fidelityScore: score.fidelityScore,
-      attentionScore: score.attentionScore,
-      allergicReaction: score.allergicReaction ?? undefined,
-      comment: score.comment ?? undefined,
-    }));
+    return rows.map(toUserScore);
+  }
+
+  async findScoreByUser(id: number, userId: string): Promise<UserScore | null> {
+    const row = await prisma.score.findFirst({
+      where: { id, userId },
+      include: { restaurant: { select: { id: true, name: true } } },
+    });
+    return row ? toUserScore(row) : null;
+  }
+
+  async updateScoreByUser(
+    id: number,
+    userId: string,
+    changes: ScoreChanges,
+  ): Promise<UserScore | null> {
+    const existing = await prisma.score.findFirst({
+      where: { id, userId },
+      select: { id: true },
+    });
+    if (!existing) return null;
+
+    const row = await prisma.score.update({
+      where: { id },
+      data: {
+        generalScore: changes.generalScore,
+        allergenChart: changes.allergenChart,
+        fidelityScore: changes.fidelityScore,
+        attentionScore: changes.attentionScore,
+        allergicReaction: changes.allergicReaction,
+        comment: changes.comment ?? null,
+      },
+      include: { restaurant: { select: { id: true, name: true } } },
+    });
+
+    return toUserScore(row);
   }
 
   async createWithScore(

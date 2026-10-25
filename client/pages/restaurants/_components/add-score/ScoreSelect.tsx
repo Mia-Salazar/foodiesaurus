@@ -7,11 +7,13 @@ export function ScoreSelect({
   id,
   name,
   label,
+  value,
   onChange,
 }: {
   id: string;
   name: string;
   label: string;
+  value: number | null;
   onChange: (score: number) => void;
 }) {
   return (
@@ -22,7 +24,7 @@ export function ScoreSelect({
         name={name}
         required
         className={selectClassName}
-        defaultValue=""
+        value={value == null ? "" : String(value)}
         aria-describedby={`${id}-help`}
         aria-required="true"
         onChange={(event) => onChange(Number(event.target.value))}

@@ -6,6 +6,7 @@ import {
   RestaurantRepository,
   RestaurantSearchFilters,
   RestaurantWithScores,
+  ScoreChanges,
   UserScore,
 } from "@/server/domain/restaurant/repositories/restaurant.repository";
 
@@ -120,21 +121,59 @@ export class InMemoryRestaurantRepository implements RestaurantRepository {
   async findScoresByUser(userId: string): Promise<UserScore[]> {
     return this.scoresByUser
       .filter((item) => item.score.userId === userId)
-      .map((item) => ({
-        id: item.id,
-        restaurantId: item.score.restaurantId,
-        restaurantName:
-          this.restaurants.find((restaurant) => restaurant.id === item.score.restaurantId)
-            ?.name ?? "",
-        createdAt: item.createdAt,
-        generalScore: item.score.generalScore,
-        allergenChart: item.score.allergenChart,
-        fidelityScore: item.score.fidelityScore,
-        attentionScore: item.score.attentionScore,
-        allergicReaction: item.score.allergicReaction,
-        comment: item.score.comment,
-      }))
+      .map((item) => this.toUserScore(item))
       .sort((a, b) => b.id - a.id);
+  }
+
+  async findScoreByUser(id: number, userId: string): Promise<UserScore | null> {
+    const item = this.scoresByUser.find(
+      (score) => score.id === id && score.score.userId === userId,
+    );
+    return item ? this.toUserScore(item) : null;
+  }
+
+  async updateScoreByUser(
+    id: number,
+    userId: string,
+    changes: ScoreChanges,
+  ): Promise<UserScore | null> {
+    const index = this.scoresByUser.findIndex(
+      (item) => item.id === id && item.score.userId === userId,
+    );
+    if (index < 0) return null;
+
+    const current = this.scoresByUser[index];
+    this.scoresByUser[index] = {
+      ...current,
+      score: {
+        ...current.score,
+        ...changes,
+        restaurantId: current.score.restaurantId,
+        userId: current.score.userId,
+      },
+    };
+    return this.toUserScore(this.scoresByUser[index]);
+  }
+
+  private toUserScore(item: {
+    score: NewScore;
+    id: number;
+    createdAt: Date;
+  }): UserScore {
+    return {
+      id: item.id,
+      restaurantId: item.score.restaurantId,
+      restaurantName:
+        this.restaurants.find((restaurant) => restaurant.id === item.score.restaurantId)
+          ?.name ?? "",
+      createdAt: item.createdAt,
+      generalScore: item.score.generalScore,
+      allergenChart: item.score.allergenChart,
+      fidelityScore: item.score.fidelityScore,
+      attentionScore: item.score.attentionScore,
+      allergicReaction: item.score.allergicReaction,
+      comment: item.score.comment,
+    };
   }
 
   async createWithScore(
