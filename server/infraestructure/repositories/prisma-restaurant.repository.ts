@@ -69,6 +69,18 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
     return rows.map(toSearchRestaurant);
   }
 
+  async findCreatedByHand(ownerId: string): Promise<Restaurant[]> {
+    const rows = await prisma.restaurant.findMany({
+      where: { ownerId, apiId: null },
+      orderBy: { name: "asc" },
+      include: {
+        scores: { select: { generalScore: true } },
+      },
+    });
+
+    return rows.map(toSearchRestaurant);
+  }
+
   async findById(id: number): Promise<RestaurantWithScores | null> {
     const row = await prisma.restaurant.findUnique({
       where: { id },
