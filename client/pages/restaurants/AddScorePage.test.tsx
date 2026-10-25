@@ -253,10 +253,19 @@ describe("Given I edit my score of Friki Pizza", () => {
         screen.getByLabelText("¿Cómo era la carta de alérgenos?"),
       ).toHaveValue("8");
       expect(
-        within(
-          screen.getByRole("group", { name: "¿Tuviste una reacción alérgica?" }),
-        ).getByRole("radio", { name: "No" }),
-      ).toBeChecked();
+        screen.queryByRole("group", { name: "¿Tuviste una reacción alérgica?" }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.getByText((_, node) => {
+          return (
+            node?.tagName === "P" &&
+            node.textContent === "¿Tuviste una reacción alérgica? No"
+          );
+        }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("Esta respuesta no se puede cambiar."),
+      ).toBeInTheDocument();
       expect(screen.getByLabelText("¿Cómo te atendió el personal?")).toHaveValue(
         "9",
       );

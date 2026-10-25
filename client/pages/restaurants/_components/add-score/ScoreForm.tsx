@@ -114,12 +114,29 @@ export function ScoreForm({
             />
           )}
 
-          <YesNoQuestion
-            name="hadAllergicReaction"
-            legend="¿Tuviste una reacción alérgica?"
-            answer={hadAllergicReaction}
-            onChange={setHadAllergicReaction}
-          />
+          {editing && hadAllergicReaction !== null ? (
+            <div>
+              <p className="m-0">
+                <span className="font-semibold">¿Tuviste una reacción alérgica?</span>{" "}
+                {hadAllergicReaction ? "Sí" : "No"}
+              </p>
+              <p className="mt-2 mb-0 text-sm text-neutral-800">
+                Esta respuesta no se puede cambiar.
+              </p>
+              <input
+                type="hidden"
+                name="hadAllergicReaction"
+                value={hadAllergicReaction ? "yes" : "no"}
+              />
+            </div>
+          ) : (
+            <YesNoQuestion
+              name="hadAllergicReaction"
+              legend="¿Tuviste una reacción alérgica?"
+              answer={hadAllergicReaction}
+              onChange={setHadAllergicReaction}
+            />
+          )}
 
           <ScoreSelect
             id="score-attention"
