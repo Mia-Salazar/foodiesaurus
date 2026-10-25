@@ -9,8 +9,10 @@ import { ReviewList } from "./_components/ReviewList";
 
 export function RestaurantDetailPage({
   restaurant,
+  canEdit = false,
 }: {
   restaurant: RestaurantDetail;
+  canEdit?: boolean;
 }) {
   const hasCoordinates =
     restaurant.latitude != null &&
@@ -67,6 +69,14 @@ export function RestaurantDetailPage({
                   </>
                 )}
               </p>
+              {canEdit && (
+                <Link
+                  href={`/restaurants/${restaurant.id}/edit`}
+                  className="mt-4 inline-flex min-h-11 items-center justify-center rounded border border-foodiesaurus-secondary px-5 py-2.5 text-sm font-bold text-foodiesaurus-secondary no-underline hover:opacity-80"
+                >
+                  Editar restaurante
+                </Link>
+              )}
             </div>
 
             {restaurant.averages && (

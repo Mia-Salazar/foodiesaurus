@@ -49,7 +49,10 @@ export function MyRestaurantsPage({
           <ul className="list-none space-y-4 p-0">
             {restaurants.map((restaurant) => (
               <li key={restaurant.id}>
-                <RestaurantCard restaurant={restaurant} />
+                <RestaurantCard
+                  restaurant={restaurant}
+                  editHref={`/restaurants/${restaurant.id}/edit`}
+                />
               </li>
             ))}
           </ul>

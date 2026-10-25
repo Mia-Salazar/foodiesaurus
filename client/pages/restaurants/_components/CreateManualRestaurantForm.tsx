@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   createRestaurant,
   NewRestaurantData,
+  updateRestaurant,
 } from "@/client/features/add-restaurant/api/createRestaurant";
 import Button from "@/client/shared/ui/atoms/Button";
 import Input from "@/client/shared/ui/atoms/Input";
@@ -54,11 +55,16 @@ function readRestaurantFromForm(form: FormData): NewRestaurantData {
   };
 }
 
-export function CreateManualRestaurantForm() {
+export function CreateManualRestaurantForm({
+  restaurant,
+}: {
+  restaurant?: NewRestaurantData & { id: number };
+}) {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [province, setProvince] = useState("");
+  const editing = restaurant != null;
+  const [name, setName] = useState(restaurant?.name ?? "");
+  const [address, setAddress] = useState(restaurant?.address ?? "");
+  const [province, setProvince] = useState(restaurant?.province ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const requiredComplete =
@@ -71,10 +77,14 @@ export function CreateManualRestaurantForm() {
     setError(null);
 
     try {
-      const restaurant = await createRestaurant(
-        readRestaurantFromForm(new FormData(event.currentTarget)),
-      );
-      router.push(`/restaurants/${restaurant.id}/scores/create`);
+      const data = readRestaurantFromForm(new FormData(event.currentTarget));
+      if (restaurant) {
+        await updateRestaurant(restaurant.id, data);
+        router.push(`/restaurants/${restaurant.id}`);
+        return;
+      }
+      const created = await createRestaurant(data);
+      router.push(`/restaurants/${created.id}/scores/create`);
     } catch (e) {
       setError((e as Error).message);
       setSaving(false);
@@ -92,7 +102,9 @@ export function CreateManualRestaurantForm() {
             Datos del restaurante
           </h2>
           <p className="m-0">
-            Escribe cómo es el restaurante. Luego vas a dejar una puntuación.
+            {editing
+              ? "Cambia los datos del restaurante."
+              : "Escribe cómo es el restaurante. Luego vas a dejar una puntuación."}
           </p>
         </div>
       </div>
@@ -155,6 +167,7 @@ export function CreateManualRestaurantForm() {
               placeholder="Ejemplo: 28006"
               isGhost
               maxLength={10}
+              defaultValue={restaurant?.zip ?? ""}
               pattern="[0-9]{5}"
               title="Escribe 5 números. Por ejemplo, 28006."
               aria-describedby="manual-restaurant-zip-help"
@@ -200,6 +213,7 @@ export function CreateManualRestaurantForm() {
               placeholder="Ejemplo: 915764534"
               isGhost
               maxLength={30}
+              defaultValue={restaurant?.phone ?? ""}
               aria-describedby="manual-restaurant-phone-help"
             />
           </Field>
@@ -216,6 +230,7 @@ export function CreateManualRestaurantForm() {
               placeholder="Ejemplo: https://www.frikipizza.com"
               isGhost
               maxLength={100}
+              defaultValue={restaurant?.url ?? ""}
               aria-describedby="manual-restaurant-url-help"
             />
           </Field>
@@ -229,7 +244,7 @@ export function CreateManualRestaurantForm() {
               id="manual-restaurant-food-type"
               name="foodType"
               className={selectClassName}
-              defaultValue=""
+              defaultValue={restaurant?.foodType ?? ""}
               aria-describedby="manual-restaurant-food-type-help"
             >
               <option value="">No lo sé</option>
@@ -252,7 +267,7 @@ export function CreateManualRestaurantForm() {
 
           {saving && (
             <p className="m-0" role="status" aria-live="polite">
-              Guardando el restaurante.
+              {editing ? "Guardando los cambios." : "Guardando el restaurante."}
             </p>
           )}
 
@@ -267,7 +282,7 @@ export function CreateManualRestaurantForm() {
             className="min-h-12"
             disabled={!requiredComplete || saving}
           >
-            Añadir restaurante
+            {editing ? "Guardar cambios" : "Añadir restaurante"}
           </Button>
         </form>
       </div>

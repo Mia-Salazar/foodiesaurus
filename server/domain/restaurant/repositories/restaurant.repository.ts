@@ -17,6 +17,16 @@ export interface RestaurantScoreRecord {
   userName?: string;
 }
 
+export interface RestaurantEdits {
+  name: string;
+  province: string;
+  address: string;
+  zip?: string;
+  url?: string;
+  phone?: string;
+  foodType?: string;
+}
+
 export interface NewRestaurant {
   ownerId: string;
   name: string;
@@ -51,6 +61,12 @@ export interface RestaurantRepository {
   search(filters: RestaurantSearchFilters): Promise<Restaurant[]>;
   searchByName(term: string): Promise<Restaurant[]>;
   findCreatedByHand(ownerId: string): Promise<Restaurant[]>;
+  findCreatedByHandById(id: number, ownerId: string): Promise<Restaurant | null>;
+  updateCreatedByHand(
+    id: number,
+    ownerId: string,
+    edits: RestaurantEdits,
+  ): Promise<Restaurant | null>;
   findById(id: number): Promise<RestaurantWithScores | null>;
   create(restaurant: NewRestaurant): Promise<Restaurant>;
   addScore(score: NewScore): Promise<{ id: number }>;
