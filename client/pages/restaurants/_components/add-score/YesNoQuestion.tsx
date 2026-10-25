@@ -1,10 +1,12 @@
 export function YesNoQuestion({
   name,
   legend,
+  answer = null,
   onChange,
 }: {
   name: string;
   legend: string;
+  answer?: boolean | null;
   onChange?: (yes: boolean) => void;
 }) {
   return (
@@ -25,6 +27,7 @@ export function YesNoQuestion({
               value={option.value}
               required
               className="h-5 w-5 accent-foodiesaurus"
+              checked={answer === (option.value === "yes")}
               onChange={() => onChange?.(option.value === "yes")}
             />
             {option.label}

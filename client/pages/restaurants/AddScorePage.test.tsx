@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mockPush } from "@/vitest.setup";
@@ -215,6 +215,82 @@ describe("Given I want to score Friki Pizza", () => {
         "No hemos podido guardar la puntuación. Prueba otra vez.",
       );
       expect(mockPush).not.toHaveBeenCalled();
+    });
+  });
+});
+
+describe("Given I edit my score of Friki Pizza", () => {
+  const score = {
+    id: 15,
+    hasAllergenChart: true,
+    allergenChartQuality: 8,
+    hadAllergicReaction: false,
+    attentionScore: 9,
+    comment: "Buena atención",
+  };
+
+  describe("When I open the form", () => {
+    beforeEach(() => {
+      render(<AddScorePage restaurant={restaurant} score={score} />);
+    });
+
+    it("Then I should see my answers ready to change", () => {
+      expect(
+        screen.getByRole("heading", { level: 1, name: "Editar puntuación" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("Vas a cambiar tu puntuación de Friki Pizza."),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("link", { name: "Volver a mis opiniones" }),
+      ).toHaveAttribute("href", "/profile/scores");
+      expect(
+        within(
+          screen.getByRole("group", { name: "¿Tenían carta de alérgenos?" }),
+        ).getByRole("radio", { name: "Sí" }),
+      ).toBeChecked();
+      expect(
+        screen.getByLabelText("¿Cómo era la carta de alérgenos?"),
+      ).toHaveValue("8");
+      expect(
+        within(
+          screen.getByRole("group", { name: "¿Tuviste una reacción alérgica?" }),
+        ).getByRole("radio", { name: "No" }),
+      ).toBeChecked();
+      expect(screen.getByLabelText("¿Cómo te atendió el personal?")).toHaveValue(
+        "9",
+      );
+      expect(screen.getByLabelText("Comentario")).toHaveValue("Buena atención");
+      expect(screen.getByRole("button", { name: "Guardar cambios" })).toBeEnabled();
+    });
+  });
+
+  describe("When I change the attention and save", () => {
+    let fetchMock: ReturnType<typeof mockScoreResponse>;
+
+    beforeEach(async () => {
+      fetchMock = mockScoreResponse(200);
+      render(<AddScorePage restaurant={restaurant} score={score} />);
+      await userEvent.selectOptions(
+        screen.getByLabelText("¿Cómo te atendió el personal?"),
+        "6",
+      );
+      await userEvent.clear(screen.getByLabelText("Comentario"));
+      await userEvent.click(screen.getByRole("button", { name: "Guardar cambios" }));
+    });
+
+    it("Then the score should be updated", () => {
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/api/scores/15",
+        expect.objectContaining({ method: "PATCH" }),
+      );
+      expect(sentBody(fetchMock)).toEqual({
+        hasAllergenChart: true,
+        allergenChartQuality: 8,
+        hadAllergicReaction: false,
+        attentionScore: 6,
+      });
+      expect(mockPush).toHaveBeenCalledWith("/profile/scores");
     });
   });
 });

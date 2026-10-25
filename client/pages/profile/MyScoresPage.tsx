@@ -105,12 +105,20 @@ export function MyScoresPage({ scores }: { scores: MyScore[] }) {
                       {score.comment}
                     </p>
                   )}
-                  <Link
-                    href={`/restaurants/${score.restaurantId}`}
-                    className="mt-5 inline-flex min-h-11 items-center justify-center rounded bg-foodiesaurus-secondary px-5 py-2.5 text-sm font-bold text-white no-underline hover:opacity-80"
-                  >
-                    {`Ver ${score.restaurantName}`}
-                  </Link>
+                  <div className="mt-5 flex flex-wrap gap-3">
+                    <Link
+                      href={`/restaurants/${score.restaurantId}`}
+                      className="inline-flex min-h-11 items-center justify-center rounded bg-foodiesaurus-secondary px-5 py-2.5 text-sm font-bold text-white no-underline hover:opacity-80"
+                    >
+                      {`Ver ${score.restaurantName}`}
+                    </Link>
+                    <Link
+                      href={`/profile/scores/${score.id}/edit`}
+                      className="inline-flex min-h-11 items-center justify-center rounded border border-foodiesaurus-secondary px-5 py-2.5 text-sm font-bold text-foodiesaurus-secondary no-underline hover:opacity-80"
+                    >
+                      {`Editar puntuación de ${score.restaurantName}`}
+                    </Link>
+                  </div>
                 </article>
               </li>
             ))}

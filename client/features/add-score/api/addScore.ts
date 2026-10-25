@@ -6,6 +6,10 @@ export interface NewScoreData {
   comment?: string;
 }
 
+export interface ScoreDraft extends Omit<NewScoreData, "hadAllergicReaction"> {
+  hadAllergicReaction?: boolean;
+}
+
 export async function addScore(
   restaurantId: number,
   score: NewScoreData,
@@ -27,5 +31,29 @@ export async function addScore(
   }
   if (!res.ok) {
     throw new Error("No hemos podido guardar la puntuación. Prueba otra vez.");
+  }
+}
+
+export async function updateScore(
+  scoreId: number,
+  score: NewScoreData,
+): Promise<void> {
+  const res = await fetch(`/api/scores/${scoreId}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(score),
+  });
+
+  if (res.status === 401) {
+    throw new Error("Tienes que iniciar sesión para cambiar la puntuación.");
+  }
+  if (res.status === 404) {
+    throw new Error("No puedes cambiar esta puntuación.");
+  }
+  if (res.status === 400) {
+    throw new Error("Revisa tus respuestas. Luego prueba otra vez.");
+  }
+  if (!res.ok) {
+    throw new Error("No hemos podido guardar los cambios. Prueba otra vez.");
   }
 }
