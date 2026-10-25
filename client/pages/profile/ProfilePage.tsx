@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
 
@@ -7,7 +8,19 @@ export interface Profile {
   image?: string;
 }
 
-export function ProfilePage({ profile }: { profile: Profile }) {
+function countLabel(count: number, one: string, many: string) {
+  return count === 1 ? one : many;
+}
+
+export function ProfilePage({
+  profile,
+  restaurantCount,
+  scoreCount,
+}: {
+  profile: Profile;
+  restaurantCount: number;
+  scoreCount: number;
+}) {
   const hasDetails = Boolean(profile.name || profile.email);
 
   return (
@@ -34,7 +47,7 @@ export function ProfilePage({ profile }: { profile: Profile }) {
         <section className="rounded-md border border-neutral-200 bg-white p-5 shadow-sm">
           <div className="flex items-start gap-4">
             {profile.image && (
-              <img
+              <Image
                 src={profile.image}
                 alt=""
                 width={96}
@@ -73,7 +86,18 @@ export function ProfilePage({ profile }: { profile: Profile }) {
             </div>
           </div>
 
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-2">
+            <p className="m-0 rounded-md bg-foodiesaurus/10 px-3 py-1.5 text-sm text-neutral-800">
+              <span className="font-semibold text-foodiesaurus">{restaurantCount}</span>{" "}
+              {countLabel(restaurantCount, "restaurante a mano", "restaurantes a mano")}
+            </p>
+            <p className="m-0 rounded-md bg-foodiesaurus-secondary/10 px-3 py-1.5 text-sm text-neutral-800">
+              <span className="font-semibold text-foodiesaurus-secondary">{scoreCount}</span>{" "}
+              {countLabel(scoreCount, "opinión", "opiniones")}
+            </p>
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href="/profile/restaurants"
               className="inline-flex min-h-11 items-center justify-center rounded bg-foodiesaurus-secondary px-5 py-2.5 text-sm font-bold text-white no-underline hover:opacity-80"
