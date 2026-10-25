@@ -1,5 +1,6 @@
 import { formatScore } from "@/client/entities/restaurant/lib/formatScore";
 import { RestaurantReview } from "@/client/entities/restaurant/model/types";
+import { Fact } from "@/client/entities/restaurant/ui/Fact";
 
 function formatDate(value: string) {
   return new Date(value).toLocaleDateString("es-ES", {
@@ -7,21 +8,6 @@ function formatDate(value: string) {
     month: "long",
     year: "numeric",
   });
-}
-
-function Fact({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
-  return (
-    <li className="rounded bg-neutral-50 px-2.5 py-1 text-xs text-neutral-600">
-      <span className="font-semibold text-neutral-800">{label}: </span>
-      {value}
-    </li>
-  );
 }
 
 export function ReviewList({ reviews }: { reviews: RestaurantReview[] }) {

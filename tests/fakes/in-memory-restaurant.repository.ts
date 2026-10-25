@@ -6,12 +6,14 @@ import {
   RestaurantRepository,
   RestaurantSearchFilters,
   RestaurantWithScores,
+  UserScore,
 } from "@/server/domain/restaurant/repositories/restaurant.repository";
 
 export class InMemoryRestaurantRepository implements RestaurantRepository {
   readonly created: NewRestaurant[] = [];
   readonly addedScores: NewScore[] = [];
   private readonly handCreatedByOwner = new Map<string, Restaurant[]>();
+  private readonly scoresByUser: { score: NewScore; id: number; createdAt: Date }[] = [];
 
   constructor(
     private readonly restaurants: Restaurant[] = [],
@@ -110,7 +112,29 @@ export class InMemoryRestaurantRepository implements RestaurantRepository {
 
   async addScore(score: NewScore): Promise<{ id: number }> {
     this.addedScores.push(score);
-    return { id: this.addedScores.length };
+    const id = this.addedScores.length;
+    this.scoresByUser.push({ score, id, createdAt: new Date() });
+    return { id };
+  }
+
+  async findScoresByUser(userId: string): Promise<UserScore[]> {
+    return this.scoresByUser
+      .filter((item) => item.score.userId === userId)
+      .map((item) => ({
+        id: item.id,
+        restaurantId: item.score.restaurantId,
+        restaurantName:
+          this.restaurants.find((restaurant) => restaurant.id === item.score.restaurantId)
+            ?.name ?? "",
+        createdAt: item.createdAt,
+        generalScore: item.score.generalScore,
+        allergenChart: item.score.allergenChart,
+        fidelityScore: item.score.fidelityScore,
+        attentionScore: item.score.attentionScore,
+        allergicReaction: item.score.allergicReaction,
+        comment: item.score.comment,
+      }))
+      .sort((a, b) => b.id - a.id);
   }
 
   async createWithScore(

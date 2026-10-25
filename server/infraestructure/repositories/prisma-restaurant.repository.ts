@@ -1,4 +1,4 @@
-import { NewRestaurant, NewScore, RestaurantEdits, RestaurantRepository, RestaurantSearchFilters, RestaurantWithScores } from "@/server/domain/restaurant/repositories/restaurant.repository";
+import { NewRestaurant, NewScore, RestaurantEdits, RestaurantRepository, RestaurantSearchFilters, RestaurantWithScores, UserScore } from "@/server/domain/restaurant/repositories/restaurant.repository";
 import { Restaurant } from "@/server/domain/restaurant/entities/restaurant.entity";
 import { prisma } from "../database/prisma";
 import { Prisma } from "@prisma/client";
@@ -167,6 +167,27 @@ export class PrismaRestaurantRepository implements RestaurantRepository {
 
   async addScore(score: NewScore): Promise<{ id: number }> {
     return prisma.score.create({ data: score, select: { id: true } });
+  }
+
+  async findScoresByUser(userId: string): Promise<UserScore[]> {
+    const rows = await prisma.score.findMany({
+      where: { userId },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      include: { restaurant: { select: { id: true, name: true } } },
+    });
+
+    return rows.map((score) => ({
+      id: score.id,
+      restaurantId: score.restaurant.id,
+      restaurantName: score.restaurant.name,
+      createdAt: score.createdAt,
+      generalScore: score.generalScore,
+      allergenChart: score.allergenChart,
+      fidelityScore: score.fidelityScore,
+      attentionScore: score.attentionScore,
+      allergicReaction: score.allergicReaction ?? undefined,
+      comment: score.comment ?? undefined,
+    }));
   }
 
   async createWithScore(
