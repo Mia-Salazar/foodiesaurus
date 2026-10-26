@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { memo, type ReactNode } from "react";
 import Link from "next/link";
 import { FaLocationDot } from "react-icons/fa6";
 import { hasValue } from "@/client/entities/restaurant/lib/hasValue";
@@ -122,7 +122,7 @@ function RestaurantLookupSection({
   );
 }
 
-export function RestaurantLookupResults({
+export const RestaurantLookupResults = memo(function RestaurantLookupResults({
   searchResult,
 }: {
   searchResult: RestaurantLookupResult;
@@ -175,4 +175,4 @@ export function RestaurantLookupResults({
       ))}
     </RestaurantLookupSection>
   );
-}
+});

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Link from "next/link";
 import { FaLocationDot, FaPhone, FaUtensils } from "react-icons/fa6";
 import { formatScore } from "../lib/formatScore";
@@ -5,7 +6,7 @@ import { hasValue } from "../lib/hasValue";
 import { Restaurant } from "../model/types";
 import { InfoRow } from "./InfoRow";
 
-export function RestaurantCard({
+export const RestaurantCard = memo(function RestaurantCard({
   restaurant,
   editHref,
 }: {
@@ -159,4 +160,4 @@ export function RestaurantCard({
       </div>
     </article>
   );
-}
+});
