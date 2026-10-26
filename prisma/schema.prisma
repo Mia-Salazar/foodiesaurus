@@ -72,10 +72,10 @@ model Restaurant {
   latitude  Decimal? @db.Decimal(10, 7)
   longitude Decimal? @db.Decimal(10, 7)
   apiId     String?  @db.VarChar(150)
-  ownerId   String
+  ownerId   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner     User?    @relation(fields: [ownerId], references: [id], onDelete: SetNull)
   scores    Score[]
 
   @@map("restaurants")
