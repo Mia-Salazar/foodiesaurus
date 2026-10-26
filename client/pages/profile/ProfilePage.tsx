@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
+import { DeleteAccountButton } from "@/client/features/delete-account/ui/DeleteAccountButton";
 
 export interface Profile {
   name?: string;
@@ -111,6 +112,7 @@ export function ProfilePage({
               Mis opiniones
             </Link>
           </div>
+          <DeleteAccountButton />
         </section>
       </div>
     </div>

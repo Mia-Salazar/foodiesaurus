@@ -45,7 +45,7 @@ export function RestaurantCard({
         </h2>
       </div>
 
-      {restaurant.score != null && (
+      {restaurant.score != null ? (
         <p
           className="
             absolute
@@ -68,6 +68,30 @@ export function RestaurantCard({
             {formatScore(restaurant.score)}
           </span>
           <span className="mt-0.5 text-[0.65rem] font-semibold">/10</span>
+        </p>
+      ) : (
+        <p
+          className="
+            absolute
+            top-5
+            right-5
+            m-0
+            flex
+            h-16
+            w-16
+            items-center
+            justify-center
+            rounded
+            border
+            border-neutral-800
+            bg-white
+            text-neutral-800
+          "
+        >
+          <span className="font-teko text-[2rem] font-semibold leading-none" aria-hidden>
+            -
+          </span>
+          <span className="sr-only">Sin puntuación</span>
         </p>
       )}
 

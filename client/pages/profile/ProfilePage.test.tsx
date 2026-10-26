@@ -1,6 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { ProfilePage } from "./ProfilePage";
+
+vi.mock("next-auth/react", () => ({
+  signOut: vi.fn(async () => undefined),
+}));
 
 describe("Given I open my profile", () => {
   describe("When my account has a name, an email and a photo", () => {
@@ -39,6 +43,13 @@ describe("Given I open my profile", () => {
         "href",
         "/profile/scores",
       );
+      expect(
+        screen.getByRole("heading", { level: 2, name: "Eliminar cuenta" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("Puedes borrar tu cuenta y tus opiniones. Los restaurantes se quedan."),
+      ).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Eliminar cuenta" })).toBeInTheDocument();
     });
   });
 
@@ -56,6 +67,7 @@ describe("Given I open my profile", () => {
       expect(screen.getByText("opiniones")).toBeInTheDocument();
       expect(screen.getByRole("link", { name: "Mis restaurantes" })).toBeInTheDocument();
       expect(screen.getByRole("link", { name: "Mis opiniones" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Eliminar cuenta" })).toBeInTheDocument();
     });
   });
 });

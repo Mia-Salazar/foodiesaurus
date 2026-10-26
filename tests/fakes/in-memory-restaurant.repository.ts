@@ -176,6 +176,78 @@ export class InMemoryRestaurantRepository implements RestaurantRepository {
     };
   }
 
+  deleteScoresByUser(userId: string): void {
+    const removedIds = new Set(
+      this.scoresByUser
+        .filter((item) => item.score.userId === userId)
+        .map((item) => item.id),
+    );
+    const affected = new Set(
+      this.scoresByUser
+        .filter((item) => item.score.userId === userId)
+        .map((item) => item.score.restaurantId),
+    );
+
+    for (let index = this.scoresByUser.length - 1; index >= 0; index -= 1) {
+      if (this.scoresByUser[index].score.userId === userId) {
+        this.scoresByUser.splice(index, 1);
+      }
+    }
+    for (let index = this.addedScores.length - 1; index >= 0; index -= 1) {
+      if (this.addedScores[index].userId === userId) {
+        this.addedScores.splice(index, 1);
+      }
+    }
+
+    for (const restaurantId of affected) {
+      const current = this.restaurants.find((item) => item.id === restaurantId);
+      if (!current) continue;
+      const remaining = this.scoresByUser.filter(
+        (item) => item.score.restaurantId === restaurantId,
+      );
+      const score = remaining.length
+        ? remaining.reduce((sum, item) => sum + item.score.generalScore, 0) /
+          remaining.length
+        : undefined;
+      this.replaceRestaurant(
+        restaurantId,
+        new Restaurant(
+          current.id,
+          current.name,
+          current.province,
+          current.address,
+          current.zip,
+          current.url,
+          current.phone,
+          current.foodType,
+          current.latitude,
+          current.longitude,
+          score,
+        ),
+      );
+
+      const detail = this.details.get(restaurantId);
+      if (!detail) continue;
+      this.details.set(restaurantId, {
+        ...detail,
+        scores: detail.scores.filter((item) => !removedIds.has(item.id)),
+      });
+    }
+  }
+
+  unlinkOwner(userId: string): void {
+    this.handCreatedByOwner.delete(userId);
+  }
+
+  private replaceRestaurant(id: number, next: Restaurant) {
+    const listIndex = this.restaurants.findIndex((item) => item.id === id);
+    if (listIndex >= 0) this.restaurants[listIndex] = next;
+    for (const owned of this.handCreatedByOwner.values()) {
+      const index = owned.findIndex((item) => item.id === id);
+      if (index >= 0) owned[index] = next;
+    }
+  }
+
   async createWithScore(
     restaurant: NewRestaurant,
     score: Omit<NewScore, "restaurantId">,

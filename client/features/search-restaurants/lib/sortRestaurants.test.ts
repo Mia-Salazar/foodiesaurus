@@ -58,6 +58,39 @@ describe("Given Alfa and Gamma score 9", () => {
   });
 });
 
+describe("Given Ana and Zoe have no score", () => {
+  describe("And Alfa scores 9 and Beta scores 4", () => {
+    const withTwoMissing = [
+      restaurant({ id: 1, name: "Zoe" }),
+      restaurant({ id: 2, name: "Beta", score: 4 }),
+      restaurant({ id: 3, name: "Ana" }),
+      restaurant({ id: 4, name: "Alfa", score: 9 }),
+    ];
+
+    describe("When I sort from highest score to lowest", () => {
+      it("Then restaurants without a score should come last, in alphabetical order", () => {
+        expect(sortRestaurants(withTwoMissing, "score-desc").map((item) => item.name)).toEqual([
+          "Alfa",
+          "Beta",
+          "Ana",
+          "Zoe",
+        ]);
+      });
+    });
+
+    describe("When I sort from lowest score to highest", () => {
+      it("Then restaurants without a score should come last, in alphabetical order", () => {
+        expect(sortRestaurants(withTwoMissing, "score-asc").map((item) => item.name)).toEqual([
+          "Beta",
+          "Alfa",
+          "Ana",
+          "Zoe",
+        ]);
+      });
+    });
+  });
+});
+
 describe("Given an unsorted list of restaurants", () => {
   describe("When I sort by score", () => {
     it("Then the original list should stay in the same order", () => {
