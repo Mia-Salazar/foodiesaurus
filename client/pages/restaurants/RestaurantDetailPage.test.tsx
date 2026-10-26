@@ -134,7 +134,7 @@ describe("Given the restaurant has no averages or comments", () => {
 
     it("Then I should see that there are no scores", () => {
       expect(
-        screen.getByText("No hay puntuaciones para este restaurante."),
+        screen.getByText("Sin puntuaciones todavía."),
       ).toBeInTheDocument();
     });
 
