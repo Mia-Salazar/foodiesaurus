@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 const teko = Teko({
   subsets: ["latin", "latin-ext"],
   variable: "--teko-font",
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["600", "700"],
   display: "swap",
 });
 

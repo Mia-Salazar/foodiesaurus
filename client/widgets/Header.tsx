@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  FaUser,
   FaChevronDown,
   FaBars,
   FaXmark
@@ -89,14 +88,14 @@ export default function Header({ isLoggedIn = false }: HeaderProps) {
           >
             <span>Foodie</span>
             
-            <figure className="relative w-10 h-10 mx-1">
-              <Image 
-                src="/img/foodiesaurus-transparent.png" 
-                alt="" 
-                fill 
-                className="object-contain" 
-              />
-            </figure>
+            <Image
+              src="/img/foodiesaurus-transparent.png"
+              alt=""
+              width={40}
+              height={40}
+              sizes="40px"
+              className="mx-1 h-10 w-10 object-contain"
+            />
 
             <span>saurus</span>
           </Link>
