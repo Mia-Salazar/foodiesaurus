@@ -16,8 +16,9 @@ export default function Instructions() {
         <Image
           src="/img/poke.png"
           alt="Un bol de poke"
-          width={500}
-          height={500}
+          width={576}
+          height={576}
+          sizes="(min-width: 768px) 18rem, 16rem"
           className="max-h-72 w-auto max-w-full object-contain"
         />
       </figure>

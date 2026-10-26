@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { Restaurant } from "@/client/entities/restaurant/model/types";
 import { mockReplace } from "@/vitest.setup";
 import { RestaurantsPage } from "./RestaurantsPage";
@@ -15,22 +15,6 @@ function restaurant(overrides: Partial<Restaurant> & Pick<Restaurant, "id" | "na
     score: 8,
     ...overrides,
   };
-}
-
-function mockSearchResponse(restaurants: Restaurant[] | "error") {
-  vi.stubGlobal(
-    "fetch",
-    vi.fn(async () => {
-      if (restaurants === "error") {
-        return { ok: false };
-      }
-
-      return {
-        ok: true,
-        json: async () => ({ data: restaurants }),
-      };
-    }),
-  );
 }
 
 describe("When I open the restaurant list without a province", () => {
@@ -54,12 +38,14 @@ describe("When I open the restaurant list without a province", () => {
 
 describe("Given Friki Pizza exists in Madrid", () => {
   describe("When I search for Friki in Madrid", () => {
-    beforeEach(async () => {
-      mockSearchResponse([
-        restaurant({ id: 24, name: "Friki Pizza", score: 10 }),
-      ]);
-      render(<RestaurantsPage province="Madrid" term="Friki" />);
-      await screen.findByRole("heading", { name: "Friki Pizza" });
+    beforeEach(() => {
+      render(
+        <RestaurantsPage
+          province="Madrid"
+          term="Friki"
+          restaurants={[restaurant({ id: 24, name: "Friki Pizza", score: 10 })]}
+        />,
+      );
     });
 
     it("Then I should see Friki Pizza", () => {
@@ -79,13 +65,16 @@ describe("Given Friki Pizza exists in Madrid", () => {
 describe("Given Alfa scores 4", () => {
   describe("And Beta scores 9", () => {
     describe("And I am looking at restaurants in Madrid", () => {
-      beforeEach(async () => {
-        mockSearchResponse([
-          restaurant({ id: 1, name: "Alfa", score: 4 }),
-          restaurant({ id: 2, name: "Beta", score: 9 }),
-        ]);
-        render(<RestaurantsPage province="Madrid" />);
-        await screen.findByRole("heading", { name: "Alfa" });
+      beforeEach(() => {
+        render(
+          <RestaurantsPage
+            province="Madrid"
+            restaurants={[
+              restaurant({ id: 1, name: "Alfa", score: 4 }),
+              restaurant({ id: 2, name: "Beta", score: 9 }),
+            ]}
+          />,
+        );
       });
 
       describe("When I ask to sort from highest score to lowest", () => {
@@ -114,10 +103,8 @@ describe("Given Alfa scores 4", () => {
 
 describe("Given no restaurant matches the search", () => {
   describe("When I search for zzz in Madrid", () => {
-    beforeEach(async () => {
-      mockSearchResponse([]);
-      render(<RestaurantsPage province="Madrid" term="zzz" />);
-      await screen.findByRole("heading", { name: "No hay restaurantes con esa búsqueda" });
+    beforeEach(() => {
+      render(<RestaurantsPage province="Madrid" term="zzz" restaurants={[]} />);
     });
 
     it("Then I should see that none were found", () => {
@@ -137,12 +124,16 @@ describe("Given no restaurant matches the search", () => {
 
 describe("Given the restaurant search cannot be completed", () => {
   describe("When I search in Madrid", () => {
-    it("Then I should see an error", async () => {
-      mockSearchResponse("error");
-      render(<RestaurantsPage province="Madrid" />);
+    it("Then I should see an error", () => {
+      render(
+        <RestaurantsPage
+          province="Madrid"
+          error="No hemos podido mostrar los restaurantes. Prueba otra vez."
+        />,
+      );
 
       expect(
-        await screen.findByText("No hemos podido mostrar los restaurantes. Prueba otra vez."),
+        screen.getByText("No hemos podido mostrar los restaurantes. Prueba otra vez."),
       ).toBeInTheDocument();
     });
   });
